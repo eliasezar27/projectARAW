@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="img-bg">
+        <img src="{{ url_for('static', filename='images/index_img.png') }}">
+    </div>
+
+    <div id="index-content">
+        <div id="heading">
+            YOUR ONLINE <br>
+            ARNIS PARTNER
+        </div>
+        <br><br>
+        <div id="sub-heading">
+            LEARN THE BASICS OF ARNIS WITH THE HELP OF COMPUTER VISION <br>
+            TECHNOLOGY AT THE COMFORT OF YOUR HOME
+        </div>
+        <div id="btn">
+            <a href="{{ url_for('login') }}" class="button1">LOGIN</a>
+            <a href="{{ url_for('signup') }}" class="button2">SIGNUP</a>
+        </div>
+    </div>
+{% endblock content %}

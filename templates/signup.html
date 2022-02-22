@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div id="mid-frame">
+        <a href="javascript:history.back()">
+            <div class="back">
+                <div class="arrow"></div>
+            </div>
+        </a>
+        <img src="{{ url_for('static', filename='images/pugay_logo_half.png') }}">
+        <h1>student</h1>
+        <form method="post">
+            <div class="txt_field">
+                <input type="text" required>
+                <span></span>
+                <label>Username</label>
+            </div>
+            <div class="txt_field">
+                <input type="password" required>
+                <span></span>
+                <label>Password</label>
+            </div>
+            <input type="submit" value="Log in"><br>
+            <a href="#" class="join">Create Account</a><br>
+            <a href="#" class="pass">Forgot password?</a>
+      </form>
+    </div>
+{% endblock content %}

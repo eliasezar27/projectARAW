@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div id="mid-frame">
+        <a href="javascript:history.back()">
+            <div class="back">
+                <div class="arrow"></div>
+            </div>
+        </a>
+        <div class="container">
+            <div class="left"></div>
+                <img src="{{ url_for('static', filename='images/student_icon.png') }}">
+                <button onclick="devOpt()" id="btn1" class="button">Student</button>
+            </div>
+
+            <div class="right"></div>
+                <img src="{{ url_for('static', filename='images/student_icon.png') }}">
+                <button onclick="devOpt()" id="btn2" class="button">Student</button>
+            </div>
+        </div>
+        <form method="POST">
+            <div class="txt_field">
+                <input type="text" name="username" required>
+                <span></span>
+                <label>Username</label>
+            </div>
+            <div class="txt_field">
+                <input type="password" name="password" required>
+                <span></span>
+                <label>Password</label>
+            </div>
+            <input type="submit" value="Log in"><br>
+            <a href="#" class="pass">Forgot password?</a>
+      </form>
+    </div>
+{% endblock content %}
