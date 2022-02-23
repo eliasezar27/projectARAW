@@ -151,7 +151,7 @@
                 btn1.style.background = "transparent";
                 btn1.style.color = "#79031D";
 
-                document.getElementById('pass_message').innerHTML = '';
+                document.getElementById('pass_message2').innerHTML = '';
 
                 for(let i = 0; i < inputs.length; i++ ){
                     if (!(i == 8 || i == 16)){
@@ -162,12 +162,16 @@
         }
 
         var check = function() {
+            let passw= document.getElementById('passw').value;
+            let repassw = document.getElementById('repassw').value;
+
+
             document.getElementById('pass_message').style.fontSize = '10px';
-            if (document.getElementById('passw').value == document.getElementById('repassw').value) {
+            if ((passw == repassw) && !(passw == "" || repassw == "")) {
                 document.getElementById('pass_message').style.color = 'green';
                 document.getElementById('pass_message').innerHTML = 'Password match!';
                 return true;
-            } else {
+            } else if (!(passw == repassw) && !(passw == "" || repassw == "")){
                 document.getElementById('pass_message').style.color = 'red';
                 document.getElementById('pass_message').innerHTML = 'Password do not match!';
                 return false;
@@ -175,12 +179,16 @@
         }
 
         var check2 = function() {
+            let passw2= document.getElementById('passw2').value;
+            let repassw2 = document.getElementById('repassw2').value;
+
+
             document.getElementById('pass_message2').style.fontSize = '10px';
-            if (document.getElementById('passw2').value == document.getElementById('repassw').value) {
+            if ((passw2 == repassw2) && !(passw2 == "" || repassw2 == "")) {
                 document.getElementById('pass_message2').style.color = 'green';
                 document.getElementById('pass_message2').innerHTML = 'Password match!';
                 return true;
-            } else {
+            } else if (!(passw2 == repassw2) && !(passw2 == "" || repassw2 == "")){
                 document.getElementById('pass_message2').style.color = 'red';
                 document.getElementById('pass_message2').innerHTML = 'Password do not match!';
                 return false;
