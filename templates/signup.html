@@ -7,22 +7,185 @@
                 <div class="arrow"></div>
             </div>
         </a>
-        <img src="{{ url_for('static', filename='images/pugay_logo_half.png') }}">
-        <h1>student</h1>
-        <form method="post">
-            <div class="txt_field">
-                <input type="text" required>
-                <span></span>
-                <label>Username</label>
+        <div id="form-header">
+            <h1>Signup as:</h1>
+            <div id="content">
+                <div class="left">
+                    <img src="{{ url_for('static', filename='images/student_icon.png') }}">
+                    <button onclick="shwStdnt()" id="btn1" class="button">Student</button>
+                </div>
+
+                <div class="right">
+                    <img src="{{ url_for('static', filename='images/school_icon.png') }}">
+                    <button onclick="shwTchr()" id="btn2" class="button">Teacher</button>
+                </div>
             </div>
-            <div class="txt_field">
-                <input type="password" required>
-                <span></span>
-                <label>Password</label>
+        </div>
+        <hr>
+
+        <!--        student-->
+        <form id="student" method="POST" action="#">
+            <div class="row">
+                <label for="fname">Name</label>
+                <input id="fname" name="fname" type="text" placeholder="First Name" required>
+                <input id="lname" name="lname" type="text" placeholder="Surname" required>
+                <input id="mname" name="mname" type="text" placeholder="Middle Name">
             </div>
-            <input type="submit" value="Log in"><br>
-            <a href="#" class="join">Create Account</a><br>
-            <a href="#" class="pass">Forgot password?</a>
-      </form>
+
+            <div class="row">
+
+                <div class="d2">
+                <label for="sex">Sex</label>
+                <select id="sex" name="sex" required>
+                    <option value="" selected disabled>Select Sex</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                </div>
+
+                <div class="d2">
+                <label for="grade">Grade Level</label>
+                <select id="grade" name="grade" required>
+                    <option value="" selected disabled>Select Grade Level</option>
+                    <option value="g7">Grade 7</option>
+                    <option value="g8">Grade 8</option>
+                    <option value="g9">Grade 9</option>
+                    <option value="g10">Grade 10</option>
+                    <option value="g11">Grade 11</option>
+                    <option value="g12">Grade 12</option>
+                </select>
+                </div>
+
+                <div class="d2">
+                <label for="section">Section</label>
+                <input id="section" name="section" type="number" placeholder="Enter Section" min="1" max="50" required>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <label for="email">Account Information</label>
+                <input id="email" name="email" type="email" placeholder="Enter Your Email Address" required>
+                <input id="pnum" name="pnum" type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" placeholder="09XX-XXX-XXXX" title="Enter phone number with the provided format" required>
+            </div>
+
+            <div class="row">
+                <input id="passw" name="passw" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" placeholder="Password" onkeyup='check()' required>
+                <input id="repassw" type="password" onkeyup='check()' placeholder="Re-type Password" required>
+                <input type="submit" value="Sign up" onclick='return check()'>
+                <br><span id='pass_message'></span>
+            </div>
+        </form>
+
+        <!--        teacher-->
+        <form id="teacher" method="POST" action="#">
+            <div class="row">
+                <label for="fname2">Name</label>
+                <input id="fname2" name="fname" type="text" placeholder="First Name" required>
+                <input id="lname2" name="lname" type="text" placeholder="Surname" required>
+                <input id="mname2" name="mname" type="text" placeholder="Middle Name">
+            </div>
+
+            <div class="row">
+                <label for="sex2">Sex</label>
+                <select id="sex2" name="sex" required>
+                    <option value="" selected disabled>Select Sex</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <label for="email2">Account Information</label>
+                <input id="email2" name="email" type="email" placeholder="Enter Your Email Address" required>
+                <input id="pnum2" name="pnum" type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" placeholder="09XX-XXX-XXXX" title="Enter phone number with the provided format" required>
+            </div>
+
+            <div class="row">
+                <input id="passw2" name="passw" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" placeholder="Password" onkeyup='check2()' required>
+                <input id="repassw2" type="password" onkeyup='check2()' placeholder="Re-type Password" required>
+                <input type="submit" value="Sign up" onclick='return check2()'>
+                <br><span id='pass_message2'></span>
+            </div>
+        </form>
+
     </div>
+
+    <script>
+        var stdnt = document.getElementById("student");
+        var tchr = document.getElementById("teacher");
+        const btn1 = document.getElementById("btn1");
+        const btn2 = document.getElementById("btn2");
+        stdnt.style.display = "block";
+        tchr.style.display = "none";
+        btn1.style.background = "#79031D";
+        btn1.style.color = "#F5F7F7";
+        var inputs = document.getElementsByTagName("input");
+        console.log(inputs);
+
+        function shwStdnt(){
+            if (stdnt.style.display === "none"){
+                stdnt.style.display = "block";
+                tchr.style.display = "none";
+                btn1.style.background = "#79031D";
+                btn1.style.color = "#F5F7F7";
+                btn2.style.background = "transparent";
+                btn2.style.color = "#79031D";
+
+                document.getElementById('pass_message').innerHTML = '';
+
+                for(let i = 0; i < inputs.length; i++ ){
+                    if (!(i == 8 || i == 16)){
+                        inputs[i].value='';
+                    }
+                }
+            }
+        }
+
+        function shwTchr(){
+            if (tchr.style.display === 'none'){
+                tchr.style.display = "block";
+                stdnt.style.display = "none";
+                btn2.style.background = "#79031D";
+                btn2.style.color = "#F5F7F7";
+                btn1.style.background = "transparent";
+                btn1.style.color = "#79031D";
+
+                document.getElementById('pass_message').innerHTML = '';
+
+                for(let i = 0; i < inputs.length; i++ ){
+                    if (!(i == 8 || i == 16)){
+                        inputs[i].value='';
+                    }
+                }
+            }
+        }
+
+        var check = function() {
+            document.getElementById('pass_message').style.fontSize = '10px';
+            if (document.getElementById('passw').value == document.getElementById('repassw').value) {
+                document.getElementById('pass_message').style.color = 'green';
+                document.getElementById('pass_message').innerHTML = 'Password match!';
+                return true;
+            } else {
+                document.getElementById('pass_message').style.color = 'red';
+                document.getElementById('pass_message').innerHTML = 'Password do not match!';
+                return false;
+            }
+        }
+
+        var check2 = function() {
+            document.getElementById('pass_message2').style.fontSize = '10px';
+            if (document.getElementById('passw2').value == document.getElementById('repassw').value) {
+                document.getElementById('pass_message2').style.color = 'green';
+                document.getElementById('pass_message2').innerHTML = 'Password match!';
+                return true;
+            } else {
+                document.getElementById('pass_message2').style.color = 'red';
+                document.getElementById('pass_message2').innerHTML = 'Password do not match!';
+                return false;
+            }
+        }
+
+    </script>
 {% endblock content %}

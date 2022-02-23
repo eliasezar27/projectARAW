@@ -42,95 +42,69 @@ div.back div.arrow::after {
     top: -3px;
     width: 50px;
     border: 0;
-  }
+}
 
-a ~ img{
-    height: 100px;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%);
+div#form-header{
     display: block;
-}
-
-div#mid-frame h1{
-    position: absolute;
-    top: 75px;
-    font-size: 30px;
-    width: 90%;
-    left: 50%;
-    transform: translate(-50%);
-    text-align: center;
-    letter-spacing: 0.15em;
-    color: #79031D;
-    padding-bottom: 10px;
-    border-bottom: 3px solid #79031D;
-}
-
-div#mid-frame form{
-    margin-top: 170px;
-    padding: 0 40px;
-    box-sizing: border-box;
-    width: 90%;
-    padding-left: 15%;
-}
-
-form div.txt_field{
     position: relative;
-    border-bottom: 2px solid #adadad;
-    margin: 30px 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    width: 80%;
+    height: 115px;
 }
 
-div.txt_field input{
-    width: 100%;
-    padding: 0 5px;
-    height: 40px;
-    font-size: 16px;
-    border: none;
-    background: none;
-    outline: none;
-}
-
-div.txt_field label{
-    position: absolute;
-    top: 50%;
-    left: 5px;
-    color: #adadad;
-    transform: translateY(-50%);
-    font-size: 16px;
-    pointer-events: none;
-    transition: .5s;
-}
-
-div.txt_field span::before{
-    content: '';
-    position: absolute;
-    top: 40px;
-    left: 0;
-    width: 0%;
-    height: 2px;
-    background: #000407;
-    transition: .5s;
-}
-
-div.txt_field input:focus ~ label,
-div.txt_field input:valid ~ label{
-    top: -5px;
-    color: #000407;
-}
-
-div.txt_field input:focus ~ span::before,
-div.txt_field input:valid ~ span::before{
-    width: 100%;
-}
-
-input[type="submit"]{
-    background-color: #EDB518;
-    width: 100%;
-    border: none;
-    border-color: #EDB518;
-    border-radius: 20px;
+div#form-header h1{
+    font-size: 30px;
+    font-weight: normal;
     color: #79031D;
-    padding: 15px 0px;
+    text-align: center;
+}
+
+div#content{
+    width: 90%;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.left img{
+    height: 40px;
+    position: relative;
+    top: 12px;
+}
+
+div.right img{
+    height: 40px;
+    position: relative;
+    top: 10px;
+}
+
+div.left, div.right{
+    display: inline-block;
+}
+
+div.left{
+    left: 0px;
+    position: absolute;
+    width: 45%
+}
+
+div.right{
+    right: 0px;
+    position: absolute;
+    width: 45%
+}
+
+button#btn1, button#btn2{
+    background-color: transparent;
+    width: 80%;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 20px;
+    border-color: #79031D;
+    color: #79031D;
+    padding: 10px 0px;
     text-align: center;
     display: inline-block;
     font-size: 24px;
@@ -138,45 +112,86 @@ input[type="submit"]{
     cursor: pointer;
 }
 
-form a{
-    text-decoration: none;
+button#btn1:hover,
+button#btn2:hover{
+    border-width: 3px;
+    font-weight: 600;
 }
 
-a.join{
-    background-color: transparent;
-    width: 100%;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 20px;
-    border-color: #EDB518;
-    color: #EDB518;
-    padding: 15px 0px;
-    text-align: center;
+div.left:hover img,
+div.right:hover img{
+    height: 43px;
+}
+
+hr{
+    width: 95%;
+    margin-top: 15px;
+    border-color: #79031D;
+    background-color: #79031D;
+}
+
+div#mid-frame form#student{
+    position: relative;
+    width: 90%;
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+}
+
+div#mid-frame form#teacher{
+    position: relative;
+    width: 90%;
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+}
+
+label {
     display: block;
-    font-size: 24px;
-    margin: 4px 2px;
-    cursor: pointer;
 }
 
-input[type="submit"]:hover,
-a.join:hover{
-    border-style: solid;
+.d2{
+    display: inline-block;
+}
+
+input{
+    width: 350px;
+    height: 40px;
+    padding: 5px 15px;
+    margin-right: 20px;
+}
+
+select{
+    width: 385px;
+    height: 53px;
+    padding: 5px 15px;
+    margin-right: 20px;
+}
+
+div.row{
+    margin-top: 20px;
+}
+
+label{
+    margin-bottom: 10px;
+}
+
+input:not(input[type="submit"]), select{
+    border-radius: 10px;
+    border: 1px solid;
+}
+
+input[type="submit"]{
+    background-color: #EDB518;
+    border-color: #EDB518;
+    border-radius: 20px;
+    color: #79031D;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    border: 0px solid;
+}
+
+input[type="submit"]:hover{
     border-width: 2px;
     font-weight: bold;
-    transition: .5s;
-}
-
-a.pass{
-    position: absolute;
-    color: #adadad;
-    font-size: 12px;
-    right: 40px;
-    width: 90%;
-    padding-top: 10px;
-    border-top: 3px solid #79031D;
-}
-
-a.pass:hover{
-    text-decoration: underline;
-    color: #79031D;
+    border-color: #EDB518;
 }

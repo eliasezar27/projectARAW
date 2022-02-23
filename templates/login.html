@@ -7,18 +7,9 @@
                 <div class="arrow"></div>
             </div>
         </a>
-        <div class="container">
-            <div class="left"></div>
-                <img src="{{ url_for('static', filename='images/student_icon.png') }}">
-                <button onclick="devOpt()" id="btn1" class="button">Student</button>
-            </div>
-
-            <div class="right"></div>
-                <img src="{{ url_for('static', filename='images/student_icon.png') }}">
-                <button onclick="devOpt()" id="btn2" class="button">Student</button>
-            </div>
-        </div>
-        <form method="POST">
+        <img src="{{ url_for('static', filename='images/pugay_logo_half.png') }}">
+        <h1>Pugay!</h1>
+        <form method="POST" action="#">
             <div class="txt_field">
                 <input type="text" name="username" required>
                 <span></span>
@@ -30,6 +21,8 @@
                 <label>Password</label>
             </div>
             <input type="submit" value="Log in"><br>
+            <a href="{{ url_for('signup') }}" class="join">Create Account</a>
+            <hr>
             <a href="#" class="pass">Forgot password?</a>
       </form>
     </div>

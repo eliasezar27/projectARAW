@@ -166,14 +166,21 @@ a.join:hover{
     transition: .5s;
 }
 
+hr{
+    position: absolute;
+    width: 90%;
+    margin-top: 10px;
+    border-color: #79031D;
+    background-color: #79031D;
+    left: 5%;
+}
+
 a.pass{
     position: absolute;
     color: #adadad;
     font-size: 12px;
-    right: 40px;
-    width: 90%;
-    padding-top: 10px;
-    border-top: 3px solid #79031D;
+    right: 5%;
+    margin-top: 20px;
 }
 
 a.pass:hover{
