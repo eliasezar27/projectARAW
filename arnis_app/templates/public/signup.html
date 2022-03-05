@@ -24,7 +24,7 @@
         <hr>
 
         <!--        student-->
-        <form id="student" method="POST" action="#">
+        <form id="student" method="POST" action="{{url_for('signup')}}">
             <div class="row">
                 <label for="fname">Name</label>
                 <input id="fname" name="fname" type="text" placeholder="First Name" required>
@@ -78,7 +78,7 @@
         </form>
 
         <!--        teacher-->
-        <form id="teacher" method="POST" action="#">
+        <form id="teacher" method="POST" action="{{url_for('signup')}}">
             <div class="row">
                 <label for="fname2">Name</label>
                 <input id="fname2" name="fname" type="text" placeholder="First Name" required>

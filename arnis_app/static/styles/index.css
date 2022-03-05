@@ -75,7 +75,6 @@ a.button2:hover{
     border-style: solid;
     border-width: 2px;
     font-weight: bold;
-    transition: .5s;
 }
 
 div.img-bg img{
