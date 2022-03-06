@@ -1,29 +1,38 @@
 {% extends "public/base.html" %}
 
 {% block content %}
-    <div id="mid-frame">
-        <a href="javascript:history.back()">
-            <div class="back">
-                <div class="arrow"></div>
+
+    <section class="login-clean" style="background: rgba(241,247,252,0);padding-top: 40px;">
+        <form method="post" style="padding: 0;background: #f5f7f7;border-radius: 10px;max-width: 500px;min-width: 200px;">
+            <header style="background: #79031d;border-top-left-radius: 10px;border-top-right-radius: 10px;">
+                <a id="previous" href="javascript:history.back()" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Back" style="position: absolute; z-index:1;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" style="color: #f5f7f7;font-size: 50px;padding-top: 5px;padding-left: 1px;">
+    <path d="M20.3284 11.0001V13.0001L7.50011 13.0001L10.7426 16.2426L9.32842 17.6568L3.67157 12L9.32842 6.34314L10.7426 7.75735L7.49988 11.0001L20.3284 11.0001Z" fill="currentColor"></path>
+</svg>
+                </a>
+                <img class="d-block mx-auto" src="{{ url_for('static', filename='images/pugay_logo-white.png') }}" style="font-size: 17px;height: 60px; padding-top: 10px;" loading="lazy">
+                <h1 class="text-center" style="text-align: center;font-family: Montserrat, sans-serif;color: #f5f7f7; font-size: 24px; padding-bottom:10px;">PUGAY!</h1>
+            </header>
+            <div id="body" style="padding: 0px 40px 0px 40px;">
+                <div class="txt_field">
+                    <input type="email" name="email" required>
+                    <span></span>
+                    <label>Email</label>
+                </div>
+                <div class="txt_field">
+                    <input type="password" name="password" required>
+                    <span></span>
+                    <label>Password</label>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary d-block w-100" data-bss-disabled-mobile="true" data-bss-hover-animate="pulse" type="submit" style="background: #edb518;border-radius: 10px;font-family: Montserrat, sans-serif;">Log In</button>
+                    <a href="{{ url_for('signup') }}" class="btn btn-primary d-block w-100" data-bss-hover-animate="pulse" style="background: rgba(237,181,24,0);margin-top: 5px;color: #edb518;border-style: solid;border-radius: 10px;font-family: Montserrat, sans-serif;">Create Account</a>
+                </div>
             </div>
-        </a>
-        <img src="{{ url_for('static', filename='images/pugay_logo_half.png') }}">
-        <h1>Pugay!</h1>
-        <form method="POST" action="{{url_for('login')}}">
-            <div class="txt_field">
-                <input type="text" name="username" required>
-                <span></span>
-                <label>Username</label>
-            </div>
-            <div class="txt_field">
-                <input type="password" name="password" required>
-                <span></span>
-                <label>Password</label>
-            </div>
-            <input type="submit" value="Log in"><br>
-            <a href="{{ url_for('signup') }}" class="join">Create Account</a>
-            <hr>
-            <a href="#" class="pass">Forgot password?</a>
-      </form>
-    </div>
+            <a class="forgot" href="#" style="text-align: right;padding-right: 20px;padding-bottom: 10px;">Forgot your password?</a>
+        </form>
+    </section>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+
 {% endblock content %}

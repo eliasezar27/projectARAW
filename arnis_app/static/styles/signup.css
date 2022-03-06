@@ -1,197 +1,86 @@
-div#mid-frame{
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    height: 80%;
-    background-color: #F5F7F7;
-    border-radius: 20px;
-    box-shadow: 30px 20px 4px rgba(0, 0, 0, 0.5);
+body {
+  background: #dec0c7;
+  margin: auto;
 }
 
-a div.back{
-    position: absolute;
-    height: 40px;
-    width: 70px;
-    top: 10px;
-    left: 10px;
-    margin: 10px;
-    z-axis: -1;
+header {
+  display: block;
 }
 
-div.back div.arrow {
-    width: 15px;
-    height: 15px;
-    border: 4px solid #79031D;
-    border-right: 0;
-    border-top: 0;
-    transform: rotate(45deg);
-    position: absolute;
-    margin: 10px;
-    z-axis: 1;
+#body {
+  display: block;
 }
 
-div.back div.arrow::after {
-	transform: rotate(-45deg);
-    background: #79031D;
-    content: '';
-    height: 4px;
-    left: -9px;
-    position: absolute;
-    top: -3px;
-    width: 50px;
-    border: 0;
+.login-clean {
+  background: #f1f7fc;
+  padding: 80px 0;
 }
 
-div#form-header{
-    display: block;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    width: 80%;
-    height: 115px;
+.login-clean form {
+  max-width: 320px;
+  width: 90%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 4px;
+  color: #505e6c;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
 }
 
-div#form-header h1{
-    font-size: 30px;
-    font-weight: normal;
-    color: #79031D;
-    text-align: center;
+.login-clean .illustration {
+  text-align: center;
+  padding: 0 0 20px;
+  font-size: 100px;
+  color: rgb(244,71,107);
 }
 
-div#content{
-    width: 90%;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
+.login-clean form .form-control {
+  background: #f7f9fc;
+  border: none;
+  border-bottom: 1px solid #dfe7f1;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  color: inherit;
+  text-indent: 8px;
+  height: 42px;
 }
 
-div.left img{
-    height: 40px;
-    position: relative;
-    top: 12px;
+.login-clean form .btn-primary {
+  background: #f4476b;
+  border: none;
+  border-radius: 4px;
+  padding: 11px;
+  box-shadow: none;
+  margin-top: 26px;
+  text-shadow: none;
+  outline: none !important;
 }
 
-div.right img{
-    height: 40px;
-    position: relative;
-    top: 10px;
+.login-clean form .btn-primary:hover, .login-clean form .btn-primary:active {
+  background: #eb3b60;
 }
 
-div.left, div.right{
-    display: inline-block;
+.login-clean form .btn-primary:active {
+  transform: translateY(1px);
 }
 
-div.left{
-    left: 0px;
-    position: absolute;
-    width: 45%
+.login-clean form .forgot {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: #6f7a85;
+  opacity: 0.9;
+  text-decoration: none;
 }
 
-div.right{
-    right: 0px;
-    position: absolute;
-    width: 45%
+.login-clean form .forgot:hover, .login-clean form .forgot:active {
+  opacity: 1;
+  text-decoration: none;
 }
 
-button#btn1, button#btn2{
-    background-color: transparent;
-    width: 80%;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 20px;
-    border-color: #79031D;
-    color: #79031D;
-    padding: 10px 0px;
-    text-align: center;
-    display: inline-block;
-    font-size: 24px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-
-button#btn1:hover,
-button#btn2:hover{
-    border-width: 3px;
-    font-weight: 600;
-}
-
-div.left:hover img,
-div.right:hover img{
-    height: 43px;
-}
-
-hr{
-    width: 95%;
-    margin-top: 15px;
-    border-color: #79031D;
-    background-color: #79031D;
-}
-
-div#mid-frame form#student{
-    position: relative;
-    width: 90%;
-    margin-right: 2.5%;
-    margin-left: 2.5%;
-}
-
-div#mid-frame form#teacher{
-    position: relative;
-    width: 90%;
-    margin-right: 2.5%;
-    margin-left: 2.5%;
-}
-
-label {
-    display: block;
-}
-
-.d2{
-    display: inline-block;
-}
-
-input{
-    width: 350px;
-    height: 40px;
-    padding: 5px 15px;
-    margin-right: 20px;
-}
-
-select{
-    width: 385px;
-    height: 53px;
-    padding: 5px 15px;
-    margin-right: 20px;
-}
-
-div.row{
-    margin-top: 20px;
-}
-
-label{
-    margin-bottom: 10px;
-}
-
-input:not(input[type="submit"]), select{
-    border-radius: 10px;
-    border: 1px solid;
-}
-
-input[type="submit"]{
-    background-color: #EDB518;
-    border-color: #EDB518;
-    border-radius: 20px;
-    color: #79031D;
-    text-align: center;
-    font-size: 24px;
-    cursor: pointer;
-    border: 0px solid;
-}
-
-input[type="submit"]:hover{
-    border-width: 2px;
-    font-weight: bold;
-    border-color: #EDB518;
+#previous {
+  text-decoration: none;
+  position: absolute;
+  z-index: 1;
 }

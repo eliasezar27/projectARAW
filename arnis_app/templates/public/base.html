@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--    Bootstrap studio generated-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fontawesome-all.min.css') }}">
+
     <!--    Stylesheet base CSS-->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/base.css') }}">
+
 
     {% if title %}
         <title>ARAW - {{ title }}</title>
@@ -23,20 +32,13 @@
 
     <!--    icon-->
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/araw_logo.png') }}">
-
-    <!--    Bootstrap studio generated-->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
 </head>
-<body style="background: #79031d;margin: auto;">
+<body>
 
     <nav class="navbar navbar-light navbar-expand-md" style="background: #000407;color: #f5f7f7;padding-top: 8px;padding-bottom: 0px;">
         <div class="container-fluid">
             <a id="home" href="{{ url_for('index') }}">
-                <div id="banner" style="margin: 0;">
+                <div data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" id="banner" style="margin: 0;" title="Home">
                     <img id="banner-img" src="{{ url_for('static', filename='images/araw_logo.png') }}" style="width: 80px;margin: 0px;margin-right: 10px;">
                     <div id="banner-name">
                         <a class="navbar-brand" href="{{ url_for('index') }}" style="color: #f5f7f7;font-family: Montserrat, sans-serif;margin-right: 5px;font-weight: bold;font-size: 30px;letter-spacing: 0.2em;">Project</a>
@@ -57,10 +59,11 @@
             </div>
         </div>
     </nav>
-    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+
 
     {% block content %}{% endblock %}
 
-
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bs-init.js') }}"></script>
 </body>
 </html>

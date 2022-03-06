@@ -1,77 +1,6 @@
-div#mid-frame{
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%;
-    height: 75%;
-    background-color: #F5F7F7;
-    border-radius: 20px;
-    box-shadow: 30px 20px 4px rgba(0, 0, 0, 0.5);
-}
-
-a div.back{
-    position: absolute;
-    height: 40px;
-    width: 70px;
-    top: 10px;
-    left: 10px;
-    margin: 10px;
-    z-axis: -1;
-}
-
-div.back div.arrow {
-    width: 15px;
-    height: 15px;
-    border: 4px solid #79031D;
-    border-right: 0;
-    border-top: 0;
-    transform: rotate(45deg);
-    position: absolute;
-    margin: 10px;
-    z-axis: 1;
-}
-
-div.back div.arrow::after {
-	transform: rotate(-45deg);
-    background: #79031D;
-    content: '';
-    height: 4px;
-    left: -9px;
-    position: absolute;
-    top: -3px;
-    width: 50px;
-    border: 0;
-  }
-
-a ~ img{
-    height: 100px;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%);
-    display: block;
-}
-
-div#mid-frame h1{
-    position: absolute;
-    top: 75px;
-    font-size: 30px;
-    width: 90%;
-    left: 50%;
-    transform: translate(-50%);
-    text-align: center;
-    letter-spacing: 0.15em;
-    color: #79031D;
-    padding-bottom: 10px;
-    border-bottom: 3px solid #79031D;
-}
-
-div#mid-frame form{
-    margin-top: 170px;
-    padding: 0 40px;
-    box-sizing: border-box;
-    width: 90%;
-    padding-left: 15%;
+body{
+    background: #dec0c7;
+    margin: auto;
 }
 
 form div.txt_field{
@@ -114,7 +43,7 @@ div.txt_field span::before{
 
 div.txt_field input:focus ~ label,
 div.txt_field input:valid ~ label{
-    top: -5px;
+    top: -10px;
     color: #000407;
 }
 
@@ -123,67 +52,89 @@ div.txt_field input:valid ~ span::before{
     width: 100%;
 }
 
-input[type="submit"]{
-    background-color: #EDB518;
-    width: 100%;
-    border: none;
-    border-color: #EDB518;
-    border-radius: 20px;
-    color: #79031D;
-    padding: 15px 0px;
-    text-align: center;
-    display: inline-block;
-    font-size: 24px;
-    margin: 4px 2px;
-    cursor: pointer;
+.login-clean {
+  background: #f1f7fc;
+  padding: 80px 0;
 }
 
-form a{
-    text-decoration: none;
+.login-clean form {
+  max-width: 320px;
+  width: 90%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 4px;
+  color: #505e6c;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
 }
 
-a.join{
-    background-color: transparent;
-    width: 100%;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 20px;
-    border-color: #EDB518;
-    color: #EDB518;
-    padding: 15px 0px;
-    text-align: center;
-    display: block;
-    font-size: 24px;
-    margin: 4px 2px;
-    cursor: pointer;
+.login-clean .illustration {
+  text-align: center;
+  padding: 0 0 20px;
+  font-size: 100px;
+  color: rgb(244,71,107);
 }
 
-input[type="submit"]:hover,
-a.join:hover{
-    border-style: solid;
-    border-width: 2px;
-    font-weight: bold;
-    transition: .5s;
+.login-clean form .form-control {
+  background: #f7f9fc;
+  border: none;
+  border-bottom: 1px solid #dfe7f1;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  color: inherit;
+  text-indent: 8px;
+  height: 42px;
 }
 
-hr{
-    position: absolute;
-    width: 90%;
-    margin-top: 10px;
-    border-color: #79031D;
-    background-color: #79031D;
-    left: 5%;
+.login-clean form .btn-primary {
+  background: #f4476b;
+  border: none;
+  border-radius: 4px;
+  padding: 11px;
+  box-shadow: none;
+  margin-top: 26px;
+  text-shadow: none;
+  outline: none !important;
 }
 
-a.pass{
-    position: absolute;
-    color: #adadad;
-    font-size: 12px;
-    right: 5%;
-    margin-top: 20px;
+.login-clean form .btn-primary:hover, .login-clean form .btn-primary:active {
+  background: #eb3b60;
 }
 
-a.pass:hover{
-    text-decoration: underline;
-    color: #79031D;
+.login-clean form .btn-primary:active {
+  transform: translateY(1px);
 }
+
+.login-clean form .forgot {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: #6f7a85;
+  opacity: 0.9;
+  text-decoration: none;
+}
+
+.login-clean form .forgot:hover, .login-clean form .forgot:active {
+  opacity: 1;
+  text-decoration: none;
+}
+
+header {
+  display: block;
+}
+
+#body {
+  display: block;
+}
+
+#previous {
+  text-decoration: none;
+}
+
+
+
+
+
+
+
