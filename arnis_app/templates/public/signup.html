@@ -10,8 +10,9 @@
                 <h1 style="text-align: center;color: #f5f7f7;font-family: Montserrat, sans-serif;font-size: 24px;padding-top: 20px;">Signup as:</h1>
                 <h1 class="text-center" style="text-align: center;font-family: Montserrat, sans-serif;color: #f5f7f7;font-size: 24px;height: 85.8px;">
                     <div class="btn-group align-items-center" role="group" style="margin-top: 20px;margin-bottom: 20px;">
-                        <button class="btn btn-primary d-inline-block" data-bss-hover-animate="pulse" id="student" type="button" style="background: #79031d;border-top-left-radius: 10px;border-bottom-left-radius: 10px;border-top-style: solid;border-right-style: dotted;border-bottom-style: solid;border-left-style: solid;margin-top: 0px;width: auto;padding-right: 50px;padding-left: 50px;" onclick="switchID()"><i class="far fa-user"></i> Student </button>
-                        <button class="btn btn-primary d-inline-block" data-bss-hover-animate="pulse" id="teacher" type="button" style="background: #79031d;border-top-right-radius: 10px;border-bottom-right-radius: 10px;margin-top: 0px;width: auto;border-top-style: solid;border-right-style: solid;border-bottom-style: solid;border-left-style: dotted;padding-right: 50px;padding-left: 50px;" onclick="switchID()"><i class="fas fa-chalkboard-teacher"></i> Teacher</button></div>
+                        <button class="btn btn-primary d-inline-block" data-bss-hover-animate="pulse" id="student" type="button" style="background: #79031d;border-top-left-radius: 10px;border-bottom-left-radius: 10px;border-top-style: solid;border-right-style: dotted;border-bottom-style: solid;border-left-style: solid;margin-top: 0px;width: auto;padding-right: 50px;padding-left: 50px;" ><i class="far fa-user"></i> Student </button>
+                        <button class="btn btn-primary d-inline-block" data-bss-hover-animate="pulse" id="teacher" type="button" style="background: #79031d;border-top-right-radius: 10px;border-bottom-right-radius: 10px;margin-top: 0px;width: auto;border-top-style: solid;border-right-style: solid;border-bottom-style: solid;border-left-style: dotted;padding-right: 50px;padding-left: 50px;" ><i class="fas fa-chalkboard-teacher"></i> Teacher</button>
+                    </div>
                 </h1>
             </header>
             <div id="body" style="padding: 40px;padding-bottom: 0px;">
@@ -41,11 +42,11 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <input class="form-control" type="password" id="password" placeholder="Enter Desired Password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" onkeyup="check()">
+                                <input class="form-control" type="password" id="password" placeholder="Enter Desired Password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
                                 <span id="pass_message"></span>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" type="password" id="repassword" placeholder="Re-type Desired Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" onkeyup="check()">
+                                <input class="form-control" type="password" id="repassword" placeholder="Re-type Desired Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" >
                             </div>
                             <div class="col-md-4" style="padding-bottom: 30PX;"><button class="btn btn-primary d-block w-100" data-bss-disabled-mobile="true" data-bss-hover-animate="pulse" type="submit" style="background: #edb518;border-radius: 10px;font-family: Montserrat, sans-serif;margin: 0px;" id="createAcc">Sign up</button></div>
                         </div>
@@ -55,62 +56,10 @@
         </form>
     </section>
 
-    <script>
 
-        var form = document.getElementById("form-owner").value;
-        const btn_student = document.getElementById("student");
-        const btn_teacher = document.getElementById("teacher");
-        btn_student.disabled = true;
-        btn_student.style.opacity = "100%";
-        btn_teacher.style.opacity = "40%";
-        console.log(form2);
+<!--    Form Name Assigner-->
+    <script src="{{ url_for('static', filename='js/form_name_assigner.js') }}"></script>
+<!--    Password matcher-->
+    <script src="{{ url_for('static', filename='js/password_matcher.js') }}"></script>
 
-        function switchID()
-        {
-            if (form === "student")
-            {
-                document.getElementById("form-owner").value = "teacher";
-                form = "teacher";
-                btn_student.disabled = false;
-                btn_teacher.disabled = true;
-                btn_student.style.opacity = "40%";
-                btn_teacher.style.opacity = "100%";
-                console.log("teacher");
-            }else if (form === "teacher")
-            {
-                document.getElementById("form-owner").value = "student";
-                form = "student";
-                btn_student.disabled = true;
-                btn_teacher.disabled = false;
-                btn_teacher.style.opacity = "40%";
-                btn_student.style.opacity = "100%";
-                console.log("student");
-            }
-        }
-
-    </script>
-
-    <script>
-        var check = function() {
-            let passw= document.getElementById('password').value;
-            let repassw = document.getElementById('repassword').value;
-            const createAcc = document.getElementById("createAcc");
-
-
-            document.getElementById('pass_message').style.fontSize = '10px';
-            if ((passw == repassw) && !(passw == "" || repassw == "")) {
-                document.getElementById('pass_message').style.color = 'green';
-                document.getElementById('pass_message').innerHTML = 'Password match!';
-                createAcc.disabled = false;
-            } else if (!(passw == repassw) && !(passw == "" || repassw == "")){
-                document.getElementById('pass_message').style.color = 'red';
-                document.getElementById('pass_message').innerHTML = 'Password do not match!';
-                createAcc.disabled = true;
-            } else if (passw == "" || repassw == ""){
-                document.getElementById('pass_message').style.color = '';
-                document.getElementById('pass_message').innerHTML = '';
-                createAcc.disabled = false;
-            }
-        }
-    </script>
 {% endblock content %}
