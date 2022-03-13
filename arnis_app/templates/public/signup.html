@@ -1,9 +1,14 @@
 {% extends "public/base.html" %}
 
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/signup.css') }}">
+{% endblock style %}
+
 {% block content %}
 
     <section class="login-clean" style="background: rgba(241,247,252,0);padding-top: 40px;">
-        <form method="post" style="padding: 0;background: #f5f7f7;border-radius: 10px;max-width: 1160px;min-width: 200px;">
+        <form action="{{ url_for('signup') }}" method="post" style="padding: 0;background: #f5f7f7;border-radius: 10px;max-width: 1160px;min-width: 200px;">
+
             <header style="background: #79031d;border-top-left-radius: 10px;border-top-right-radius: 10px;"><a id="previous" href="javascript:history.back()"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" style="color: #f5f7f7;font-size: 50px;padding-top: 10px;padding-left: 1px;">
                         <path d="M20.3284 11.0001V13.0001L7.50011 13.0001L10.7426 16.2426L9.32842 17.6568L3.67157 12L9.32842 6.34314L10.7426 7.75735L7.49988 11.0001L20.3284 11.0001Z" fill="currentColor"></path>
                     </svg></a>
@@ -57,9 +62,13 @@
     </section>
 
 
+{% endblock content %}
+
+{% block extra_js %}
+
 <!--    Form Name Assigner-->
     <script src="{{ url_for('static', filename='js/form_name_assigner.js') }}"></script>
 <!--    Password matcher-->
     <script src="{{ url_for('static', filename='js/password_matcher.js') }}"></script>
 
-{% endblock content %}
+{% endblock extra_js %}

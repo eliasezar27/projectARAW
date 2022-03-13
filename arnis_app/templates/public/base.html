@@ -15,20 +15,12 @@
 
     {% if title %}
         <title>ARAW - {{ title }}</title>
-
-        <!--    Stylesheet specific CSS-->
-        {% if title == "Index" %}
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}">
-        {% elif title == "Login" %}
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/login.css') }}">
-        {% elif title == "Signup" %}
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/signup.css') }}">
-        {% elif title == "About" %}
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/about.css') }}" />
-        {% endif %}
     {% else %}
         <title>ARAW</title>
     {% endif %}
+
+    <!--    Stylesheet specific CSS-->
+    {% block style %}  {% endblock %}
 
     <!--    icon-->
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/araw_logo.png') }}">
@@ -37,7 +29,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-
     <nav class="navbar navbar-light navbar-expand-md" style="background: #000407;color: #f5f7f7;padding-top: 8px;padding-bottom: 0px;">
         <div class="container-fluid">
             <a id="home" href="{{ url_for('index') }}">
@@ -58,15 +49,36 @@
                     <li class="nav-item" style="margin-right: 25px;">
                         <a class="nav-link active" href="{{ url_for('about') }}" style="color: #f5f7f7;font-family: Montserrat, sans-serif;font-size: 25px;margin: 10px;">ABOUT</a>
                     </li>
+                    {% if call_or_get(current_user.is_authenticated) %}
+                    <li class="nav-item" style="margin-right: 25px;">
+                        <a class="nav-link active" href="{{ url_for('user.logout') }}" style="color: #f5f7f7;font-family: Montserrat, sans-serif;font-size: 25px;margin: 10px;">SIGN-OUT</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
+
+     {# One-time system messages called Flash messages #}
+    {% block flash_messages %}
+        {%- with messages = get_flashed_messages(with_categories=true) -%}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category=='error' %}
+                        {% set category='danger' %}
+                    {% endif %}
+                    <div class="alert alert-{{category}}">{{ message|safe }}</div>
+                {% endfor %}
+            {% endif %}
+        {%- endwith %}
+    {% endblock %}
 
 
     {% block content %}{% endblock %}
 
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bs-init.js') }}"></script>
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

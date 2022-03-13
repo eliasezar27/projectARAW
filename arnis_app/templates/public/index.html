@@ -1,5 +1,9 @@
 {% extends "public/base.html" %}
 
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock style %}
+
 {% block content %}
     <div class="img-bg">
         <img src="{{ url_for('static', filename='images/index_img.png') }}">
@@ -15,9 +19,11 @@
             LEARN THE BASICS OF ARNIS WITH THE HELP OF COMPUTER VISION <br>
             TECHNOLOGY AT THE COMFORT OF YOUR HOME
         </div>
+        {% if not call_or_get(current_user.is_authenticated) %}
         <div id="btn">
-            <a href="{{ url_for('login') }}" class="button1">LOGIN</a>
+            <a href="{{ url_for('user.login') }}" class="button1">LOGIN</a>
             <a href="{{ url_for('signup') }}" class="button2">SIGNUP</a>
         </div>
+        {% endif %}
     </div>
 {% endblock content %}

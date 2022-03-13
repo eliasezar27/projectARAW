@@ -1,5 +1,9 @@
 {% extends "public/base.html" %}
 
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/about.css') }}">
+{% endblock style %}
+
 {% block content %}
 
 <h1>
