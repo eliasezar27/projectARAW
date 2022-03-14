@@ -1,7 +1,7 @@
 from datetime import datetime
 from arnis_app import app
 from flask import render_template, request, redirect, url_for, flash
-from arnis_app.models import db, user_manager, User
+from arnis_app.models import db, user_manager, User, UserRoles
 from flask_login import current_user
 from flask_user import login_required, roles_required, UserManager, UserMixin
 from arnis_app.customClasses import NewUserManager
@@ -36,7 +36,6 @@ def signup():
             flash(_("User with email: '%(email)s' is already taken.", email=user_email), 'error')
             # raise ValidationError('That email is taken. Please choose a different one.')
         else:
-            print(filled)
             hashed_pass = user_manager.hash_password(filled['password'])
             role_num = 1 if filled['form_name'] == 'student' else 2
             user = User(
@@ -48,10 +47,16 @@ def signup():
                 password = hashed_pass,
                 mobile = filled['pnum'],
                 date_joined = datetime.now(),
-                email_confirmed_at = datetime.now(),
-                role_id = role_num
+                email_confirmed_at = datetime.now()
             )
             db.session.add(user)
+            db.session.commit()
+
+            user_role = UserRoles(
+                user_id = user.id,
+                role_id = role_num
+            )
+            db.session.add(user_role)
             db.session.commit()
 
             flash(_("You have successfully signed up!"), 'success')

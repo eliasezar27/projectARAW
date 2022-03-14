@@ -33,10 +33,9 @@ class User(db.Model, UserMixin):
     mobile = db.Column(db.String(20, collation='NOCASE'), nullable=False, unique=True)
     date_joined = db.Column(db.DateTime())  # Date registered
     email_confirmed_at = db.Column(db.DateTime())  # Date email confirmed
-    role_id = db.Column(db.Integer(), db.ForeignKey('roles.role_id', ondelete='CASCADE'))
 
     # Define relationship with User table
-    roles = db.relationship('Role')
+    roles = db.relationship('Role', secondary='user_roles')
     teacher = db.relationship('Teacher')
     student = db.relationship('Student')
 
@@ -45,11 +44,15 @@ class User(db.Model, UserMixin):
 class Role(db.Model):
     __tablename__ = 'roles'
 
-    role_id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(20), unique=True)
 
-    # Back propagates relationship to User table
-    user = db.relationship('User')
+
+class UserRoles(db.Model):
+    __tablename__ = 'user_roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
+    role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
 
 
 # School Management tables
