@@ -1,7 +1,7 @@
 from datetime import datetime
 from arnis_app import app
 from flask import render_template, request, redirect, url_for, flash
-from arnis_app.models import db, user_manager, User, UserRoles
+from arnis_app.models import db, user_manager, User, UserRoles, Role
 from flask_login import current_user
 from flask_user import login_required, roles_required, UserManager, UserMixin
 from arnis_app.customClasses import NewUserManager
@@ -12,6 +12,15 @@ from flask_user.translation_utils import gettext as _
 @app.route('/')
 @app.route('/index')
 def index():
+    if current_user.is_authenticated:
+        user_id = current_user.id
+        tbl_role = Role.query.filter_by(id=user_id).first().name
+        print(tbl_role)
+
+        if tbl_role == 'teacher':
+            return redirect(url_for('teacher_dashboard'))
+        elif tbl_role == 'student':
+            return redirect(url_for('student_dashboard'))
     return render_template("public/index.html", title='Index')
 
 

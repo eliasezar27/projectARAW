@@ -4,7 +4,7 @@ from flask import render_template, request
 
 @app.route('/student/dashboard')
 def student_dashboard():
-    pass
+    return '<h1>Welcome to student dashboard</h1>'
 
 
 @app.route('/student/profile')
