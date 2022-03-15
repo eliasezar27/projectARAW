@@ -3,9 +3,9 @@ from arnis_app import app
 from flask import render_template, request, redirect, url_for, flash
 from arnis_app.models import db, user_manager, User, UserRoles, Role
 from flask_login import current_user
-from flask_user import login_required, roles_required, UserManager, UserMixin
-from arnis_app.customClasses import NewUserManager
-from wtforms.validators import ValidationError
+# from flask_user import login_required, roles_required, UserManager, UserMixin
+# from arnis_app.customClasses import NewUserManager
+# from wtforms.validators import ValidationError
 from flask_user.translation_utils import gettext as _
 
 
@@ -75,6 +75,5 @@ def signup():
 
 
 @app.route('/about')
-@roles_required('student')
 def about():
     return render_template("public/about.html", title='About')
