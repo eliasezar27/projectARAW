@@ -1,61 +1,16 @@
-<html>
-<head>
-  <title>Welcome!</title>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}" />
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}" />
-</head>
-<body>
+{% extends "student/base.html" %}
 
-<nav>
-  <ul class="nav">
-    <li><a href="{{ url_for('instruction') }}" style="margin-right: 100px;">How to use</a></li>
-    <li><a href="{{ url_for('poseDesc') }}">Pose Description</a></li>
-    <li><a href="{{ url_for('about') }}">About</a></li>
-    <li><a href="{{ url_for('index') }}" class="hActive">Home</a></li>
-  </ul>
-</nav>
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock style %}
 
-<div class="row">
-
-  <!------FIRST COLUMN----------------------------------------->
-  <div class="column">
-    <br style="display:block; margin-top:200px; line-height:200px;">
-    <hr>
-    <h1 style="text-align: center;">
-      Evaluate Your Arnis Poses <br>
-      with this webapp
-    </h1>
-    <br style="display: block; margin-top:30px; line-height:30px;">
-    <div class="sub">
-      <p> This web app assess Arnis strikes and blocks poses </p>
-      <p> without the aid of a trainer, anytime even at home </p>
+{% block content %}
+    <h1>WELCOME TO STUDENT'S DASHBOARD</h1>
+    <div class="img-bg">
+        <img src="{{ url_for('static', filename='images/index_img.png') }}">
     </div>
-    <hr>
-  </div>
 
-  <!------SECOND COLUMN----------------------------------------->
-  <div class="column2">
-    <img src="{{ url_for('static', filename='double-arnis_no-bg.gif') }}">
-    <br>
-    <h1 style="text-align: center; color: #6699ff;">Start the program by selecting a method:</h1>
-    <form method="POST" action="{{url_for('process')}}">
+    <div id="index-content">
 
-      <!--<input type="text" name="response" value="yes" hidden>-->
-      <br>
-      <center>
-        <input type='submit' name="class" value="Classification" class="button"/>
-        <input type='submit' name="grading" value="Grade" class="button"/>
-      </center>
-
-    </form>
-  </div>
-</div>
-
-
-
-
-</body>
-<script>
-  window.scrollTo(0,document.body.scrollHeight);
-</script>
-</html>
+    </div>
+{% endblock content %}

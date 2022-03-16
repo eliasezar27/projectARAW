@@ -6,7 +6,7 @@ from flask import render_template, request
 @app.route('/teacher/dashboard')
 @roles_required('teacher')
 def teacher_dashboard():
-    return '<h1>Welcome to teacher dashboard</h1>'
+    return render_template('teacher/index.html')
 
 
 @app.route('/teacher/profile')

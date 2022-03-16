@@ -45,6 +45,13 @@
                     <label>Password</label>
                 </div>
 
+                <div class="form-check  my-2">
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="showPass()">
+                  <label class="form-check-label fs-6" for="defaultCheck1">
+                    Show Password
+                  </label>
+                </div>
+
                 {% if field.errors %}
                     {% for e in field.errors %}
                         <p class="help-block" style="color: red; font-size: 13px; ">{{ e }}</p>
@@ -52,11 +59,6 @@
                 {% endif %}
 
                 <div class="mb-3">
-                    {# Remember me #}
-                    {% if user_manager.USER_ENABLE_REMEMBER_ME %}
-                    {{ render_checkbox_field(login_form.remember_me, tabindex=130) }}
-                    {% endif %}
-
                     {# Submit button #}
                     <button class="btn btn-primary d-block w-100" data-bss-disabled-mobile="true" data-bss-hover-animate="pulse" type="submit" style="background: #edb518;border-radius: 10px;font-family: Montserrat, sans-serif;">Log In</button>
                     <a href="{{ url_for('signup') }}" class="btn btn-primary d-block w-100" data-bss-hover-animate="pulse" style="background: rgba(237,181,24,0);margin-top: 5px;color: #edb518;border-style: solid;border-radius: 10px;font-family: Montserrat, sans-serif;">Create Account</a>
@@ -69,3 +71,10 @@
     <script src="assets/js/bs-init.js"></script>
 
 {% endblock content %}
+
+{% block extra_js %}
+
+<!--    Show Password option-->
+    <script src="{{ url_for('static', filename='js/show_password.js') }}"></script>
+
+{% endblock extra_js %}

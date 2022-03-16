@@ -14,12 +14,14 @@ from flask_user.translation_utils import gettext as _
 def index():
     if current_user.is_authenticated:
         user_id = current_user.id
-        tbl_role = Role.query.filter_by(id=user_id).first().name
-        print(tbl_role)
+        role_num = UserRoles.query.filter_by(user_id=user_id).first().role_id
+        role_name = Role.query.filter_by(id=role_num).first().name
 
-        if tbl_role == 'teacher':
+        print(str(user_id) + '\n' + str(role_num) + '\n' + str(role_name))
+
+        if role_name == 'teacher':
             return redirect(url_for('teacher_dashboard'))
-        elif tbl_role == 'student':
+        elif role_name == 'student':
             return redirect(url_for('student_dashboard'))
     return render_template("public/index.html", title='Index')
 

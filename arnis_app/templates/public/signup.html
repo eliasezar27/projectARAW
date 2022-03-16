@@ -48,6 +48,12 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <input class="form-control" type="password" id="password" placeholder="Enter Desired Password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+                                <div class="form-check  my-2">
+                                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="showPass()">
+                                  <label class="form-check-label fs-6" for="defaultCheck1">
+                                    Show Password
+                                  </label>
+                                </div>
                                 <span id="pass_message"></span>
                             </div>
                             <div class="col-md-4">
@@ -70,5 +76,7 @@
     <script src="{{ url_for('static', filename='js/form_name_assigner.js') }}"></script>
 <!--    Password matcher-->
     <script src="{{ url_for('static', filename='js/password_matcher.js') }}"></script>
+<!--    Show Password option-->
+    <script src="{{ url_for('static', filename='js/show_password.js') }}"></script>
 
 {% endblock extra_js %}
