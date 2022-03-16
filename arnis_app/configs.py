@@ -20,6 +20,8 @@ class ConfigClass(object):
     MAIL_PASSWORD = '**ThesisNilaElias@Jeah**'
     MAIL_DEFAULT_SENDER = '"Project ARAW" <noreply@araw.com>'
 
+    USER_ENABLE_REMEMBER_ME = False
+
     # Flask-User settings
     USER_APP_NAME = "Project ARAW: A Real-time Arnis Web-application"  # Shown in and email templates and page footers
 
