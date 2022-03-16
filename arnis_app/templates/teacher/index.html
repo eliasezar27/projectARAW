@@ -1,0 +1,16 @@
+{% extends "teacher/base.html" %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock style %}
+
+{% block content %}
+    <h1>WELCOME TO TEACHER DAHSBOARD!</h1>
+    <div class="img-bg">
+        <img src="{{ url_for('static', filename='images/index_img.png') }}">
+    </div>
+
+    <div id="index-content">
+
+    </div>
+{% endblock content %}
