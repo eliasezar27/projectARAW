@@ -2,7 +2,7 @@ from flask_babelex import Babel
 from flask_sqlalchemy import SQLAlchemy
 from flask_user import UserMixin
 from arnis_app import app
-from .customClasses import NewUserManager
+from arnis_app.customClasses import NewUserManager
 
 
 # Initialize Flask-BabelEx
@@ -18,9 +18,9 @@ class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer(), primary_key=True)
-    active = db.Column('is_active', db.Boolean(), nullable=False, server_default='1')
 
     # User information
+    active = db.Column('is_active', db.Boolean(), nullable=False, server_default='1')
     last_name = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
     first_name = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
     middle_name = db.Column(db.String(100, collation='NOCASE'), nullable=True, server_default='')
@@ -30,7 +30,7 @@ class User(db.Model, UserMixin):
     # to search case insensitively when USER_IFIND_MODE is 'nocase_collation'.
     email = db.Column(db.String(255, collation='NOCASE'), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False, server_default='')
-    mobile = db.Column(db.String(20, collation='NOCASE'), nullable=False, unique=True)
+    mobile = db.Column(db.String(100, collation='NOCASE'), nullable=False, unique=True)
     date_joined = db.Column(db.DateTime())  # Date registered
     email_confirmed_at = db.Column(db.DateTime())  # Date email confirmed
 
@@ -45,11 +45,12 @@ class Role(db.Model):
     __tablename__ = 'roles'
 
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(20), unique=True)
+    name = db.Column(db.String(50), unique=True)
 
 
 class UserRoles(db.Model):
     __tablename__ = 'user_roles'
+
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
@@ -60,7 +61,7 @@ class Teacher(db.Model):
     __tablename__ = 'teachers'
 
     teacher_id = db.Column(db.Integer(), primary_key=True)
-    id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
 
     # Define relationship with Section table
     section = db.relationship('Section')
@@ -70,7 +71,7 @@ class Student(db.Model):
     __tablename__ = 'students'
 
     student_id = db.Column(db.Integer(), primary_key=True)
-    id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
     section_id = db.Column(db.Integer(), db.ForeignKey('sections.section_id', ondelete='CASCADE'))
 
     # Define relationship with Activity & Video table
@@ -116,7 +117,7 @@ class Activity(db.Model):
     activity_id = db.Column(db.Integer(), primary_key=True)
     date = db.Column(db.DateTime())
     student_id = db.Column(db.Integer(), db.ForeignKey('students.student_id', ondelete='CASCADE'))
-    grade = db.Column(db.Float())
+    grade = db.Column(db.Text())
 
 
 class Video(db.Model):
@@ -124,9 +125,29 @@ class Video(db.Model):
 
     video_id = db.Column(db.Integer(), primary_key=True)
     date = db.Column(db.DateTime())
-    filename = db.Column(db.String(512, collation='NOCASE'), nullable=False)
+    filename = db.Column(db.Text(collation='NOCASE'), nullable=False)
     student_id = db.Column(db.Integer(), db.ForeignKey('students.student_id', ondelete='CASCADE'))
-    grade = db.Column(db.Float())
+    grade = db.Column(db.Text())
+
+
+def create_db():
+    db.create_all()
+
+    role1 = Role(name='admin')
+    role2 = Role(name='teacher')
+    role3 = Role(name='student')
+
+    db.session.add_all([role1, role2, role3])
+    db.session.commit()
+
+
+def drop_db():
+    db.drop_all()
+
+
+# call function for passing additional data to a table.
+def insert_data():
+    pass
 
 
 # Setup Flask-User and specify the User data-model

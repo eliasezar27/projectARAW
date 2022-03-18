@@ -1,9 +1,9 @@
 from datetime import datetime
 from arnis_app import app
 from flask import render_template, request, redirect, url_for, flash
-from arnis_app.models import db, user_manager, User, UserRoles, Role
+from arnis_app.models import db, user_manager, User, UserRoles, Role, Teacher, Student
 from flask_login import current_user
-# from flask_user import login_required, roles_required, UserManager, UserMixin
+# from flask_user import current_user, login_required, roles_required, UserManager, UserMixin
 # from arnis_app.customClasses import NewUserManager
 # from wtforms.validators import ValidationError
 from flask_user.translation_utils import gettext as _
@@ -14,12 +14,12 @@ from flask_user.translation_utils import gettext as _
 def index():
     if current_user.is_authenticated:
         user_id = current_user.id
-        role_num = UserRoles.query.filter_by(user_id=user_id).first().role_id
+        role_num = UserRoles.query.filter_by(user_id=user_id).order_by(UserRoles.role_id).first().role_id
         role_name = Role.query.filter_by(id=role_num).first().name
 
-        print(str(user_id) + '\n' + str(role_num) + '\n' + str(role_name))
-
-        if role_name == 'teacher':
+        if role_name == 'admin':
+            return redirect(url_for('admin_dashboard'))
+        elif role_name == 'teacher':
             return redirect(url_for('teacher_dashboard'))
         elif role_name == 'student':
             return redirect(url_for('student_dashboard'))
@@ -41,14 +41,22 @@ def signup():
     if request.method == 'POST':
         filled = request.form
         user_email = filled['email']
+        pnum = filled['pnum']
+        entity_role = str(filled['form_name'])
 
         user = User.query.filter_by(email=user_email).first()
+        mobile = User.query.filter_by(mobile=user_email).first()
         if user:
+            # Raises a flash if email is already in used.
             flash(_("User with email: '%(email)s' is already taken.", email=user_email), 'error')
-            # raise ValidationError('That email is taken. Please choose a different one.')
+        elif mobile:
+            # Raises a flash if mobile number is already in used.
+            flash(_("'%(phone)s' is already registered to an account.", phone=pnum), 'error')
         else:
             hashed_pass = user_manager.hash_password(filled['password'])
-            role_num = 1 if filled['form_name'] == 'student' else 2
+            role_num = 2 if filled['form_name'] == 'teacher' else 3
+
+            # Insert signup data from fields to each Uer attribute
             user = User(
                 last_name = filled['lname'],
                 first_name = filled['fname'],
@@ -63,14 +71,30 @@ def signup():
             db.session.add(user)
             db.session.commit()
 
+            # Get User id of recently committed data to User table
+            user_id = user.id
+
+            # Insert User id with the user's corresponding Role id to the UserRole table
             user_role = UserRoles(
-                user_id = user.id,
+                user_id = user_id,
                 role_id = role_num
             )
-            db.session.add(user_role)
+
+            # Insert User id to the user's position based on user's role
+            position = None
+            if role_num == 2:
+                position = Teacher(
+                    user_id = user_id
+                )
+            elif role_num == 3:
+                position = Student(
+                    user_id = user_id
+                )
+
+            db.session.add_all([user_role, position])
             db.session.commit()
 
-            flash(_("You have successfully signed up!"), 'success')
+            flash(_("You have successfully signed up as a '" + entity_role + "'!"), 'success')
             return redirect(url_for('login'))
 
     return render_template("public/signup.html", title='Signup')

@@ -1,0 +1,120 @@
+<html>
+<head>
+  {% if categ == "GRADING" %}
+  <title>Arnis Pose Grading</title>
+  {% else %}
+  <title>Arnis Pose Classification</title>
+  {% endif %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/process.css') }}" />
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}" />
+
+</head>
+<body>
+<nav>
+  <ul class="nav">
+    <li><a href="{{ url_for('instruction') }}" style="margin-right: 100px;">How to use</a></li>
+    <li><a href="{{ url_for('poseDesc') }}">Pose Description</a></li>
+    <li><a href="{{ url_for('about') }}">About</a></li>
+    <li><a href="{{ url_for('index') }}">Home</a></li>
+  </ul>
+</nav>
+
+<center>
+  <h1>ARNIS {{categ}}</h1>
+  <br>
+  <img src="{{ url_for('video_feed') }}" alt = "Camera is Loading...">
+</center>
+{% if categ == "GRADING" %}
+<br><br>
+<form method="POST" action="{{url_for('results')}}">
+  <div class="poseResButt">
+    <input type="submit" name="result" value="Detailed Pose Results" class="button"/>
+  </div>
+</form>
+{% endif %}
+<br>
+
+<form method="POST" action="{{url_for('process')}}">
+
+  <div id = "d_option1">
+    {% if categ == "CLASSIFICATION" %}
+    <center>
+      <h5>
+        Input Instance No.: <input type="text" name="instance" value="{{ instnc }}">
+        <input type='submit' name="capt" value="Capture" class="button"/>
+      </h5>
+    </center>
+    {% endif %}
+  </div>
+
+</form>
+
+<div id="devButt">
+  <h5>
+    <button onclick="devOpt()" id="btn" class="button">Show</button>
+    Developer Options:
+  </h5>
+</div>
+
+<form method="POST" action="{{url_for('process')}}">
+  <div id = "d_option2">
+    {% if not skeleton %}
+    <input type='submit' name="skeleton" value="Show Skeleton" class="button"/>
+    <!-- <input type="checkbox" id="skeleton" name="skeleton" value="skeleton">
+    <label for="skeleton">Show skeleton</label> -->
+    {% else %}
+    <input type='submit' name="skeleton2" value="Hide Skeleton" class="button"/>
+    {% endif %}
+
+    {% if not fps %}
+    <input type='submit' name="fps" value="Show FPS" class="button"/>
+    <!-- <input type="checkbox" id="fps" name="fps" value="fps">
+    <label for="fps">Show FPS</label> -->
+    {% else %}
+    <input type='submit' name="fps2" value="Hide FPS" class="button"/>
+    {% endif %}
+
+    {% if not angles %}
+    <input type='submit' name="angle" value="Show Angles" class="button"/>
+    <!-- <input type="checkbox" id="angles" name="angles" value="angles">
+    <label for="angles">Show joint angles</label> -->
+    {% else %}
+    <input type='submit' name="angle2" value="Hide Angles" class="button"/>
+    {% endif %}
+  </div>
+
+</form>
+
+
+</body>
+<script>
+  window.scrollTo(0,document.body.scrollHeight);
+
+  var x = document.getElementById("d_option1");
+  var y = document.getElementById("d_option2");
+  const btn = document.getElementById("btn");
+  x.style.display = "none";
+  y.style.display = "none";
+
+  function devOpt(){
+    if (y.style.display === "none"){
+      x.style.display = "block";
+      y.style.display = "block";
+    }else{
+      x.style.display = "none";
+      y.style.display = "none";
+    }
+  }
+
+  btn.addEventListener("click", ()=>{
+
+    if (btn.innerText === "Show"){
+      btn.innerText = "Hide";
+    } else {
+      btn.innerText = "Show";
+    }
+
+  });
+
+</script>
+</html>
