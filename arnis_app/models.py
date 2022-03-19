@@ -133,6 +133,12 @@ class Video(db.Model):
 def create_db():
     db.create_all()
 
+
+def drop_db():
+    db.drop_all()
+
+
+def add_roles():
     role1 = Role(name='admin')
     role2 = Role(name='teacher')
     role3 = Role(name='student')
@@ -141,13 +147,60 @@ def create_db():
     db.session.commit()
 
 
-def drop_db():
-    db.drop_all()
+# call function for populating constant data to a table.
+def insert_track():
 
+    track = [i for i in range(4)]
 
-# call function for passing additional data to a table.
-def insert_data():
-    pass
+    track_list = [
+        'Academic Track',
+        'Arts and Design Track',
+        'Sports Track',
+        'Technological-Vocational Livelihood Track'
+    ]
+
+    for j in track:
+        track[j] = Track(
+            name=track_list[j]
+        )
+
+    strand = [i for i in range(24)]
+
+    strand_list = [
+        'Accountancy, Business, and Management',
+        'Science, Technology, Engineering and Mathematics',
+        'Humanities and Social Science',
+        'Animation',
+        '(Performing Art) Dance',
+        '(Performing Art) Music',
+        '(Performing Art) Theater Arts',
+        'Film Production',
+        'Sports Coaching',
+        'Sports Officiating',
+        '(Home Economics) Hotel and Restaurant Servicing',
+        '(Home Economics) Tourism Servicing',
+        '(Home Economics) Food Production',
+        '(Home Economics) Health Care Services',
+        '(Home Economics) Emergency Medical Services',
+        '(ICT) Computer Programming',
+        '(ICT) Computer System Servicing',
+        '(ICT) Business Process Outsourcing',
+        '(Industrial Arts) Drafting Technology',
+        '(Industrial Arts) Automotive Servicing',
+        '(Industrial Arts) Electronic Products Assembly and Services',
+        '(Industrial Arts) Electrical Installation and Maintenance',
+        '(Industrial Arts) Construction Technology',
+        '(Industrial Arts) Welding Technology'
+    ]
+
+    for j in strand:
+        strand[j] = Strand(
+            name=strand_list[j]
+        )
+
+    db.session.add_all(track)
+    db.session.add_all(strand)
+    db.session.commit()
 
 
 # Setup Flask-User and specify the User data-model

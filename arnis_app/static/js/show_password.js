@@ -1,11 +1,13 @@
-function showPass() {
-  var x = document.getElementById("password");
-  var y = document.getElementById("repassword");
-  if (x.type === "password") {
-    x.type = "text";
-    y.type = "text";
-  } else {
-    x.type = "password";
-    y.type = "password";
-  }
-}
+$(document).ready(function(){
+
+    $("#defaultCheck1").change(function(){
+         if($(this).is(':checked')){
+            $('#password').attr('type', 'text');
+            $('#repassword').attr('type', 'text');
+         }else{
+            $('#password').attr('type', 'password');
+            $('#repassword').attr('type', 'password');
+         }
+    });
+
+ });
