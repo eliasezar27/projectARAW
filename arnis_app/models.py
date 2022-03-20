@@ -38,6 +38,7 @@ class User(db.Model, UserMixin):
     roles = db.relationship('Role', secondary='user_roles')
     teacher = db.relationship('Teacher')
     student = db.relationship('Student')
+    pic = db.relationship('UserProfilePic')
 
 
 # Define the Role data-model
@@ -97,6 +98,7 @@ class Track(db.Model):
 
     track_id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255, collation='NOCASE'), nullable=False, server_default='')
+    nickname = db.Column(db.String(50, collation='NOCASE'), nullable=False, server_default='')
 
     # Define relationship with Section table
     section = db.relationship('Section')
@@ -107,6 +109,7 @@ class Strand(db.Model):
 
     strand_id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255, collation='NOCASE'), nullable=False, server_default='')
+    nickname = db.Column(db.String(50, collation='NOCASE'), nullable=False, server_default='')
 
     section = db.relationship('Section')
 
@@ -128,6 +131,14 @@ class Video(db.Model):
     filename = db.Column(db.Text(collation='NOCASE'), nullable=False)
     student_id = db.Column(db.Integer(), db.ForeignKey('students.student_id', ondelete='CASCADE'))
     grade = db.Column(db.Text())
+
+
+class UserProfilePic(db.Model):
+    __tablename__ = 'profile_pic'
+
+    profile_id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
+    filename = db.Column(db.Text(collation='NOCASE'), nullable=False, server_default='profile_pic/def_profile.png')
 
 
 def create_db():
@@ -153,49 +164,51 @@ def insert_track():
     track = [i for i in range(4)]
 
     track_list = [
-        'Academic Track',
-        'Arts and Design Track',
-        'Sports Track',
-        'Technological-Vocational Livelihood Track'
+        ['Academic Track', 'ACAD'],
+        ['Arts and Design Track', 'ARTS'],
+        ['Sports Track', 'SPORTS'],
+        ['Technological-Vocational Livelihood Track', 'TVL']
     ]
 
     for j in track:
         track[j] = Track(
-            name=track_list[j]
+            name=track_list[j][0],
+            nickname=track_list[j][1]
         )
 
     strand = [i for i in range(24)]
 
     strand_list = [
-        'Accountancy, Business, and Management',
-        'Science, Technology, Engineering and Mathematics',
-        'Humanities and Social Science',
-        'Animation',
-        '(Performing Art) Dance',
-        '(Performing Art) Music',
-        '(Performing Art) Theater Arts',
-        'Film Production',
-        'Sports Coaching',
-        'Sports Officiating',
-        '(Home Economics) Hotel and Restaurant Servicing',
-        '(Home Economics) Tourism Servicing',
-        '(Home Economics) Food Production',
-        '(Home Economics) Health Care Services',
-        '(Home Economics) Emergency Medical Services',
-        '(ICT) Computer Programming',
-        '(ICT) Computer System Servicing',
-        '(ICT) Business Process Outsourcing',
-        '(Industrial Arts) Drafting Technology',
-        '(Industrial Arts) Automotive Servicing',
-        '(Industrial Arts) Electronic Products Assembly and Services',
-        '(Industrial Arts) Electrical Installation and Maintenance',
-        '(Industrial Arts) Construction Technology',
-        '(Industrial Arts) Welding Technology'
+        ['Accountancy, Business, and Management', 'ABM'],
+        ['Science, Technology, Engineering and Mathematics', 'STEM'],
+        ['Humanities and Social Science', 'HUMSS'],
+        ['Animation', 'ANIM'],
+        ['(Performing Art) Dance', 'DNC'],
+        ['(Performing Art) Music', 'MSC'],
+        ['(Performing Art) Theater Arts', 'THTR'],
+        ['Film Production', 'PROD'],
+        ['Sports Coaching', 'COACH'],
+        ['Sports Officiating', 'OFFIC'],
+        ['(Home Economics) Hotel and Restaurant Servicing', 'HRS'],
+        ['(Home Economics) Tourism Servicing', 'TOUR'],
+        ['(Home Economics) Food Production', 'FOOD'],
+        ['(Home Economics) Health Care Services', 'HCS'],
+        ['(Home Economics) Emergency Medical Services', 'EMS'],
+        ['(ICT) Computer Programming', 'CMP'],
+        ['(ICT) Computer System Servicing', 'CSS'],
+        ['(ICT) Business Process Outsourcing', 'BPO'],
+        ['(Industrial Arts) Drafting Technology', 'DRT'],
+        ['(Industrial Arts) Automotive Servicing', 'AUTO'],
+        ['(Industrial Arts) Electronic Products Assembly and Services', 'PAS'],
+        ['(Industrial Arts) Electrical Installation and Maintenance', 'EIM'],
+        ['(Industrial Arts) Construction Technology', 'CONST'],
+        ['(Industrial Arts) Welding Technology', 'WELD']
     ]
 
     for j in strand:
         strand[j] = Strand(
-            name=strand_list[j]
+            name=strand_list[j][0],
+            nickname=strand_list[j][1]
         )
 
     db.session.add_all(track)
