@@ -1,12 +1,14 @@
 from arnis_app import app
 from flask_user import roles_required
 from flask import render_template, request
+from flask_login import current_user
 
 
 @app.route('/admin/dashboard')
 @roles_required('admin')
 def admin_dashboard():
-    return render_template('admin/index.html')
+    user_name = current_user.first_name + " " + current_user.last_name
+    return render_template('admin/index.html', user_name = user_name)
 
 
 @app.route('/admin/profile')
