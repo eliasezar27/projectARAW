@@ -1,11 +1,103 @@
 {% extends "admin/base.html" %}
 
 {% block style %}
-<!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}">-->
 {% endblock style %}
 
 {% block content %}
     <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2">
         <h1 class="text-dark mx-3" style="height: 127px;"><br>Welcome to Admin Dashboard<br><br></h1>
     </div>
+
+<!--    Teachers list-->
+
+    <div class="container-fluid">
+        <div class="d-sm-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-dark mb-0">Teachers</h3>
+        </div>
+        <div class="row">
+
+<!--            Looping through Arnis teachers from database-->
+
+            {% for teach in teacher %}
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="card shadow border-start-primary py-2">
+                    <div class="card-body">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col me-2" style="text-align: right;">
+                                <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="color: #c46d38;">{{ teach.first_name }}</span></div>
+                                <div class="text-dark fw-bold h5 mb-0"><span>{{ teach.last_name }}</span></div>
+                            </div>
+                            <div class="col-auto"><i class="fas fa-user-tie fa-2x text-gray-300"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container-fluid">
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-dark mb-0">Students per Section</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#" style="background: #EDB518;border-style: none;"><i class="fas fa-hand-point-up fs-6 fa-sm text-white-50"></i>&nbsp;Assign a Teacher</a>
+    </div>
+    <div class="row">
+        {% for section, strand, teacher in sec %}
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow border-start-primary py-2">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col me-2" style="text-align: right;">
+                            <div class="text-dark fw-bold h5 mb-0"><span class="fs-1">{{ section.population }}</span></div>
+                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-5" style="color: #c46d38;">Section {{ "%02d" % section.section_no }}</span></div>
+                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-6" style="color: #EDB518;">{{ strand.nickname }}</span></div>
+                            <div class="text-dark fw-bold h5 mb-0"><span style="font-size: 15px;color: #858796;">{{teacher}}</span></div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-users fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow border-start-primary py-2">
+                <button type="button" class="btn d-inline" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col-auto"><i class="fa fa-solid fa-plus fs-1"></i></div>
+                        <div class="col me-2">
+                            <div class="text-dark fw-bold h5 mb-0"><span class="fs-1">Add New</span></div>
+                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-5" style="color: #c46d38;">Section</span></div>
+                        </div>
+                    </div>
+                </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+
+  Launch static backdrop modal
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Create new section</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}

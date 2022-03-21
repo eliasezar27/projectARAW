@@ -1,7 +1,7 @@
 from datetime import datetime
 from arnis_app import app
 from flask import render_template, request, redirect, url_for, flash
-from arnis_app.models import db, user_manager, User, UserRoles, Role, Teacher, Student
+from arnis_app.models import db, user_manager, User, UserRoles, Role, Teacher, Student, UserProfilePic
 from flask_login import current_user
 # from flask_user import current_user, login_required, roles_required, UserManager, UserMixin
 # from arnis_app.customClasses import NewUserManager
@@ -45,7 +45,7 @@ def signup():
         entity_role = str(filled['form_name'])
 
         user = User.query.filter_by(email=user_email).first()
-        mobile = User.query.filter_by(mobile=user_email).first()
+        mobile = User.query.filter_by(mobile=pnum).first()
         if user:
             # Raises a flash if email is already in used.
             flash(_("User with email: '%(email)s' is already taken.", email=user_email), 'error')
@@ -91,7 +91,12 @@ def signup():
                     user_id = user_id
                 )
 
-            db.session.add_all([user_role, position])
+            # Insert default user's profile picture
+            profile_pic = UserProfilePic(
+                user_id = user_id
+            )
+
+            db.session.add_all([user_role, position, profile_pic])
             db.session.commit()
 
             flash(_("You have successfully signed up as a '" + entity_role + "'!"), 'success')
