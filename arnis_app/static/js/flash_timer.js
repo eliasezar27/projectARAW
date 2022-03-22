@@ -1,5 +1,5 @@
  $( document ).ready(function(){
-    $('.alert').fadeIn('slow', function(){
-       $('.alert').delay(3000).fadeOut();
+    $('.alert').not('#addResult').fadeIn('slow', function(){
+       $('.alert').not('#addResult').delay(3000).fadeOut();
     });
 });

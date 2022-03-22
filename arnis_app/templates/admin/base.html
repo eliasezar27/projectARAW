@@ -26,20 +26,20 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/araw_logo_y.png') }}">
 
     <!--    JQuery-->
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>-->
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 </head>
 
 <body id="page-top">
     <div id="wrapper">
-        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #79031d;">
-            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#" style="width: 120px;height: 69px;">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 toggled" style="background: #79031d;">
+            <div class="container-fluid sticky-top d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#" style="width: 120px;height: 69px;">
                     <div class="sidebar-brand-icon"><img src="{{ url_for('static', filename='images/araw_logo_y.png') }}" style="width: 52px;"></div>
                     <div class="sidebar-brand-text mx-3"><span class="d-block float-none" style="color: rgb(255,255,255);">Project</span><span class="d-block float-none" style="color: #EDB518;">ARAW</span></div>
                 </a>
                 <hr class="sidebar-divider my-4" style="color: rgb(0,0,0);">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link active" href="index.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-user"></i><span>Profile</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>

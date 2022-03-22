@@ -1,6 +1,7 @@
 {% extends "admin/base.html" %}
 
 {% block style %}
+
 {% endblock style %}
 
 {% block content %}
@@ -24,8 +25,8 @@
                     <div class="card-body">
                         <div class="row align-items-center no-gutters">
                             <div class="col me-2" style="text-align: right;">
-                                <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="color: #c46d38;">{{ teach.first_name }}</span></div>
-                                <div class="text-dark fw-bold h5 mb-0"><span>{{ teach.last_name }}</span></div>
+                                <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="color: #c46d38;">{{ teach[1].first_name }}</span></div>
+                                <div class="text-dark fw-bold h5 mb-0"><span>{{ teach[1].last_name }}</span></div>
                             </div>
                             <div class="col-auto"><i class="fas fa-user-tie fa-2x text-gray-300"></i></div>
                         </div>
@@ -36,21 +37,43 @@
         </div>
     </div>
 
-    <div class="container-fluid">
+<!--    Section list-->
+    <div class="container-fluid" id="sectionList">
     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-        <h3 class="text-dark mb-0">Students per Section</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#" style="background: #EDB518;border-style: none;"><i class="fas fa-hand-point-up fs-6 fa-sm text-white-50"></i>&nbsp;Assign a Teacher</a>
+        <h3 class="text-dark mb-0">Students per Section</h3>
+        <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background: #EDB518;border-style: none;">
+            <i class="fas fa-solid fa-plus  text-white"></i>  Register a section
+        </a>
     </div>
     <div class="row">
+
         {% for section, strand, teacher in sec %}
         <div class="col-md-6 col-xl-3 mb-4">
             <div class="card shadow border-start-primary py-2">
                 <div class="card-body">
                     <div class="row align-items-center no-gutters">
                         <div class="col me-2" style="text-align: right;">
-                            <div class="text-dark fw-bold h5 mb-0"><span class="fs-1">{{ section.population }}</span></div>
+                            <div class="text-dark fw-bold h5 mb-0">
+                                <span class="fs-1">
+                                    {% if section.population == None %}
+                                        0
+                                    {% else %}
+                                        {{ section.population }}
+                                    {% endif %}
+                                </span>
+                            </div>
                             <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-5" style="color: #c46d38;">Section {{ "%02d" % section.section_no }}</span></div>
-                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-6" style="color: #EDB518;">{{ strand.nickname }}</span></div>
-                            <div class="text-dark fw-bold h5 mb-0"><span style="font-size: 15px;color: #858796;">{{teacher}}</span></div>
+                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-6" style="color: #EDB518;">{{ strand }}</span></div>
+                            <div class="text-dark fw-bold h5 mb-0">
+                                <span style="font-size: 15px;color: #858796;">
+                                    {% if teacher == None %}
+                                        Unassigned section
+                                    {% else %}
+                                        {{ teacher.first_name[0] }}.
+                                        {{ teacher.last_name }}
+                                    {% endif %}
+                                </span>
+                            </div>
                         </div>
                         <div class="col-auto"><i class="fas fa-users fa-2x text-gray-300"></i></div>
                     </div>
@@ -58,46 +81,96 @@
             </div>
         </div>
         {% endfor %}
-
-
-        <div class="col-md-6 col-xl-3 mb-4">
-            <div class="card shadow border-start-primary py-2">
-                <button type="button" class="btn d-inline" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                <div class="card-body">
-                    <div class="row align-items-center no-gutters">
-                        <div class="col-auto"><i class="fa fa-solid fa-plus fs-1"></i></div>
-                        <div class="col me-2">
-                            <div class="text-dark fw-bold h5 mb-0"><span class="fs-1">Add New</span></div>
-                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-5" style="color: #c46d38;">Section</span></div>
-                        </div>
-                    </div>
-                </div>
-                </button>
-            </div>
-        </div>
     </div>
 </div>
 
-<!-- Button trigger modal -->
-
-  Launch static backdrop modal
-
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Create new section</h5>
+        <h5 class="modal-title text-dark fw-bold" id="staticBackdropLabel">Register new section</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+
+<!--          Flash message-->
+          <div class="alert alert-success" style="display: none;" id="addResult"></div>
+
+          <div class="row g-2 p-2">
+              <div class="col-xl">
+                <div class="form-floating">
+                  <input type="number" class="form-control text-dark" id="sectionNumber" min="1" required>
+                  <label for="sectionNumber" class="text-dark">Input Section Numbers</label>
+                </div>
+              </div>
+          </div>
+
+          <div class="row g-2 p-2">
+
+              <div class="col-xl">
+                <div class="form-floating">
+                  <select class="form-select text-dark" id="trackID" aria-label="Floating label select example" required>
+                    <option value="0" selected>Track list</option>
+                      {% for track in tracks %}
+                        <option value="{{track.track_id}}" class="text-dark">{{ track.name }} - {{ track.nickname }}</option>
+                      {% endfor %}
+
+                  </select>
+                  <label for="trackID">Select Track</label>
+                </div>
+              </div>
+
+          </div>
+
+          <div class="row g-2 p-2">
+
+              <div class="col-xl">
+                <div class="form-floating">
+                  <select class="form-select text-dark" id="strandID" aria-label="Floating label select example" required>
+                    <option value="0" selected>Strand list</option>
+                      {% for strand in strands %}
+                        <option value="{{strand.strand_id}}" class="text-dark">{{ strand.name }} - {{ strand.nickname }}</option>
+                      {% endfor %}
+
+                  </select>
+                  <label for="strandID">Select Strand</label>
+                </div>
+              </div>
+
+          </div>
+
+          <div class="row g-2 p-2">
+
+              <div class="col-xl">
+                <div class="form-floating">
+                  <select class="form-select text-dark" id="teacherID" aria-label="Floating label select example">
+                    <option value="0" selected>Available Teachers</option>
+
+                      {% for teach in teacher %}
+                        <option value="{{teach[0].teacher_id}}" class="text-dark">{{ teach[1].last_name }}, {{ teach[1].first_name }}</option>
+                      {% endfor %}
+
+                  </select>
+                  <label for="teacherID">Assign a Teacher</label>
+                </div>
+              </div>
+
+          </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn" style="background: #EDB518 !important; color: white !important;" id="add_section">Submit</button>
       </div>
     </div>
   </div>
 </div>
 {% endblock content %}
+
+{% block extra_js %}
+
+<script src="{{ url_for('static', filename='js/add_section.js') }}"></script>
+
+{% endblock extra_js %}

@@ -1,6 +1,6 @@
 from arnis_app import app
 from flask_user import roles_required
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from flask_login import current_user
 from arnis_app.models import db, UserProfilePic, User, Teacher, Section, Strand, Track
 
@@ -13,16 +13,38 @@ def admin_dashboard():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
-    teachers = db.session.query(User).join(Teacher, User.id == Teacher.user_id).filter(User.id == Teacher.user_id).all()
+    teachers = db.session.query(Teacher, User)\
+        .outerjoin(User, User.id == Teacher.user_id).filter(User.id == Teacher.user_id).order_by(User.last_name).all()
 
-    secs = db.session.query(Section, Strand, User.last_name)\
-        .join(Strand, Strand.strand_id == Section.strand_id)\
-        .join(Teacher, Teacher.teacher_id == Section.teacher_id)\
-        .join(User, User.id == Teacher.user_id)
+    # Section table join Strand, Teacher, and User Table
+    secs = db.session.query(Section, Strand.nickname, User)\
+        .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
+        .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id)\
+        .outerjoin(User, User.id == Teacher.user_id).all()
 
-    # print(samp)
+    tracks = Track.query.all()
 
-    return render_template('admin/index.html', user_name = user_name, filename=filename, teacher=teachers, sec=secs)
+    strands = Strand.query.all()
+
+    return render_template('admin/index.html',
+                           user_name = user_name, filename=filename, teacher=teachers, sec=secs,
+                           tracks=tracks, strands=strands)
+
+
+@app.route('/add_section', methods=['POST'])
+def add_section():
+
+    section = Section(
+        section_no=request.form['section_num'],
+        teacher_id=request.form['teacherID'],
+        track_id=request.form['trackID'],
+        strand_id=request.form['strandID']
+    )
+
+    db.session.add(section)
+    db.session.commit()
+
+    return jsonify({'result': 'success'})
 
 
 @app.route('/admin/profile')
