@@ -17,6 +17,9 @@ $(document).ready(function(){
            case 'ian@example.com':
             password = 'Qq12345+';
             break;
+            case 'jeah@example.com':
+            password = 'cuteAKO1212';
+            break;
 
 
         }

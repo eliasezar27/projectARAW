@@ -33,18 +33,96 @@ def admin_dashboard():
 
 @app.route('/add_section', methods=['POST'])
 def add_section():
+    section_no = request.form['section_num']
+    teacher_id = request.form['teacherID']
+    track_id = request.form['trackID']
+    strand_id = request.form['strandID']
 
-    section = Section(
-        section_no=request.form['section_num'],
-        teacher_id=request.form['teacherID'],
-        track_id=request.form['trackID'],
-        strand_id=request.form['strandID']
-    )
+    sectionQuery = db.session.query(Section).filter_by(section_no=section_no).filter_by(strand_id=strand_id).first()
 
-    db.session.add(section)
-    db.session.commit()
+    # Check input integrity
+    if not(section_no == '' or teacher_id == '0' or track_id == '0' or strand_id == '0'):
 
-    return jsonify({'result': 'success'})
+        # Check if section is already existing
+        if not (sectionQuery is None):
+            result = 'danger'
+            message = 'Section is already registered!'
+        else:
+            result = 'success'
+            message = 'Section has been added!'
+
+            section = Section(
+                section_no=section_no,
+                teacher_id=teacher_id,
+                track_id=track_id,
+                strand_id=strand_id
+            )
+
+            db.session.add(section)
+            db.session.commit()
+    else:
+        result = 'danger'
+        message = 'Invalid inputs!'
+
+    return jsonify({'result': result, 'message': message})
+
+
+@app.route('/view/teacher', methods=['POST'])
+def view_teacher():
+    teacher_id1 = request.form['teacher_id']
+    result = ''
+
+    # Query teacher's info
+    teacherInfo = db.session.query(Teacher, User)\
+                .outerjoin(User, User.id == Teacher.user_id)\
+                .filter(User.id == Teacher.user_id)\
+                .filter(Teacher.teacher_id==teacher_id1).first()
+
+    # Query teacher's handled section
+    teacherSection = db.session.query(Section, Teacher, Track, Strand)\
+                .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id) \
+                .outerjoin(Track, Track.track_id == Section.track_id) \
+                .outerjoin(Strand, Strand.strand_id == Section.strand_id) \
+                .filter(Teacher.teacher_id == Section.teacher_id) \
+                .filter(Track.track_id == Section.track_id) \
+                .filter(Strand.strand_id == Section.strand_id) \
+                .filter(Teacher.teacher_id==teacher_id1)\
+                .with_entities(Section.section_id, Section.section_no, Section.population,
+                               Track.name.label('track_name'), Track.nickname.label('track_nickname'),
+                               Strand.name.label('strand_name'), Strand.nickname.label('strand_nickname')).all()
+
+    if teacherInfo:
+        result = 'single'
+
+        # Transform object to dict
+        teacherInfo = vars(teacherInfo[1])
+        del teacherInfo['password']
+        del teacherInfo['_sa_instance_state']
+        del teacherInfo['email_confirmed_at']
+        teacherInfo['date_joined'] = str(teacherInfo['date_joined'])
+
+        if teacherSection:
+            result = 'both'
+
+            # Transform object to dict
+            # Then adding section details to a dict
+            sectionList = []
+
+            for i in range(len(teacherSection)):
+                section = teacherSection[i]
+                section = dict(section)
+                if not section['population']:
+                    section['population'] = 0
+
+                sectionList.append(section)
+
+            print(sectionList)
+            return jsonify({'result': result, 'teacherInfo': teacherInfo, 'sectionList': sectionList})
+
+        return jsonify({'result': result, 'teacherInfo': teacherInfo})
+    else:
+        result = 'danger'
+        return jsonify({'result': result})
 
 
 @app.route('/admin/profile')

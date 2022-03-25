@@ -2,33 +2,105 @@
 
 {% block style %}
 
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css">
+
+<style>
+    #sectionContainerDataTable button{
+        background: #EDB518 !important;
+        border-color: #EDB518 !important;
+    }
+</style>
+
 {% endblock style %}
 
 {% block content %}
     <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2">
         <h1 class="text-dark mx-3" style="height: 127px;"><br>Welcome to Admin Dashboard<br><br></h1>
+
     </div>
 
 <!--    Teachers list-->
 
     <div class="container-fluid">
         <div class="d-sm-flex justify-content-between align-items-center mb-4">
-            <h3 class="text-dark mb-0">Teachers</h3>
+            <h3 class="text-dark mb-0">Teachers
+                <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" id="teacherRefresh" style="background: none;border-style: none;color: #EDB518;">
+                    <i class="fas fa-solid fa-arrows-rotate fw-bold"></i>
+                </a>
+            </h3>
         </div>
-        <div class="row">
+        <div id="teacherContainer">
+            <div class="row" id="teacherList">
 
-<!--            Looping through Arnis teachers from database-->
+    <!--            Looping through Arnis teachers from database-->
 
-            {% for teach in teacher %}
+                {% for teach in teacher %}
+
+                <div class="col-md-6 col-xl-3 mb-4">
+                     <a class="viewTeacher" teacher_id="{{teach[0].teacher_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#viewTeacherModal">
+                        <div class="card shadow border-start-primary py-2">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col me-2" style="text-align: right;">
+                                        <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="color: #c46d38;">{{ teach[1].first_name }}</span></div>
+                                        <div class="text-dark fw-bold h5 mb-0"><span>{{ teach[1].last_name }}</span></div>
+                                    </div>
+                                    <div class="col-auto"><i class="fas fa-user-tie fa-2x text-gray-300"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                     </a>
+                </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+<!--    Section list-->
+    <div class="container-fluid">
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-dark mb-0">Students per Section
+            <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" id="sectionRefresh" style="background: none;border-style: none;color: #EDB518;">
+                <i class="fas fa-solid fa-arrows-rotate fw-bold"></i>
+            </a>
+        </h3>
+        <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" data-bs-toggle="modal" data-bs-target="#addSectionModal" style="background: #c46d38;border-color: #c46d38;">
+            <i class="fas fa-solid fa-plus  text-white"></i>  Register a section
+        </a>
+    </div>
+    <div id="sectionContainer">
+        <div class="row" id="sectionList">
+
+            {% for section, strand, teacher in sec %}
             <div class="col-md-6 col-xl-3 mb-4">
                 <div class="card shadow border-start-primary py-2">
                     <div class="card-body">
                         <div class="row align-items-center no-gutters">
                             <div class="col me-2" style="text-align: right;">
-                                <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="color: #c46d38;">{{ teach[1].first_name }}</span></div>
-                                <div class="text-dark fw-bold h5 mb-0"><span>{{ teach[1].last_name }}</span></div>
+                                <div class="text-dark fw-bold h5 mb-0">
+                                    <span class="fs-1" data-bs-toggle="tooltip" title="Students Enrolled">
+                                        {% if section.population == None %}
+                                            0
+                                        {% else %}
+                                            {{ section.population }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-5" style="color: #c46d38;">Section {{ "%02d" % section.section_no }}</span></div>
+                                <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-6" style="color: #EDB518;">{{ strand }}</span></div>
+                                <div class="text-dark fw-bold h5 mb-0">
+                                    <span style="font-size: 15px;color: #858796;">
+                                        {% if teacher == None %}
+                                            Unassigned section
+                                        {% else %}
+                                            {{ teacher.first_name[0] }}.
+                                            {{ teacher.last_name }}
+                                        {% endif %}
+                                    </span>
+                                </div>
                             </div>
-                            <div class="col-auto"><i class="fas fa-user-tie fa-2x text-gray-300"></i></div>
+                            <div class="col-auto"><i class="fas fa-users fa-2x text-gray-300"></i></div>
                         </div>
                     </div>
                 </div>
@@ -36,67 +108,76 @@
             {% endfor %}
         </div>
     </div>
+</div>
 
-<!--    Section list-->
-    <div class="container-fluid" id="sectionList">
-    <div class="d-sm-flex justify-content-between align-items-center mb-4">
-        <h3 class="text-dark mb-0">Students per Section</h3>
-        <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background: #EDB518;border-style: none;">
-            <i class="fas fa-solid fa-plus  text-white"></i>  Register a section
-        </a>
-    </div>
-    <div class="row">
+<div id="scrollHere"></div>
 
-        {% for section, strand, teacher in sec %}
-        <div class="col-md-6 col-xl-3 mb-4">
-            <div class="card shadow border-start-primary py-2">
-                <div class="card-body">
-                    <div class="row align-items-center no-gutters">
-                        <div class="col me-2" style="text-align: right;">
-                            <div class="text-dark fw-bold h5 mb-0">
-                                <span class="fs-1">
-                                    {% if section.population == None %}
-                                        0
-                                    {% else %}
-                                        {{ section.population }}
-                                    {% endif %}
-                                </span>
-                            </div>
-                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-5" style="color: #c46d38;">Section {{ "%02d" % section.section_no }}</span></div>
-                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-6" style="color: #EDB518;">{{ strand }}</span></div>
-                            <div class="text-dark fw-bold h5 mb-0">
-                                <span style="font-size: 15px;color: #858796;">
-                                    {% if teacher == None %}
-                                        Unassigned section
-                                    {% else %}
-                                        {{ teacher.first_name[0] }}.
-                                        {{ teacher.last_name }}
-                                    {% endif %}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-auto"><i class="fas fa-users fa-2x text-gray-300"></i></div>
-                    </div>
+<!-- View Teacher Modal -->
+<div id="viewTeacherModalContainer">
+    <div class="modal fade" id="viewTeacherModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ModalTeacherName" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+              <a class="d-grid gap-2" data-bs-toggle="collapse" href="#collapseTeacherInfo" role="button" aria-expanded="false" aria-controls="collapseTeacherInfo" style="text-decoration: none;">
+                  <i class="fas fa-solid fa-circle-info fs-4" style="color: #c46d38;"></i>
+            </a>
+            <h5 class="modal-title text-dark fw-bold ms-2" id="ModalTeacherName">
+
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalBodySection">
+              <div class="col mb-6">
+                <div class="collapse multi-collapse" id="collapseTeacherInfo">
+
                 </div>
-            </div>
+              </div>
+
+              <div id="sectionContainerDataTable" class="rounded-3 my-4 text-dark">
+
+                <table class="table"
+                id="dataTableTeacherSection"
+                data-toggle="table"
+                data-pagination="true"
+                data-search="true"
+                data-sort-name="section_no"
+                data-sort-order="asc"
+                data-show-toggle="true"
+                data-show-search-button="true">
+
+                    <thead>
+                        <tr>
+                            <th data-field="section_no" data-sortable="true">Section No.</th>
+                            <th data-field="track_name" data-sortable="true">Track</th>
+                            <th data-field="strand_name" data-sortable="true">Strand</th>
+                            <th data-field="population" data-sortable="true">Enrolled</th>
+                        </tr>
+                    </thead>
+
+                </table>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
         </div>
-        {% endfor %}
+      </div>
     </div>
 </div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Add Section Modal -->
+<form id="formSection">
+    <div class="modal fade scrollable" id="addSectionModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabelAddSec" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-dark fw-bold" id="staticBackdropLabel">Register new section</h5>
+        <h5 class="modal-title text-dark fw-bold" id="staticBackdropLabelAddSec">Register new section</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
 
 <!--          Flash message-->
-          <div class="alert alert-success" style="display: none;" id="addResult"></div>
+          <div class="alert" style="display: none;" id="addResult"></div>
 
           <div class="row g-2 p-2">
               <div class="col-xl">
@@ -112,13 +193,13 @@
               <div class="col-xl">
                 <div class="form-floating">
                   <select class="form-select text-dark" id="trackID" aria-label="Floating label select example" required>
-                    <option value="0" selected>Track list</option>
+                    <option value="" disabled selected>Choose...</option>
                       {% for track in tracks %}
                         <option value="{{track.track_id}}" class="text-dark">{{ track.name }} - {{ track.nickname }}</option>
                       {% endfor %}
 
                   </select>
-                  <label for="trackID">Select Track</label>
+                  <label for="trackID">Track</label>
                 </div>
               </div>
 
@@ -129,13 +210,13 @@
               <div class="col-xl">
                 <div class="form-floating">
                   <select class="form-select text-dark" id="strandID" aria-label="Floating label select example" required>
-                    <option value="0" selected>Strand list</option>
+                    <option value="" disabled selected>Choose...</option>
                       {% for strand in strands %}
                         <option value="{{strand.strand_id}}" class="text-dark">{{ strand.name }} - {{ strand.nickname }}</option>
                       {% endfor %}
 
                   </select>
-                  <label for="strandID">Select Strand</label>
+                  <label for="strandID">Strand</label>
                 </div>
               </div>
 
@@ -161,16 +242,23 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn" style="background: #EDB518 !important; color: white !important;" id="add_section">Submit</button>
+        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="add_section">Submit</button>
       </div>
     </div>
   </div>
 </div>
+</form>
+
+
+
 {% endblock content %}
 
 {% block extra_js %}
 
 <script src="{{ url_for('static', filename='js/add_section.js') }}"></script>
-
+<script src="{{ url_for('static', filename='js/ModalViewTeacher.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sectionReload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/teacherReload.js') }}"></script>
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
 {% endblock extra_js %}

@@ -104,6 +104,9 @@ class Track(db.Model):
     # Define relationship with Section table
     section = db.relationship('Section')
 
+# TODO:
+# Add parent track on strand table.
+
 
 class Strand(db.Model):
     __tablename__ = 'strands'

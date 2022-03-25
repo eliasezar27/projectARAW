@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-    $('#add_section').on('click', function() {
+    $('#formSection').submit(function(e) {
+        e.preventDefault();
 
         var section_num = $('#sectionNumber').val();
         var trackID = $('#trackID').val();
@@ -18,25 +19,31 @@ $(document).ready(function() {
                     }
         });
 
-        req.done(function(data) {
+            console.log('pasok')
 
-            if (data.result == 'success'){
-                $('#addResult').append(data.result);
+            req.done(function(data) {
 
-                $('#sectionNumber').val(null);
-                $('#trackID').val(0);
-                $('#strandID').val(0);
-                $('#teacherID').val(0);
+                if (data.result == 'success'){
+                    $('#addResult').addClass('alert-'+data.result).removeClass('alert-danger').html(data.message);
 
-                $('#sectionList').load(window.location.href + " #sectionList" );
+                    $('#sectionNumber').val(null);
+                    $('#trackID').val(0);
+                    $('#strandID').val(0);
+                    $('#teacherID').val(0);
 
-            }else{
-                $('#addResult').toggleClass('alert-success alert-danger').append(data.result);
-            }
+                    $('#sectionContainer').load(window.location.href + " #sectionList" );
 
-            $('#addResult').fadeIn('slow', function(){
-               $('#addResult').delay(3000).fadeOut();
-            });
+                    $('html, body').animate({
+                        scrollTop: $("#scrollHere").offset().top
+                    }, 100);
+
+                }else{
+                    $('#addResult').addClass('alert-'+data.result).removeClass('alert-success').html(data.message);
+                }
+
+                $('#addResult').fadeIn('slow', function(){
+                   $('#addResult').delay(3000).fadeOut();
+                });
 
 
 
