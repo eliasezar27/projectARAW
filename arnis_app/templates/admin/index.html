@@ -9,6 +9,11 @@
         background: #EDB518 !important;
         border-color: #EDB518 !important;
     }
+
+    #sectionListContainerDataTable button{
+        background: #EDB518 !important;
+        border-color: #EDB518 !important;
+    }
 </style>
 
 {% endblock style %}
@@ -74,36 +79,38 @@
 
             {% for section, strand, teacher in sec %}
             <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow border-start-primary py-2">
-                    <div class="card-body">
-                        <div class="row align-items-center no-gutters">
-                            <div class="col me-2" style="text-align: right;">
-                                <div class="text-dark fw-bold h5 mb-0">
-                                    <span class="fs-1" data-bs-toggle="tooltip" title="Students Enrolled">
-                                        {% if section.population == None %}
-                                            0
-                                        {% else %}
-                                            {{ section.population }}
-                                        {% endif %}
-                                    </span>
+                <a class="viewSection" section_id="{{section.section_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#viewSectionListModal">
+                    <div class="card shadow border-start-primary py-2">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2" style="text-align: right;">
+                                    <div class="text-dark fw-bold h5 mb-0">
+                                        <span class="fs-1" data-bs-toggle="tooltip" title="Students Enrolled">
+                                            {% if section.population == None %}
+                                                0
+                                            {% else %}
+                                                {{ section.population }}
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-5" style="color: #c46d38;">Section {{ "%02d" % section.section_no }}</span></div>
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-6" style="color: #EDB518;">{{ strand }}</span></div>
+                                    <div class="text-dark fw-bold h5 mb-0">
+                                        <span style="font-size: 15px;color: #858796;">
+                                            {% if teacher == None %}
+                                                Unassigned section
+                                            {% else %}
+                                                {{ teacher.first_name[0] }}.
+                                                {{ teacher.last_name }}
+                                            {% endif %}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-5" style="color: #c46d38;">Section {{ "%02d" % section.section_no }}</span></div>
-                                <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-6" style="color: #EDB518;">{{ strand }}</span></div>
-                                <div class="text-dark fw-bold h5 mb-0">
-                                    <span style="font-size: 15px;color: #858796;">
-                                        {% if teacher == None %}
-                                            Unassigned section
-                                        {% else %}
-                                            {{ teacher.first_name[0] }}.
-                                            {{ teacher.last_name }}
-                                        {% endif %}
-                                    </span>
-                                </div>
+                                <div class="col-auto"><i class="fas fa-users fa-2x text-gray-300"></i></div>
                             </div>
-                            <div class="col-auto"><i class="fas fa-users fa-2x text-gray-300"></i></div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             {% endfor %}
         </div>
@@ -143,7 +150,10 @@
                 data-sort-name="section_no"
                 data-sort-order="asc"
                 data-show-toggle="true"
-                data-show-search-button="true">
+                data-show-search-button="true"
+                data-detail-view="true"
+                data-detail-view-icon="false"
+                data-detail-view-by-click="true">
 
                     <thead>
                         <tr>
@@ -151,6 +161,63 @@
                             <th data-field="track_name" data-sortable="true">Track</th>
                             <th data-field="strand_name" data-sortable="true">Strand</th>
                             <th data-field="population" data-sortable="true">Enrolled</th>
+                        </tr>
+                    </thead>
+
+                </table>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- View Student List from Section Modal -->
+<div id="viewSectionListModalContainer">
+    <div class="modal fade" id="viewSectionListModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ModalTeacherName" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+              <a class="d-grid gap-2" data-bs-toggle="collapse" href="#collapseSectionInfo" role="button" aria-expanded="false" aria-controls="collapseSectionInfo" style="text-decoration: none;">
+                  <i class="fas fa-solid fa-circle-info fs-4" style="color: #c46d38;"></i>
+            </a>
+            <h5 class="modal-title text-dark fw-bold ms-2" id="modalSectionName">
+
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalBodySectionList">
+              <div class="col mb-6">
+                <div class="collapse multi-collapse" id="collapseSectionInfo">
+
+                </div>
+              </div>
+
+              <div id="sectionListContainerDataTable" class="rounded-3 my-4 text-dark">
+
+                <table class="table"
+                id="dataTableSectionList"
+                data-toggle="table"
+                data-pagination="true"
+                data-search="true"
+                data-sort-name="last_name"
+                data-sort-order="asc"
+                data-show-toggle="true"
+                data-show-search-button="true"
+                data-detail-view="true"
+                data-detail-view-icon="false"
+                data-detail-view-by-click="true"
+                data-detail-formatter="detailFormatter">
+
+                    <thead>
+                        <tr>
+                            <th data-field="last_name" data-sortable="true">Surname</th>
+                            <th data-field="first_name" data-sortable="true">Given Name</th>
+                            <th data-field="middle_name" data-sortable="true">Middle Name</th>
+                            <th data-field="gender" data-sortable="true">Sex</th>
                         </tr>
                     </thead>
 
@@ -258,7 +325,31 @@
 
 <script src="{{ url_for('static', filename='js/add_section.js') }}"></script>
 <script src="{{ url_for('static', filename='js/ModalViewTeacher.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ModalViewSection.js') }}"></script>
 <script src="{{ url_for('static', filename='js/sectionReload.js') }}"></script>
 <script src="{{ url_for('static', filename='js/teacherReload.js') }}"></script>
 <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+
+<script>
+var my_date_format = function(input){
+    var d = new Date(Date.parse(input.replace(/-/g, "/")));
+    var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var date = d.getDate() + ", " + month[d.getMonth()] + " " + d.getFullYear();
+    var time = d.toLocaleTimeString().toLowerCase().replace(/([\d]+:[\d]+):[\d]+(\s\w+)/g, "$1$2");
+    return (date + " " + time);
+};
+
+function detailFormatter(index, row) {
+    var html = []
+    $.each(row, function (key, value) {
+        if(key == 'email' || key == 'mobile'){
+            key = key.charAt(0).toUpperCase() + key.slice(1);
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+        }else if(key == 'date_joined'){
+            html.push('<p><b>' + 'Date joined' + ':</b> ' + my_date_format(value) + '</p>');
+        }
+    });
+    return html.join('');
+}
+</script>
 {% endblock extra_js %}

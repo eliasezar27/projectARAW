@@ -2,7 +2,7 @@ from arnis_app import app
 from flask_user import roles_required
 from flask import render_template, request, jsonify
 from flask_login import current_user
-from arnis_app.models import db, UserProfilePic, User, Teacher, Section, Strand, Track
+from arnis_app.models import db, UserProfilePic, User, Teacher, Section, Strand, Track, Student
 
 
 @app.route('/admin/dashboard')
@@ -69,14 +69,13 @@ def add_section():
 
 @app.route('/view/teacher', methods=['POST'])
 def view_teacher():
-    teacher_id1 = request.form['teacher_id']
-    result = ''
+    teacher_idq = request.form['teacher_id']
 
     # Query teacher's info
     teacherInfo = db.session.query(Teacher, User)\
                 .outerjoin(User, User.id == Teacher.user_id)\
                 .filter(User.id == Teacher.user_id)\
-                .filter(Teacher.teacher_id==teacher_id1).first()
+                .filter(Teacher.teacher_id==teacher_idq).first()
 
     # Query teacher's handled section
     teacherSection = db.session.query(Section, Teacher, Track, Strand)\
@@ -86,7 +85,7 @@ def view_teacher():
                 .filter(Teacher.teacher_id == Section.teacher_id) \
                 .filter(Track.track_id == Section.track_id) \
                 .filter(Strand.strand_id == Section.strand_id) \
-                .filter(Teacher.teacher_id==teacher_id1)\
+                .filter(Teacher.teacher_id==teacher_idq)\
                 .with_entities(Section.section_id, Section.section_no, Section.population,
                                Track.name.label('track_name'), Track.nickname.label('track_nickname'),
                                Strand.name.label('strand_name'), Strand.nickname.label('strand_nickname')).all()
@@ -116,10 +115,77 @@ def view_teacher():
 
                 sectionList.append(section)
 
-            print(sectionList)
+            # print(sectionList)
             return jsonify({'result': result, 'teacherInfo': teacherInfo, 'sectionList': sectionList})
 
         return jsonify({'result': result, 'teacherInfo': teacherInfo})
+    else:
+        result = 'danger'
+        return jsonify({'result': result})
+
+
+@app.route('/view/student/list', methods=['POST'])
+def view_studentList():
+    section_idq = request.form['section_id']
+
+    # Query section's list of students
+    studentList = db.session.query(Student, Section, User) \
+                .outerjoin(Section, Section.section_id == Student.section_id) \
+                .outerjoin(User, User.id == Student.user_id) \
+                .filter(Section.section_id == Student.section_id) \
+                .filter(User.id == Student.user_id) \
+                .filter(Section.section_id == section_idq).all()
+
+    sectionInfo = db.session.query(Section, User, Track, Strand) \
+                .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id) \
+                .outerjoin(User, User.id == Teacher.teacher_id) \
+                .outerjoin(Track, Track.track_id == Section.track_id) \
+                .outerjoin(Strand, Strand.strand_id == Section.strand_id) \
+                .filter(Teacher.teacher_id == Section.teacher_id) \
+                .filter(User.id == Teacher.teacher_id) \
+                .filter(Track.track_id == Section.track_id) \
+                .filter(Strand.strand_id == Section.strand_id) \
+                .filter(Section.section_id == section_idq).first()
+
+    if sectionInfo:
+        result = 'single'
+        section = {}
+        section.update(vars(sectionInfo[0]))
+        section.update(vars(sectionInfo[1]))
+        section.update(vars(sectionInfo[2]))
+        section['track_name'] = section.pop('name')
+        section['track_nickname'] = section.pop('nickname')
+        section.update(vars(sectionInfo[3]))
+        section['strand_name'] = section.pop('name')
+        section['strand_nickname'] = section.pop('nickname')
+        del section['password']
+        del section['_sa_instance_state']
+        del section['email_confirmed_at']
+        section['date_joined'] = str(section['date_joined'])
+        section['population'] = 0 if not section['population'] else section['population']
+
+        if studentList:
+            result = 'both'
+            listStudents = []
+            for student in studentList:
+                dictStudents = {}
+                dictStudents.update(vars(student[0]))
+                dictStudents.update(vars(student[1]))
+                dictStudents.update(vars(student[2]))
+                del dictStudents['password']
+                del dictStudents['_sa_instance_state']
+                del dictStudents['email_confirmed_at']
+                dictStudents['date_joined'] = str(dictStudents['date_joined'])
+
+                if dictStudents['middle_name'] == '':
+                    dictStudents['middle_name'] = 'None'
+
+                listStudents.append(dictStudents)
+
+            print(listStudents, ' \n', section)
+            return jsonify({'result': result, 'listStudents': listStudents, 'sectionInfo': section})
+        print(section)
+        return jsonify({'result': result, 'sectionInfo': section})
     else:
         result = 'danger'
         return jsonify({'result': result})
