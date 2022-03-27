@@ -2,7 +2,7 @@
 
 {% block style %}
 
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css">
+<link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
 
 <style>
     #sectionContainerDataTable button{
@@ -47,8 +47,8 @@
                             <div class="card-body">
                                 <div class="row align-items-center no-gutters">
                                     <div class="col me-2" style="text-align: right;">
-                                        <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="color: #c46d38;">{{ teach[1].first_name }}</span></div>
-                                        <div class="text-dark fw-bold h5 mb-0"><span>{{ teach[1].last_name }}</span></div>
+                                        <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="teacherFirstName" style="color: #c46d38;">{{ teach[1].first_name }}</span></div>
+                                        <div class="text-dark fw-bold h5 mb-0"><span class="teacherLastName">{{ teach[1].last_name }}</span></div>
                                     </div>
                                     <div class="col-auto"><i class="fas fa-user-tie fa-2x text-gray-300"></i></div>
                                 </div>
@@ -85,7 +85,7 @@
                             <div class="row align-items-center no-gutters">
                                 <div class="col me-2" style="text-align: right;">
                                     <div class="text-dark fw-bold h5 mb-0">
-                                        <span class="fs-1" data-bs-toggle="tooltip" title="Students Enrolled">
+                                        <span class="fs-1 sectionPopulation" data-bs-toggle="tooltip" title="Students Enrolled">
                                             {% if section.population == None %}
                                                 0
                                             {% else %}
@@ -93,10 +93,10 @@
                                             {% endif %}
                                         </span>
                                     </div>
-                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-5" style="color: #c46d38;">Section {{ "%02d" % section.section_no }}</span></div>
-                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-6" style="color: #EDB518;">{{ strand }}</span></div>
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-5 sectionNumber" style="color: #c46d38;">Section {{ "%02d" % section.section_no }}</span></div>
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-6 sectionStrand" style="color: #EDB518;">{{ strand }}</span></div>
                                     <div class="text-dark fw-bold h5 mb-0">
-                                        <span style="font-size: 15px;color: #858796;">
+                                        <span style="font-size: 15px;color: #858796;" class="assignedTeacher">
                                             {% if teacher == None %}
                                                 Unassigned section
                                             {% else %}
@@ -127,40 +127,42 @@
           <div class="modal-header">
               <a class="d-grid gap-2" data-bs-toggle="collapse" href="#collapseTeacherInfo" role="button" aria-expanded="false" aria-controls="collapseTeacherInfo" style="text-decoration: none;">
                   <i class="fas fa-solid fa-circle-info fs-4" style="color: #c46d38;"></i>
-            </a>
+              </a>
             <h5 class="modal-title text-dark fw-bold ms-2" id="ModalTeacherName">
 
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseTeacherInfo"></button>
           </div>
           <div class="modal-body" id="modalBodySection">
-              <div class="col mb-6">
+              <div class="col">
                 <div class="collapse multi-collapse" id="collapseTeacherInfo">
 
                 </div>
               </div>
 
-              <div id="sectionContainerDataTable" class="rounded-3 my-4 text-dark">
+              <div id="sectionContainerDataTable" class="rounded-3 my-1 text-dark">
 
                 <table class="table"
                 id="dataTableTeacherSection"
                 data-toggle="table"
-                data-pagination="true"
                 data-search="true"
+                data-search-align="right"
+                data-pagination="true"
                 data-sort-name="section_no"
                 data-sort-order="asc"
-                data-show-toggle="true"
-                data-show-search-button="true"
+                data-show-toggle="false"
+                data-show-search-button="false"
                 data-detail-view="true"
                 data-detail-view-icon="false"
-                data-detail-view-by-click="true">
+                data-detail-view-by-click="true"
+                data-search-on-enter-key="false">
 
                     <thead>
                         <tr>
                             <th data-field="section_no" data-sortable="true">Section No.</th>
                             <th data-field="track_name" data-sortable="true">Track</th>
                             <th data-field="strand_name" data-sortable="true">Strand</th>
-                            <th data-field="population" data-sortable="true">Enrolled</th>
+                            <th data-field="population" data-sortable="true">Number of students</th>
                         </tr>
                     </thead>
 
@@ -190,27 +192,29 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body" id="modalBodySectionList">
-              <div class="col mb-6">
+              <div class="col">
                 <div class="collapse multi-collapse" id="collapseSectionInfo">
 
                 </div>
               </div>
 
-              <div id="sectionListContainerDataTable" class="rounded-3 my-4 text-dark">
+              <div id="sectionListContainerDataTable" class="rounded-3 my-1 text-dark">
 
                 <table class="table"
                 id="dataTableSectionList"
                 data-toggle="table"
-                data-pagination="true"
                 data-search="true"
+                data-search-align="right"
+                data-pagination="true"
                 data-sort-name="last_name"
                 data-sort-order="asc"
-                data-show-toggle="true"
-                data-show-search-button="true"
+                data-show-toggle="false"
+                data-show-search-button="false"
                 data-detail-view="true"
                 data-detail-view-icon="false"
                 data-detail-view-by-click="true"
-                data-detail-formatter="detailFormatter">
+                data-detail-formatter="detailFormatter"
+                data-search-on-enter-key="false">
 
                     <thead>
                         <tr>
@@ -260,7 +264,7 @@
               <div class="col-xl">
                 <div class="form-floating">
                   <select class="form-select text-dark" id="trackID" aria-label="Floating label select example" required>
-                    <option value="" disabled selected>Choose...</option>
+                    <option value=0 disabled selected>Choose...</option>
                       {% for track in tracks %}
                         <option value="{{track.track_id}}" class="text-dark">{{ track.name }} - {{ track.nickname }}</option>
                       {% endfor %}
@@ -277,7 +281,7 @@
               <div class="col-xl">
                 <div class="form-floating">
                   <select class="form-select text-dark" id="strandID" aria-label="Floating label select example" required>
-                    <option value="" disabled selected>Choose...</option>
+                    <option value=0 disabled selected>Choose...</option>
                       {% for strand in strands %}
                         <option value="{{strand.strand_id}}" class="text-dark">{{ strand.name }} - {{ strand.nickname }}</option>
                       {% endfor %}
@@ -328,6 +332,7 @@
 <script src="{{ url_for('static', filename='js/ModalViewSection.js') }}"></script>
 <script src="{{ url_for('static', filename='js/sectionReload.js') }}"></script>
 <script src="{{ url_for('static', filename='js/teacherReload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/searchBar.js') }}"></script>
 <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
 
 <script>
