@@ -191,6 +191,24 @@ def view_studentList():
         return jsonify({'result': result})
 
 
+@app.route('/section/count/perTeacher', methods=['GET'])
+def get_sectionCountPerTeacher():
+    sectionCounts = db.session.query(User.last_name, db.func.count(Section.teacher_id).label('counts'))\
+        .select_from(Teacher)\
+        .outerjoin(Section, Section.teacher_id == Teacher.teacher_id)\
+        .outerjoin(User, User.id == Teacher.user_id)\
+        .outerjoin(Track, Track.track_id == Section.track_id)\
+        .group_by(User.last_name)\
+        .group_by(Section.teacher_id)\
+        .order_by('counts')\
+        .all()
+
+    sectionCounts = dict(sectionCounts)
+    labels = list(sectionCounts.keys())
+
+    return jsonify({'result': 'result!', 'sectionCounts': sectionCounts, 'labels': labels})
+
+
 @app.route('/admin/profile')
 @roles_required('admin')
 def admin_profile():
