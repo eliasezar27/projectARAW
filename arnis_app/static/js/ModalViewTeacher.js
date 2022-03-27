@@ -35,22 +35,21 @@ $(document).ready(function() {
                     };
 
                     var teacherModalInfo = function(x,y) {
-                      x.html("<div class='card card-body'>" +
+                      x.html(
                             "<div id='gender'> Sex: " + y['gender'] + "</div>"+
                             "<div id='email'>Email: " + y['email'] + "</div>"+
                             "<div id='mobile'>Contact Number: " + y['mobile'] + " </div>"+
-                            "<div id='date_joined'>Date joined: " + my_date_format(y['date_joined']) + "</div>"+
-                          "</div>" );
+                            "<div id='date_joined'>Date joined: " + my_date_format(y['date_joined']) + "</div>" );
                     };
 
                     if (data.result == 'single'){
                         teacherModalHeader($('#ModalTeacherName'), data.teacherInfo);
-                        teacherModalInfo($("#collapseTeacherInfo"), data.teacherInfo);
+                        teacherModalInfo($("#cardBodyTeacherInfo"), data.teacherInfo);
 
                         var handledSection = [];
                     }else if(data.result == 'both'){
                         teacherModalHeader($('#ModalTeacherName'), data.teacherInfo);
-                        teacherModalInfo($("#collapseTeacherInfo"), data.teacherInfo);
+                        teacherModalInfo($("#cardBodyTeacherInfo"), data.teacherInfo);
 
                         var handledSection = data.sectionList;
                     }else{

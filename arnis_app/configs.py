@@ -7,6 +7,9 @@ class ConfigClass(object):
     # Flask settings
     SECRET_KEY = str(os.urandom(24))
 
+    UPLOAD_FOLDER = 'arnis_app/static/profile_pic/'
+    MAX_CONTENT_LENGTH = 16 * 512 * 512
+
     # Flask-SQLAlchemy settings
     SQLALCHEMY_DATABASE_URI = 'sqlite:///users.sqlite'  # File-based SQL database
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Avoids SQLAlchemy warning

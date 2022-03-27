@@ -1,0 +1,117 @@
+{% extends "admin/base.html" %}
+
+{% block style %}
+
+{% endblock style %}
+
+{% block content %}
+    <div id="wrapper">
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <div class="container-fluid">
+                    <h3 class="text-dark my-4">Profile</h3>
+                    <div class="row mb-3">
+
+                        <div class="col-lg-4">
+                            <div class="card mb-3">
+                                <div class="card-body text-center shadow">
+                                    <img id="profilePic" class="rounded-circle mb-3 mt-3" src="{{ url_for('static', filename=filename) }}" width="160" height="160">
+                                    <div class="mb-1"><span class="fw-bold text-dark fs-5"> {{ user_info['firstname'] }}  {{user_info['lastname']}} </span></div>
+                                    <div class="mb-1 text-capitalize fs-6"><span class="text-dark">
+                                        {% if user_roles|length > 1 %}
+                                            {{user_roles[2]}} <br>
+                                            <i class="fas fa-solid fa-user-gear text-success"></i> {{user_roles[1]}}
+                                        {% else %}
+                                            <i class=" fas fa-solid fa-user-gear text-success"></i> {{user_roles[1]}}
+                                        {% endif %}
+
+                                    </span></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card shadow mb-3">
+                                        <div class="card-header py-3">
+                                            <p class="text-primary m-0 fw-bold">User Settings</p>
+                                        </div>
+                                        <div class="card-body">
+                                            <form method="post" action="{{url_for('admin_profile')}}" enctype="multipart/form-data">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="email">
+                                                                <strong>Email Address</strong>
+                                                            </label>
+                                                            <input value="{{ user_info['email'] }}" class="form-control" type="email" id="email" placeholder="user@example.com" name="email">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="mobile" style="color: rgb(133, 135, 150);">
+                                                                <strong>Mobile Number</strong>
+                                                            </label>
+                                                            <input value="{{user_info['mobile']}}" class="form-control" type="tel" id="mobile" placeholder="09XX-XXX-XXXX" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" name="pnum" required title="Enter phone number with the provided format">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="first_name">
+                                                                <strong>First Name</strong>
+                                                            </label>
+                                                            <input value="{{ user_info['firstname'] }}" class="form-control" type="text" id="first_name" placeholder="John" name="first_name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="last_name">
+                                                                <strong>Last Name</strong>
+                                                            </label>
+                                                            <input value="{{ user_info['lastname'] }}" class="form-control" type="text" id="last_name" placeholder="Doe" name="last_name">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input id="imageUpload" type="file" name="profileImg" placeholder="Photo"  accept="image/*">
+                                                    <button class="btn btn-primary btn-sm" type="submit" style="background: #c46d38;border-color: #c46d38;">Save Settings</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+
+<script>
+$(document).ready(function () {
+    $("#profile").addClass('active');
+});
+</script>
+
+<script>
+$(document).ready(function () {
+    $("#profilePic").css('cursor', 'pointer');
+    $("#imageUpload").css('display', 'none');
+    $("#profilePic").on('click', function() {
+        $("#imageUpload").click();
+    });
+});
+</script>
+
+{% endblock extra_js %}

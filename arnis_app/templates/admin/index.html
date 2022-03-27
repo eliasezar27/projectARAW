@@ -143,7 +143,9 @@
           <div class="modal-body" id="modalBodySection">
               <div class="col">
                 <div class="collapse multi-collapse" id="collapseTeacherInfo">
-
+                    Hi
+                    <div class='card card-body' id='cardBodyTeacherInfo'>
+                    </div>
                 </div>
               </div>
 
@@ -366,5 +368,10 @@ function detailFormatter(index, row) {
     });
     return html.join('');
 }
+</script>
+<script>
+$(document).ready(function () {
+    $("#dashboard").addClass('active');
+});
 </script>
 {% endblock extra_js %}

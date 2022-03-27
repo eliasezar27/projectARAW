@@ -45,8 +45,8 @@
                 <hr class="sidebar-divider my-4" style="color: rgb(0,0,0);">
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt"></i><span class="float-none">Dashboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-user"></i><span class="float-none">Profile</span></a></li>
+                    <li class="nav-item"><a id="dashboard" class="nav-link" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt"></i><span class="float-none">Dashboard</span></a></li>
+                    <li class="nav-item"><a id="profile" class="nav-link" href="{{ url_for('admin_profile') }}"><i class="fas fa-user"></i><span class="float-none">Profile</span></a></li>
                 </ul>
             </div>
         </nav>
@@ -139,11 +139,13 @@
 
     {% block extra_js %}{% endblock %}
 
-
     <script src="{{ url_for('static', filename='js/bs-init.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
     <script src="{{ url_for('static', filename='js/flash_timer.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script>
+
+    </script>
 </body>
 
 
