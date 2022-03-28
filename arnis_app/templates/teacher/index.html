@@ -1,16 +1,169 @@
 {% extends "teacher/base.html" %}
 
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
+
+<style>
+    #sectionContainerDataTable button{
+        background: #EDB518 !important;
+        border-color: #EDB518 !important;
+    }
+
+    #sectionListContainerDataTable button{
+        background: #EDB518 !important;
+        border-color: #EDB518 !important;
+    }
+</style>
+
 {% endblock style %}
 
 {% block content %}
-    <h1>WELCOME TO TEACHER DAHSBOARD!</h1>
-    <div class="img-bg">
-        <img src="{{ url_for('static', filename='images/index_img.png') }}">
-    </div>
-
-    <div id="index-content">
+    <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2" style="height: 80px !important;">
+        <h1 class="text-dark mx-3" style="height: 127px;"><br>Welcome to Teacher Dashboard<br><br></h1>
 
     </div>
+    <div class="container-fluid mb-4">
+        <div id="chartContainer" class="card">
+            <div class="card-body">
+                <canvas id="stackCol" width="1000" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+<!--    Section list-->
+    <div class="container-fluid">
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-dark mb-0">Assigned Sections
+            <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" id="sectionRefresh" style="background: none;border-style: none;color: #EDB518;">
+                <i class="fas fa-solid fa-arrows-rotate fw-bold"></i>
+            </a>
+        </h3>
+    </div>
+    <div id="sectionContainer">
+        <div class="row" id="sectionList">
+
+            {% for section, strand, teacher in sec %}
+            <div class="col-md-6 col-xl-3 mb-4">
+                <a class="viewSection" section_id="{{section.section_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#viewSectionListModal">
+                    <div class="card shadow border-start-primary py-2">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2" style="text-align: right;">
+                                    <div class="text-dark fw-bold h5 mb-0">
+                                        <span class="fs-1 sectionPopulation" data-bs-toggle="tooltip" title="Students Enrolled">
+                                            {% if section.population == None %}
+                                                0
+                                            {% else %}
+                                                {{ section.population }}
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-5 sectionNumber" style="color: #c46d38;">Section {{ "%02d" % section.section_no }}</span></div>
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span class="fs-6 sectionStrand" style="color: #EDB518;">{{ strand }}</span></div>
+                                    <div class="text-dark fw-bold h5 mb-0">
+                                    </div>
+                                </div>
+                                <div class="col-auto"><i class="fas fa-users fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div id="scrollHere"></div>
+
+<!-- View Student List from Section Modal -->
+<div id="viewSectionListModalContainer">
+    <div class="modal fade" id="viewSectionListModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ModalTeacherName" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+              <a class="d-grid gap-2" data-bs-toggle="collapse" href="#collapseSectionInfo" role="button" aria-expanded="false" aria-controls="collapseSectionInfo" style="text-decoration: none;">
+                  <i class="fas fa-solid fa-circle-info fs-4" style="color: #c46d38;"></i>
+            </a>
+            <h5 class="modal-title text-dark fw-bold ms-2" id="modalSectionName">
+
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalBodySectionList">
+              <div class="col">
+                <div class="collapse multi-collapse" id="collapseSectionInfo">
+
+                </div>
+              </div>
+
+              <div id="sectionListContainerDataTable" class="rounded-3 my-1 text-dark">
+
+                <table class="table"
+                id="dataTableSectionList"
+                data-toggle="table"
+                data-search="true"
+                data-search-align="right"
+                data-pagination="true"
+                data-sort-name="last_name"
+                data-sort-order="asc"
+                data-show-toggle="false"
+                data-show-search-button="false"
+                data-detail-view="true"
+                data-detail-view-icon="false"
+                data-detail-view-by-click="true"
+                data-detail-formatter="detailFormatter"
+                data-search-on-enter-key="false">
+
+                    <thead>
+                        <tr>
+                            <th data-field="last_name" data-sortable="true">Surname</th>
+                            <th data-field="first_name" data-sortable="true">Given Name</th>
+                            <th data-field="middle_name" data-sortable="true">Middle Name</th>
+                            <th data-field="gender" data-sortable="true">Sex</th>
+                        </tr>
+                    </thead>
+
+                </table>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
 {% endblock content %}
+
+{% block extra_js %}
+
+<script src="{{ url_for('static', filename='js/ModalViewSection.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sectionReload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/searchBar.js') }}"></script>
+<script src="{{ url_for('static', filename='js/teacherChart.js') }}"></script>
+
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
+<script>
+
+function detailFormatter(index, row) {
+    var html = []
+    $.each(row, function (key, value) {
+        if(key == 'email' || key == 'mobile'){
+            key = key.charAt(0).toUpperCase() + key.slice(1);
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+        }
+    });
+    return html.join('');
+}
+</script>
+<script>
+$(document).ready(function () {
+    $("#dashboard").addClass('active');
+});
+</script>
+{% endblock extra_js %}
