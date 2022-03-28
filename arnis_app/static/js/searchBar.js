@@ -16,6 +16,7 @@ $(document).ready(function() {
             case '0':
                 card1.css('display', 'block');
                 card2.css('display', 'block');
+                $('#chartContainer').parent().css('display', 'block');
                 break;
               case '1':
                 card = card1;
@@ -33,16 +34,19 @@ $(document).ready(function() {
             case '0':
                 card1.css('display', 'block');
                 card2.css('display', 'block');
+                $('#chartContainer').parent().css('display', 'block');
                 break;
               case '1':
                 card = card1;
                 otherCard = card2;
                 otherCard.css('display', 'block');
+                $('#chartContainer').parent().css('display', 'block');
                 break;
               case '2':
                 card = card2;
                 otherCard = card1;
                 otherCard.css('display', 'block');
+                $('#chartContainer').parent().css('display', 'block');
                 break;
             }
 
@@ -54,6 +58,7 @@ $(document).ready(function() {
                 } else {
                   card[i].style.display = "none";
                   otherCard.css('display', 'none');
+                  $('#chartContainer').parent().css('display', 'none')
                 }
               }
             }

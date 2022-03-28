@@ -24,9 +24,6 @@ def teacher_dashboard():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
-    teachers = db.session.query(Teacher, User)\
-        .outerjoin(User, User.id == Teacher.user_id).filter(User.id == Teacher.user_id).order_by(User.last_name).all()
-
     # Section table join Strand, Teacher, and User Table
     secs = db.session.query(Section, Strand.nickname, User)\
         .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
@@ -35,13 +32,8 @@ def teacher_dashboard():
         .filter(Teacher.user_id == user_id)\
         .all()
 
-    tracks = Track.query.all()
-
-    strands = Strand.query.all()
-
     return render_template('teacher/index.html',
-                           user_name = user_name, filename=filename, teacher=teachers, sec=secs,
-                           tracks=tracks, strands=strands)
+                           user_name = user_name, filename=filename, sec=secs)
 
 
 @app.route('/teacher/profile', methods=['GET', 'POST'])
