@@ -38,15 +38,19 @@
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 toggled" style="background: #79031d;">
             <div class="container-fluid sticky-top d-flex flex-column p-0">
-                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#" style="width: 120px;height: 69px;">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="{{ url_for('student_grading') }}" style="width: 120px;height: 69px;">
                     <div class="sidebar-brand-icon"><img src="{{ url_for('static', filename='images/araw_logo_y.png') }}" style="width: 52px;"></div>
                     <div class="sidebar-brand-text mx-3" style="font-family: montserrat"><span class="d-block float-none" style="color: rgb(255,255,255);">Project</span><span class="d-block float-none" style="color: #EDB518;">ARAW</span></div>
                 </a>
                 <hr class="sidebar-divider my-4" style="color: rgb(0,0,0);">
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a id="dashboard" class="nav-link" href="{{ url_for('teacher_dashboard') }}"><i class="fas fa-tachometer-alt"></i><span class="float-none">Dashboard</span></a></li>
-                    <li class="nav-item"><a id="profile" class="nav-link" href="{{ url_for('teacher_profile') }}"><i class="fas fa-user"></i><span class="float-none">Profile</span></a></li>
+<!--                    <li class="nav-item"><a id="dashboard" class="nav-link" href="{# url_for('student_dashboard') #}"><i class="fas fa-tachometer-alt"></i><span class="float-none">Dashboard</span></a></li>-->
+                    <li class="nav-item"><a id="practice" class="nav-link" href="{{ url_for('student_practice') }}"><i class="fas fa-solid fa-person-walking-with-cane fs-4"></i><span class="float-none">Practice!</span></a></li>
+                    <li class="nav-item"><a id="grade" class="nav-link" href="{{ url_for('student_grading') }}"><i class="fas fa-solid fa-person-circle-check fs-5"></i><span class="float-none">Grading</span></a></li>
+                    <li class="nav-item"><a id="posedesc" class="nav-link" href="{{ url_for('student_description') }}"><i class="fas fa-solid fa-person-circle-question fs-5"></i><span class="float-none">Pose Description</span></a></li>
+                    <li class="nav-item"><a id="instruction" class="nav-link" href="{{ url_for('student_instruction')}}"><i class="fas fa-solid fa-hand-pointer fs-6"></i> <span class="float-none">How to use</span></a></li>
+                    <li class="nav-item"><a id="profile" class="nav-link" href="{{ url_for('student_profile') }}"><i class="fas fa-user"></i><span class="float-none">Profile</span></a></li>
                 </ul>
             </div>
         </nav>
@@ -54,36 +58,7 @@
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow topbar static-top">
                     <div class="container-fluid">
-                        <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
-                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group">
-                                <select id="selectSearch" class="form-select-sm" style="display: none;">
-                                    <option value="2" selected>Section's list</option>
-                                  </select>
-                                <input id="searchBar1" class="bg-light form-control border-2" type="text" placeholder="Search for ...">
-<!--                                <button class="btn btn-primary py-0" type="button" style="background: #c46d38;border-color: #c46d38;"><i class="fas fa-search"></i></button>-->
-                            </div>
-                        </form>
                         <ul class="navbar-nav flex-nowrap ms-auto">
-                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
-                                <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
-                                    <form class="me-auto navbar-search w-100">
-                                        <div class="input-group">
-                                            <select id="selectSearch2" class="form-select-sm">
-                                                <option value="0" selected>Search from...</option>
-                                                <option value="1">Teacher's list</option>
-                                                <option value="2">Section's list</option>
-                                              </select>
-                                            <input id="searchBar2" class="bg-light form-control border-2" type="text" placeholder="Search for ...">
-<!--                                            <div class="input-group-append">-->
-<!--                                                <button class="btn btn-primary py-0" type="button" style="background: #c46d38;border-color: #c46d38;">-->
-<!--                                                    <i class="fas fa-search"></i>-->
-<!--                                                </button>-->
-<!--                                            </div>-->
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow">
                                 <div class="nav-item dropdown no-arrow">
@@ -96,7 +71,7 @@
                                         {% endif %}
                                     </a>
                                     <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
-<!--                                        <a class="dropdown-item" href="#"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a>-->
+                                        <a class="dropdown-item" href="{{ url_for('student_profile') }}"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-600 fs-6"></i>&nbsp;Profile</a>
 <!--                                        <a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a>-->
 <!--                                        <a class="dropdown-item" href="#"><i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Activity log</a>-->
                                         <div class="dropdown-divider"></div>

@@ -175,7 +175,7 @@ def get_sectionCountPerTeacher():
         .outerjoin(Track, Track.track_id == Section.track_id)\
         .group_by(User.last_name)\
         .group_by(Section.teacher_id)\
-        .order_by('counts')\
+        .order_by(db.asc('counts'))\
         .all()
 
     sectionCounts = dict(sectionCounts)
@@ -197,13 +197,15 @@ def get_sectionCountPerTrack():
         .filter(Teacher.user_id == user_id)\
         .group_by(Track.name) \
         .group_by(Section.track_id.label('counts')) \
-        .order_by('counts') \
+        .order_by(db.asc('counts')) \
         .all()
 
     sectionCounts = dict(sectionCounts)
-    labels = list(dict(db.session.query(Track.track_id, Track.name).select_from(Track).all()).values())
+    track_names = list(dict(db.session.query(Track.track_id, Track.name).select_from(Track).all()).values())
+    labels = list(sectionCounts.keys())
 
-    print(labels)
-    print(sectionCounts)
+    for i in track_names:
+        if not(i in labels):
+            labels.insert(0, i)
 
     return jsonify({'result': 'result!', 'sectionCounts': sectionCounts, 'labels': labels})

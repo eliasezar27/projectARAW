@@ -98,20 +98,11 @@
 {% endblock content %}
 
 {% block extra_js %}
+<script src="{{ url_for('static', filename='js/profilePicPreview.js') }}"></script>
 
 <script>
 $(document).ready(function () {
     $("#profile").addClass('active');
-});
-</script>
-
-<script>
-$(document).ready(function() {
-    $("#profilePic").css('cursor', 'pointer');
-    $("#imageUpload").css('display', 'none');
-    $("#profilePic").on('click', function() {
-        $("#imageUpload").click();
-    });
 });
 </script>
 

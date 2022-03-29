@@ -2,7 +2,7 @@ from arnis_app import app
 from flask_user import roles_required
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user
-from arnis_app.models import db, User, Teacher, Section, Strand, Track, Role, UserRoles, UserProfilePic
+from arnis_app.models import db, User, Teacher, Section, Strand, Role, UserRoles, UserProfilePic
 from flask_user.translation_utils import gettext as _
 from werkzeug.utils import secure_filename
 import uuid as uuid

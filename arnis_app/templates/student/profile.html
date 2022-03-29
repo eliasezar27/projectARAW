@@ -1,4 +1,4 @@
-{% extends "admin/base.html" %}
+{% extends "student/base.html" %}
 
 {% block style %}
 
@@ -19,11 +19,11 @@
                                     <div class="mb-1"><span class="fw-bold text-dark fs-5"> {{ user_info['firstname'] }}  {{user_info['lastname']}} </span></div>
                                     <div class="mb-1 text-capitalize fs-6"><span class="text-dark" style="min-">
                                         {% if user_roles|length > 1 %}
-                                            <p style="color: #c46d38;" class="mb-0">{{user_roles[2]}}</p>
-                                            <p style="color: #edb518;" class="mb-0">{{user_roles[1]}}</p>
+                                            <p style="color: #c46d38;" class="mb-0">{{user_roles[1]}}</p>
+                                            <p style="color: #edb518;" class="mb-0">{{user_roles[3]}}</p>
                                         {% else %}
                                         <br>
-                                           <p style="color: #c46d38;" class="mb-0">{{user_roles[1]}}</p>
+                                           <p style="color: #c46d38;" class="mb-0">{{user_roles[3]}}</p>
                                         {% endif %}
 
                                     </span></div>
@@ -40,7 +40,7 @@
                                             <p class="text-primary m-0 fw-bold" style="color: #79031d !important;">User Settings</p>
                                         </div>
                                         <div class="card-body">
-                                            <form method="post" action="{{url_for('admin_profile')}}" enctype="multipart/form-data">
+                                            <form method="post" action="{{url_for('student_profile')}}" enctype="multipart/form-data">
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="mb-3">
@@ -98,7 +98,6 @@
 {% endblock content %}
 
 {% block extra_js %}
-
 <script src="{{ url_for('static', filename='js/profilePicPreview.js') }}"></script>
 
 <script>

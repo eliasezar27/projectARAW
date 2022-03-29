@@ -22,7 +22,7 @@ def index():
         elif role_name == 'teacher':
             return redirect(url_for('teacher_dashboard'))
         elif role_name == 'student':
-            return redirect(url_for('student_dashboard'))
+            return redirect(url_for('student_instruction'))
     return render_template("public/index.html", title='Index')
 
 

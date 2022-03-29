@@ -1,0 +1,73 @@
+{% extends "student/base.html" %}
+
+{% block style %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
+
+{% endblock style %}
+
+{% block content %}
+    <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2" style="height: 80px !important;">
+        <h1 class="text-dark mx-3" style="height: 127px;"><br>How to use ARAW<br><br></h1>
+
+    </div>
+
+{% if sectionJoined %}
+    <!-- Add Section Modal -->
+    <form id="joinSectionForm">
+        <div class="modal fade scrollable" id="joinSectionModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabelAddSec" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-dark fw-bold" id="staticBackdropLabelAddSec">Join a section</h5>
+          </div>
+          <div class="modal-body">
+
+              <div class="row g-2 p-2">
+
+                  <div class="col-xl">
+                    <div class="form-floating">
+                      <select class="form-select text-dark" id="trackID" aria-label="Floating label select example" required>
+                        <option value=0 disabled selected>Choose...</option>
+                          {% for track in tracks %}
+                            <option value="{{track.track_id}}" class="text-dark">{{ track.name }} - {{ track.nickname }}</option>
+                          {% endfor %}
+                      </select>
+                      <label for="trackID">Existing Sections</label>
+                    </div>
+                  </div>
+
+              </div>
+
+
+
+          </div>
+          <div class="modal-footer">
+              <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="add_section">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+{% endif %}
+
+{% endblock content %}
+
+{% block extra_js %}
+
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#instruction").addClass('active');
+});
+
+</script>
+
+<script type="text/javascript">
+    $(window).on('load', function() {
+        $('#joinSectionModal').modal('show');
+    });
+</script>
+{% endblock extra_js %}
