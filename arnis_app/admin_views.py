@@ -101,3 +101,49 @@ def admin_profile():
     return render_template('admin/profile.html', user_name = user_name, filename=filename, user_info=user_info, user_roles= user_roles)
 
 
+@app.route('/admin/view-teachers')
+@roles_required('admin')
+def admin_viewTeachers():
+    user_name = current_user.first_name + " " + current_user.last_name
+    user_id = current_user.id
+
+    filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
+
+    return render_template('admin/viewTeachers.html',
+                           user_name = user_name, filename=filename)
+
+
+@app.route('/admin/view-sections')
+@roles_required('admin')
+def admin_viewSections():
+    user_name = current_user.first_name + " " + current_user.last_name
+    user_id = current_user.id
+
+    filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
+
+    return render_template('admin/viewSections.html',
+                           user_name = user_name, filename=filename)
+
+
+@app.route('/admin/view-students')
+@roles_required('admin')
+def admin_viewStudents():
+    user_name = current_user.first_name + " " + current_user.last_name
+    user_id = current_user.id
+
+    filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
+
+    return render_template('admin/viewStudents.html',
+                           user_name = user_name, filename=filename)
+
+
+@app.route('/admin/tracks-strands')
+@roles_required('admin')
+def admin_editTracks():
+    user_name = current_user.first_name + " " + current_user.last_name
+    user_id = current_user.id
+
+    filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
+
+    return render_template('admin/editTracks.html',
+                           user_name = user_name, filename=filename)

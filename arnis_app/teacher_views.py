@@ -95,3 +95,13 @@ def teacher_profile():
     return render_template('teacher/profile.html', user_name = user_name, filename=filename, user_info=user_info, user_roles= user_roles)
 
 
+@app.route('/teacher/view-sections')
+@roles_required('teacher')
+def teacher_viewSections():
+    user_name = current_user.first_name + " " + current_user.last_name
+    user_id = current_user.id
+
+    filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
+
+    return render_template('teacher/viewSections.html',
+                           user_name = user_name, filename=filename)
