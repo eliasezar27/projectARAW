@@ -74,6 +74,8 @@ class Student(db.Model):
     student_id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
     section_id = db.Column(db.Integer(), db.ForeignKey('sections.section_id', ondelete='CASCADE'))
+    request = db.Column(db.Integer())
+    reassign = db.Column(db.Integer())
 
     # Define relationship with Activity & Video table
     activity = db.relationship('Activity')
@@ -103,9 +105,7 @@ class Track(db.Model):
 
     # Define relationship with Section table
     section = db.relationship('Section')
-
-# TODO:
-# Add parent track on strand table.
+    strands = db.relationship('Strand')
 
 
 class Strand(db.Model):
@@ -114,7 +114,9 @@ class Strand(db.Model):
     strand_id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255, collation='NOCASE'), nullable=False, server_default='')
     nickname = db.Column(db.String(50, collation='NOCASE'), nullable=False, server_default='')
+    track_id = db.Column(db.Integer(), db.ForeignKey('tracks.track_id', ondelete='CASCADE'))
 
+    # Define relationship with Track table
     section = db.relationship('Section')
 
 
@@ -183,36 +185,37 @@ def insert_track():
     strand = [i for i in range(24)]
 
     strand_list = [
-        ['Accountancy, Business, and Management', 'ABM'],
-        ['Science, Technology, Engineering and Mathematics', 'STEM'],
-        ['Humanities and Social Science', 'HUMSS'],
-        ['Animation', 'ANIM'],
-        ['(Performing Art) Dance', 'DNC'],
-        ['(Performing Art) Music', 'MSC'],
-        ['(Performing Art) Theater Arts', 'THTR'],
-        ['Film Production', 'PROD'],
-        ['Sports Coaching', 'COACH'],
-        ['Sports Officiating', 'OFFIC'],
-        ['(Home Economics) Hotel and Restaurant Servicing', 'HRS'],
-        ['(Home Economics) Tourism Servicing', 'TOUR'],
-        ['(Home Economics) Food Production', 'FOOD'],
-        ['(Home Economics) Health Care Services', 'HCS'],
-        ['(Home Economics) Emergency Medical Services', 'EMS'],
-        ['(ICT) Computer Programming', 'CMP'],
-        ['(ICT) Computer System Servicing', 'CSS'],
-        ['(ICT) Business Process Outsourcing', 'BPO'],
-        ['(Industrial Arts) Drafting Technology', 'DRT'],
-        ['(Industrial Arts) Automotive Servicing', 'AUTO'],
-        ['(Industrial Arts) Electronic Products Assembly and Services', 'PAS'],
-        ['(Industrial Arts) Electrical Installation and Maintenance', 'EIM'],
-        ['(Industrial Arts) Construction Technology', 'CONST'],
-        ['(Industrial Arts) Welding Technology', 'WELD']
+        ['Accountancy, Business, and Management', 'ABM', 1],
+        ['Science, Technology, Engineering and Mathematics', 'STEM', 1],
+        ['Humanities and Social Science', 'HUMSS', 1],
+        ['Animation', 'ANIM', 2],
+        ['(Performing Art) Dance', 'DNC', 2],
+        ['(Performing Art) Music', 'MSC', 2],
+        ['(Performing Art) Theater Arts', 'THTR', 2],
+        ['Film Production', 'PROD', 2],
+        ['Sports Coaching', 'COACH', 3],
+        ['Sports Officiating', 'OFFIC', 3],
+        ['(Home Economics) Hotel and Restaurant Servicing', 'HRS', 4],
+        ['(Home Economics) Tourism Servicing', 'TOUR', 4],
+        ['(Home Economics) Food Production', 'FOOD', 4],
+        ['(Home Economics) Health Care Services', 'HCS', 4],
+        ['(Home Economics) Emergency Medical Services', 'EMS', 4],
+        ['(ICT) Computer Programming', 'CMP', 4],
+        ['(ICT) Computer System Servicing', 'CSS', 4],
+        ['(ICT) Business Process Outsourcing', 'BPO', 4],
+        ['(Industrial Arts) Drafting Technology', 'DRT', 4],
+        ['(Industrial Arts) Automotive Servicing', 'AUTO', 4],
+        ['(Industrial Arts) Electronic Products Assembly and Services', 'PAS', 4],
+        ['(Industrial Arts) Electrical Installation and Maintenance', 'EIM', 4],
+        ['(Industrial Arts) Construction Technology', 'CONST', 4],
+        ['(Industrial Arts) Welding Technology', 'WELD', 4]
     ]
 
     for j in strand:
         strand[j] = Strand(
             name=strand_list[j][0],
-            nickname=strand_list[j][1]
+            nickname=strand_list[j][1],
+            track_id=strand_list[j][2]
         )
 
     db.session.add_all(track)

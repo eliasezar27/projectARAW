@@ -29,8 +29,10 @@
                     <div class="form-floating">
                       <select class="form-select text-dark" id="trackID" aria-label="Floating label select example" required>
                         <option value=0 disabled selected>Choose...</option>
-                          {% for track in tracks %}
-                            <option value="{{track.track_id}}" class="text-dark">{{ track.name }} - {{ track.nickname }}</option>
+                          {% for section, strand, track, teacher, user in sectionLists %}
+                            <option value="{{section.section_id}}" class="text-dark">
+                                {{ "%02d" % section.section_no }} - {{ strand.nickname }}
+                            </option>
                           {% endfor %}
                       </select>
                       <label for="trackID">Existing Sections</label>

@@ -12,9 +12,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fontawesome-all.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fontawesome5-overrides.min.css') }}">
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fontawesome-all.min.css') }}">-->
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome.min.css') }}">-->
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fontawesome5-overrides.min.css') }}">-->
 
 
     {% if title %}
@@ -36,17 +36,20 @@
 
 <body id="page-top" class="sidebar-toggled">
     <div id="wrapper">
-        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 toggled" style="background: #79031d;">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #79031d;">
             <div class="container-fluid sticky-top d-flex flex-column p-0">
                 <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="{{ url_for('admin_dashboard') }}" style="width: 120px;height: 69px;">
                     <div class="sidebar-brand-icon"><img src="{{ url_for('static', filename='images/araw_logo_y.png') }}" style="width: 52px;"></div>
                     <div class="sidebar-brand-text mx-3" style="font-family: montserrat"><span class="d-block float-none" style="color: rgb(255,255,255);">Project</span><span class="d-block float-none" style="color: #EDB518;">ARAW</span></div>
                 </a>
                 <hr class="sidebar-divider my-4" style="color: rgb(0,0,0);">
-                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+<!--                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>-->
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a id="dashboard" class="nav-link" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt"></i><span class="float-none">Dashboard</span></a></li>
-                    <li class="nav-item"><a id="profile" class="nav-link" href="{{ url_for('admin_profile') }}"><i class="fas fa-user"></i><span class="float-none">Profile</span></a></li>
+                    <li class="nav-item"><a id="dashboard" class="nav-link" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-solid fa-chart-column" style="width: 20px;"></i><span class="float-none">Dashboard</span></a></li>
+                    <li class="nav-item"><a id="teacherTab" class="nav-link" href="#"><i class="fas fa-solid fa-people-group" style="width: 20px;"></i><span class="float-none">Teachers</span></a></li>
+                    <li class="nav-item"><a id="sectionTab" class="nav-link" href="#"><i class="fas fa-solid fa-users" style="width: 20px;"></i><span class="float-none">Sections</span></a></li>
+                    <li class="nav-item"><a id="studentTab" class="nav-link" href="#"><i class="fas fa-solid fa-person-half-dress" style="width: 20px;"></i><span class="float-none">Students</span></a></li>
+                    <li class="nav-item"><a id="trackTab" class="nav-link" href="#"><i class="fa-solid fa-sitemap" style="width: 20px;" ></i><span class="float-none">Tracks and Strands</span></a></li>
                 </ul>
             </div>
         </nav>
