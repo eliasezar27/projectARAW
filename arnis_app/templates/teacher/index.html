@@ -19,47 +19,35 @@
 
     </div>
     <div class="container container-fluid mb-4" >
-        <div class="row" style="height: auto">
-            <div class="col col-7 p-0">
+        <div class="row" style="height: auto;">
+
+<!--            Barchart column-->
+            <div class="col-lg-7 p-0">
                 <div id="chartContainer" class="card h-100">
                     <div class="card-body">
-                        <canvas id="stackCol" width="1000" height="400"></canvas>
+                        <canvas id="stackCol" width="1000" height="700"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="col col-5">
+<!--            New students column-->
+            <div class="col-lg-5 p-0">
               <div class="card h-100">
                     <div class="card-header">
-                        NEW STUDENT
+                        INCOMING STUDENT
                     </div>
-                    <div class="card-body" style="height:10px; overflow-y: scroll;">
+                    <div class="card-body p-1" style="height: 400px; overflow-y: scroll;">
 
-                        <div id="sectionListContainerDataTable" class="rounded-3 my-1 text-dark">
+                        <div id="incomingStudentList" class="rounded-3 my-1 text-dark">
 
-                            <table class="table"
-                            id="dataTableSectionList"
-                            data-toggle="table"
-                            data-pagination="true"
-                            data-sort-name="last_name"
-                            data-sort-order="asc"
-                            data-show-toggle="false"
-                            data-show-search-button="false"
-                            data-detail-view="true"
-                            data-detail-view-icon="false"
-                            data-detail-view-by-click="true"
-                            data-detail-formatter="detailFormatter"
-                            data-search-on-enter-key="false">
+                            {% for i in range(9) %}
+                                <div class="card border-light mb-1">
+                                  <div class="card-body">
+                                    This is some text within a card body.
+                                  </div>
+                                </div>
+                            {% endfor %}
 
-                                <thead>
-                                    <tr>
-                                        <th data-field="last_name" data-sortable="true">Surname</th>
-                                        <th data-field="first_name" data-sortable="true">Given Name</th>
-                                        <th data-field="middle_name" data-sortable="true">Middle Name</th>
-                                    </tr>
-                                </thead>
-
-                            </table>
                       </div>
 
                     </div>

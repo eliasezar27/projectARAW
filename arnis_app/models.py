@@ -88,7 +88,6 @@ class Section(db.Model):
     section_id = db.Column(db.Integer(), primary_key=True)
     section_no = db.Column(db.Integer())
     teacher_id = db.Column(db.Integer(), db.ForeignKey('teachers.teacher_id', ondelete='CASCADE'))
-    track_id = db.Column(db.Integer(), db.ForeignKey('tracks.track_id', ondelete='CASCADE'))
     strand_id = db.Column(db.Integer(), db.ForeignKey('strands.strand_id', ondelete='CASCADE'))
     population = db.Column(db.Integer())
 
@@ -104,7 +103,6 @@ class Track(db.Model):
     nickname = db.Column(db.String(50, collation='NOCASE'), nullable=False, server_default='')
 
     # Define relationship with Section table
-    section = db.relationship('Section')
     strands = db.relationship('Strand')
 
 

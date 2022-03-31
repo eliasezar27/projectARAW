@@ -2,7 +2,7 @@ from arnis_app import app
 from flask_user import roles_required
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user
-from arnis_app.models import db, User, Teacher, Section, Strand, Role, UserRoles, UserProfilePic
+from arnis_app.models import db, User, Teacher, Section, Strand, Role, UserRoles, UserProfilePic, Student
 from flask_user.translation_utils import gettext as _
 from werkzeug.utils import secure_filename
 import uuid as uuid
@@ -23,6 +23,9 @@ def teacher_dashboard():
     user_id = current_user.id
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
+
+    student_req = db.session.query(User.id, User.last_name, User.last_name)\
+        .select_from(Student)
 
     return render_template('teacher/index.html',
                            user_name = user_name, filename=filename)

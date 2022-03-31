@@ -27,29 +27,34 @@
 
     </div>
     <div class="container container-fluid mb-4" >
-        <div class="row" style="height: auto">
-            <div class="col col-4 p-0">
-                <div id="chartContainer" class="card h-100 border-light">
+        <div class="row">
+
+<!--            Sections list-->
+            <div class="col-lg-4 p-0">
+                <div id="sectionListContainer" class="card h-100 border border-light">
 <!--                    <div class="card-header">-->
 <!--                        <h4>List of Sections</h4>-->
 <!--                    </div>-->
-                    <div class="card-body">
+                    <div class="card-body" id="sectionList" >
                         {% for section, strand, teacher in secs %}
-                            <div class="col-md-6 col-md-12 mb-2">
+                            <div class="col-md-12 mb-2">
                                 <a class="viewSection" section_id="{{section.section_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#viewSectionListModal">
-                                    <div class="card shadow border-start-primary py-2 border-light">
+
+                                    <div class="card shadow py-2 border-light border-3 viewSection1" id="viewSectionCard{{section.section_id}}">
                                         <div class="card-body py-0">
                                             <div class="row align-items-center no-gutters">
+
                                                 <div class="col col-8">
                                                     <div class="text-dark text-uppercase fw-bold h3 mb-0">
-                                                        <span class="sectionNumber" style="color: #c46d38;">{{ "%02d" % section.section_no }} - </span>
+                                                        <span class="sectionNumber" style="color: #c46d38;">{{ "%02d" % section.section_no }}</span>
                                                         <span class="sectionStrand" style="color: #EDB518;">{{ strand }}</span>
                                                     </div>
                                                 </div>
+
                                                 <div class="col col-4">
-                                                     <div class="text-dark fw-bold text-xs mb-1">
+                                                     <div class="text-dark fw-bold text-xs mb-1" data-bs-toggle="tooltip" title="Students Enrolled">
                                                         <i class="fas fa-solid fa-user-group text-gray-300 fs-5"></i> &nbsp
-                                                        <span class="fs-5 sectionPopulation" data-bs-toggle="tooltip" title="Students Enrolled">
+                                                        <span class="fs-5 sectionPopulation">
                                                             {% if section.population == None %}
                                                                 0
                                                             {% else %}
@@ -68,12 +73,15 @@
                 </div>
             </div>
 
-            <div class="col col-8">
-              <div class="card h-100 border-light">
+<!--            Students list-->
+            <div class="col-lg-8 p-0">
+              <div id="studentListContainer"  class="card h-100 border-light">
                     <div class="card-header" id="studentListTable">
-                        NEW STUDENT
+                        <span class="text-black">
+                            SECTION NAME
+                        </span>
                     </div>
-                    <div class="card-body" style="height:10px; overflow-y: scroll;">
+                    <div class="card-body" id="studentList" style="height: 450px; overflow-y: scroll;">
                         <div id="sectionListContainerDataTable" class="rounded-3 my-1 text-dark">
 
                             <table class="table"
@@ -100,6 +108,14 @@
                                         <th data-field="gender" data-sortable="true">Sex</th>
                                     </tr>
                                 </thead>
+                                <tbody id="sectionListTableBody">
+                                    <tr>
+                                        <td>Cabo</td>
+                                        <td>Elias</td>
+                                        <td>Ramos</td>
+                                        <td>Male</td>
+                                    </tr>
+                                </tbody>
 
                             </table>
                       </div>
@@ -192,6 +208,21 @@ function detailFormatter(index, row) {
 <script>
 $(document).ready(function () {
     $("#sectionTab").addClass('active');
+});
+</script>
+<script>
+$(document).ready(function () {
+    $(document).on(
+        {'click': function() {
+            $('.viewSection1').removeClass('border-danger');
+            $('.viewSection1').removeClass('border-3');
+            var sec = $(this);
+            sec.removeClass('border-light');
+            sec.addClass('border-danger');
+            sec.addClass('border-3');
+        }
+    }, '.viewSection1');
+
 });
 </script>
 {% endblock extra_js %}
