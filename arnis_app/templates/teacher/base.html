@@ -45,8 +45,8 @@
                 <hr class="sidebar-divider my-4" style="color: rgb(0,0,0);">
 <!--                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>-->
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a id="dashboard" class="nav-link" href="{{ url_for('teacher_dashboard') }}"><i class="fas fa-tachometer-alt"></i><span class="float-none">Dashboard</span></a></li>
-                    <li class="nav-item"><a id="profile" class="nav-link" href="{{ url_for('teacher_profile') }}"><i class="fas fa-user"></i><span class="float-none">Profile</span></a></li>
+                    <li class="nav-item"><a id="dashboard" class="nav-link" href="{{ url_for('teacher_dashboard') }}"><i class="fas fa-solid fa-chart-column" style="width: 20px;"></i><span class="float-none">Dashboard</span></a></li>
+                    <li class="nav-item"><a id="sectionTab" class="nav-link" href="{{ url_for('teacher_viewSections') }}"><i class="fas fa-solid fa-users" style="width: 20px;"></i><span class="float-none">Sections</span></a></li>
                 </ul>
             </div>
         </nav>
@@ -55,33 +55,33 @@
                 <nav class="navbar navbar-light navbar-expand bg-white shadow topbar static-top">
                     <div class="container-fluid">
                         <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
-                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group">
-                                <select id="selectSearch" class="form-select-sm" style="display: none;">
-                                    <option value="2" selected>Section's list</option>
-                                  </select>
-                                <input id="searchBar1" class="bg-light form-control border-2" type="text" placeholder="Search for ...">
+<!--                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">-->
+<!--                            <div class="input-group">-->
+<!--                                <select id="selectSearch" class="form-select-sm" style="display: none;">-->
+<!--                                    <option value="2" selected>Section's list</option>-->
+<!--                                  </select>-->
+<!--                                <input id="searchBar1" class="bg-light form-control border-2" type="text" placeholder="Search for ...">-->
 <!--                                <button class="btn btn-primary py-0" type="button" style="background: #c46d38;border-color: #c46d38;"><i class="fas fa-search"></i></button>-->
-                            </div>
-                        </form>
+<!--                            </div>-->
+<!--                        </form>-->
                         <ul class="navbar-nav flex-nowrap ms-auto">
                             <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
                                 <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
-                                    <form class="me-auto navbar-search w-100">
-                                        <div class="input-group">
-                                            <select id="selectSearch2" class="form-select-sm">
-                                                <option value="0" selected>Search from...</option>
-                                                <option value="1">Teacher's list</option>
-                                                <option value="2">Section's list</option>
-                                              </select>
-                                            <input id="searchBar2" class="bg-light form-control border-2" type="text" placeholder="Search for ...">
+<!--                                    <form class="me-auto navbar-search w-100">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <select id="selectSearch2" class="form-select-sm">-->
+<!--                                                <option value="0" selected>Search from...</option>-->
+<!--                                                <option value="1">Teacher's list</option>-->
+<!--                                                <option value="2">Section's list</option>-->
+<!--                                              </select>-->
+<!--                                            <input id="searchBar2" class="bg-light form-control border-2" type="text" placeholder="Search for ...">-->
 <!--                                            <div class="input-group-append">-->
 <!--                                                <button class="btn btn-primary py-0" type="button" style="background: #c46d38;border-color: #c46d38;">-->
 <!--                                                    <i class="fas fa-search"></i>-->
 <!--                                                </button>-->
 <!--                                            </div>-->
-                                        </div>
-                                    </form>
+<!--                                        </div>-->
+<!--                                    </form>-->
                                 </div>
                             </li>
                             <div class="d-none d-sm-block topbar-divider"></div>
@@ -132,7 +132,7 @@
                     <div class="text-center my-auto copyright"><span>Copyright © Project ARAW 2022</span></div>
                 </div>
             </footer>
-        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+<!--        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>-->
     </div>
 
     {% block extra_js %}{% endblock %}

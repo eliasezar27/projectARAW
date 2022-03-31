@@ -24,16 +24,8 @@ def teacher_dashboard():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
-    # Section table join Strand, Teacher, and User Table
-    secs = db.session.query(Section, Strand.nickname, User)\
-        .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
-        .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id)\
-        .outerjoin(User, User.id == Teacher.user_id)\
-        .filter(Teacher.user_id == user_id)\
-        .all()
-
     return render_template('teacher/index.html',
-                           user_name = user_name, filename=filename, sec=secs)
+                           user_name = user_name, filename=filename)
 
 
 @app.route('/teacher/profile', methods=['GET', 'POST'])
@@ -103,5 +95,13 @@ def teacher_viewSections():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    # Section table join Strand, Teacher, and User Table
+    secs = db.session.query(Section, Strand.nickname, User) \
+        .outerjoin(Strand, Strand.strand_id == Section.strand_id) \
+        .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id) \
+        .outerjoin(User, User.id == Teacher.user_id) \
+        .filter(Teacher.user_id == user_id) \
+        .all()
+
     return render_template('teacher/viewSections.html',
-                           user_name = user_name, filename=filename)
+                           user_name = user_name, filename=filename, secs=secs)

@@ -4,7 +4,7 @@ $(document).ready(function() {
             url : '/section/count/perTrack',
             type : 'GET'
         });
-
+let delayed;
     req.done(function(data) {
 
         console.log(data.result);
@@ -47,9 +47,27 @@ $(document).ready(function() {
                         grid: {
                             display: false,
                             drawBorder: false
+                        },
+                        title: {
+                            display: true,
+                            text: "# of Sections"
                         }
+
                     },
+
                 },
+                animation: {
+                  onComplete: () => {
+                    delayed = true;
+                  },
+                  delay: (context) => {
+                    let delay = 0;
+                    if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                      delay = context.dataIndex * 300 + context.datasetIndex * 1000;
+                    }
+                    return delay;
+                  },
+    },
           },
         };
 
