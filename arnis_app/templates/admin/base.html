@@ -46,7 +46,7 @@
 <!--                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>-->
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a id="dashboard" class="nav-link" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-solid fa-chart-column" style="width: 20px;"></i><span class="float-none">Dashboard</span></a></li>
-                    <li class="nav-item"><a id="teacherTab" class="nav-link" href="#"><i class="fas fa-solid fa-people-group" style="width: 20px;"></i><span class="float-none">Teachers</span></a></li>
+                    <li class="nav-item"><a id="teacherTab" class="nav-link" href="{{ url_for('admin_viewTeachers') }}"><i class="fas fa-solid fa-people-group" style="width: 20px;"></i><span class="float-none">Teachers</span></a></li>
                     <li class="nav-item"><a id="sectionTab" class="nav-link" href="#"><i class="fas fa-solid fa-users" style="width: 20px;"></i><span class="float-none">Sections</span></a></li>
                     <li class="nav-item"><a id="studentTab" class="nav-link" href="#"><i class="fas fa-solid fa-person-half-dress" style="width: 20px;"></i><span class="float-none">Students</span></a></li>
                     <li class="nav-item"><a id="trackTab" class="nav-link" href="#"><i class="fa-solid fa-sitemap" style="width: 20px;" ></i><span class="float-none">Tracks and Strands</span></a></li>
@@ -71,23 +71,23 @@
 <!--                        </form>-->
                         <ul class="navbar-nav flex-nowrap ms-auto">
                             <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
-                                <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
-                                    <form class="me-auto navbar-search w-100">
-                                        <div class="input-group">
-                                            <select id="selectSearch2" class="form-select-sm">
-                                                <option value="0" selected>Search from...</option>
-                                                <option value="1">Teacher's list</option>
-                                                <option value="2">Section's list</option>
-                                              </select>
-                                            <input id="searchBar2" class="bg-light form-control border-2" type="text" placeholder="Search for ...">
+<!--                                <div class="dropdown-menu dropdown-menu-end p-3 animated&#45;&#45;grow-in" aria-labelledby="searchDropdown">-->
+<!--                                    <form class="me-auto navbar-search w-100">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <select id="selectSearch2" class="form-select-sm">-->
+<!--                                                <option value="0" selected>Search from...</option>-->
+<!--                                                <option value="1">Teacher's list</option>-->
+<!--                                                <option value="2">Section's list</option>-->
+<!--                                              </select>-->
+<!--                                            <input id="searchBar2" class="bg-light form-control border-2" type="text" placeholder="Search for ...">-->
 <!--                                            <div class="input-group-append">-->
 <!--                                                <button class="btn btn-primary py-0" type="button" style="background: #c46d38;border-color: #c46d38;">-->
 <!--                                                    <i class="fas fa-search"></i>-->
 <!--                                                </button>-->
 <!--                                            </div>-->
-                                        </div>
-                                    </form>
-                                </div>
+<!--                                        </div>-->
+<!--                                    </form>-->
+<!--                                </div>-->
                             </li>
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow">
@@ -137,7 +137,7 @@
                     <div class="text-center my-auto copyright"><span>Copyright © Project ARAW 2022</span></div>
                 </div>
             </footer>
-        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+        </div>
     </div>
 
     {% block extra_js %}{% endblock %}

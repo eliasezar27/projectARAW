@@ -3,9 +3,9 @@ $(document).ready(function() {
     $(document).on(
         {'click': function() {
 
-            console.log('pass');
-
             var teacher_id = $(this).attr('teacher_id');
+
+            console.log(teacher_id);
 
             req = $.ajax({
                 url : '/view/teacher',
@@ -17,13 +17,12 @@ $(document).ready(function() {
 
                 req.done(function(data) {
 
-                    $('#dataTableTeacherSection').bootstrapTable({
-                        pagination: true,
-                        search: true,
-                    });
-
                     var teacherModalHeader = function(x,y) {
-                      x.html(y['first_name'] + ' ' + y['middle_name'] + ' ' + y['last_name']);
+                        if(y['middle_name'] != ""){
+                                x.html(y['last_name'] + ', ' + y['first_name'] + ' ' + y['middle_name']);
+                           }else{
+                                 x.html(y['last_name'] + ', '  + y['first_name']);
+                           }
                     };
 
                     var my_date_format = function(input){
@@ -42,32 +41,27 @@ $(document).ready(function() {
                             "<div id='date_joined'>Date joined: " + my_date_format(y['date_joined']) + "</div>" );
                     };
 
-                    if (data.result == 'single'){
-                        teacherModalHeader($('#ModalTeacherName'), data.teacherInfo);
-                        teacherModalInfo($("#cardBodyTeacherInfo"), data.teacherInfo);
+                    if (data.result == 'success'){
+                        teacherModalHeader($('#teacherMoreInfoModalHeader'), data.teacherInfo);
+                        teacherModalInfo($("#teacherMoreInfoModalBody"), data.teacherInfo);
+                        $('input:radio[name=userStatus]').attr('user_id', data.teacherInfo['user_id']);
 
-                        var handledSection = [];
-                    }else if(data.result == 'both'){
-                        teacherModalHeader($('#ModalTeacherName'), data.teacherInfo);
-                        teacherModalInfo($("#cardBodyTeacherInfo"), data.teacherInfo);
+                        if(data.teacherInfo['active'] == true){
+                            $("#statusActive").prop("checked", true);
+                        }else{
+                            $("#statusInactive").prop("checked", true);
+                        }
 
-                        var handledSection = data.sectionList;
                     }else{
                         $('#ModalTeacherName').html('No records found!');
-                        var handledSection = [];
                     }
 
-                    $('#dataTableTeacherSection').bootstrapTable("load", handledSection);
-
-
-
                 console.log(data.result);
-                console.log(data.sectionList);
 
             });
 
 
         }
-    }, '.viewTeacher');
+    }, '.viewTeacherInfo');
 
 });

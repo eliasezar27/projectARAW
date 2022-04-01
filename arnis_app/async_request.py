@@ -50,46 +50,17 @@ def view_teacher():
                 .filter(User.id == Teacher.user_id)\
                 .filter(Teacher.teacher_id==teacher_idq).first()
 
-    # Query teacher's handled section
-    teacherSection = db.session.query(Section, Teacher, Track, Strand)\
-                .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id) \
-                .outerjoin(Track, Track.track_id == Section.track_id) \
-                .outerjoin(Strand, Strand.strand_id == Section.strand_id) \
-                .filter(Teacher.teacher_id == Section.teacher_id) \
-                .filter(Track.track_id == Section.track_id) \
-                .filter(Strand.strand_id == Section.strand_id) \
-                .filter(Teacher.teacher_id==teacher_idq)\
-                .with_entities(Section.section_id, Section.section_no, Section.population,
-                               Track.name.label('track_name'), Track.nickname.label('track_nickname'),
-                               Strand.name.label('strand_name'), Strand.nickname.label('strand_nickname')).all()
-
     if teacherInfo:
-        result = 'single'
+        result = 'success'
 
         # Transform object to dict
+        teach = vars(teacherInfo[0])
         teacherInfo = vars(teacherInfo[1])
+        teacherInfo.update(teach)
         del teacherInfo['password']
         del teacherInfo['_sa_instance_state']
         del teacherInfo['email_confirmed_at']
         teacherInfo['date_joined'] = str(teacherInfo['date_joined'])
-
-        if teacherSection:
-            result = 'both'
-
-            # Transform object to dict
-            # Then adding section details to a dict
-            sectionList = []
-
-            for i in range(len(teacherSection)):
-                section = teacherSection[i]
-                section = dict(section)
-                if not section['population']:
-                    section['population'] = 0
-
-                sectionList.append(section)
-
-            # print(sectionList)
-            return jsonify({'result': result, 'teacherInfo': teacherInfo, 'sectionList': sectionList})
 
         return jsonify({'result': result, 'teacherInfo': teacherInfo})
     else:
@@ -113,12 +84,12 @@ def view_studentList():
     sectionInfo = db.session.query(Section, User, Track, Strand) \
                 .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id) \
                 .outerjoin(User, User.id == Teacher.teacher_id) \
-                .outerjoin(Track, Track.track_id == Section.track_id) \
                 .outerjoin(Strand, Strand.strand_id == Section.strand_id) \
+                .outerjoin(Track, Track.track_id == Strand.track_id) \
                 .filter(Teacher.teacher_id == Section.teacher_id) \
                 .filter(User.id == Teacher.teacher_id) \
-                .filter(Track.track_id == Section.track_id) \
                 .filter(Strand.strand_id == Section.strand_id) \
+                .filter(Track.track_id == Strand.track_id) \
                 .filter(Section.section_id == section_idq).first()
 
     if sectionInfo:
@@ -172,7 +143,7 @@ def get_sectionCountPerTeacher():
         .select_from(Teacher)\
         .outerjoin(Section, Section.teacher_id == Teacher.teacher_id)\
         .outerjoin(User, User.id == Teacher.user_id)\
-        .outerjoin(Track, Track.track_id == Section.track_id)\
+        .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
         .group_by(User.last_name)\
         .group_by(Section.teacher_id)\
         .order_by(db.desc('counts'))\
@@ -190,14 +161,13 @@ def get_sectionCountPerTrack():
     user_id = current_user.id
 
     # Query number of sections per Track handled by a teacher
-    sectionCounts = db.session.query(Track.nickname, db.func.count(Section.track_id).label('counts')) \
-        .select_from(Track) \
-        .outerjoin(Section, Track.track_id == Section.track_id) \
+    sectionCounts = db.session.query(Track.nickname, db.func.count(Strand.track_id).label('counts')) \
+        .select_from(Section) \
+        .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
+        .outerjoin(Track, Track.track_id == Strand.track_id) \
         .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id) \
         .filter(Teacher.user_id == user_id)\
-        .group_by(Track.nickname) \
-        .group_by(Section.track_id.label('counts')) \
-        .order_by(db.desc('counts')) \
+        .group_by(Track.nickname)\
         .all()
 
     sectionCounts = dict(sectionCounts)
@@ -209,3 +179,18 @@ def get_sectionCountPerTrack():
             labels.append(i)
 
     return jsonify({'result': 'result!', 'sectionCounts': sectionCounts, 'labels': labels})
+
+
+@app.route('/change/user/status', methods=['POST'])
+def change_UserStatus():
+    user_id = request.form['user_id']
+    userStatus = request.form['userStatus']
+
+    print(userStatus)
+
+    user = db.session.query(User).filter(User.id == user_id).first()
+    user.active = int(userStatus)
+
+    db.session.commit()
+
+    return jsonify({'result': 'success!'})
