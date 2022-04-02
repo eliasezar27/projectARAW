@@ -89,7 +89,7 @@ class Section(db.Model):
     section_no = db.Column(db.Integer())
     teacher_id = db.Column(db.Integer(), db.ForeignKey('teachers.teacher_id', ondelete='CASCADE'))
     strand_id = db.Column(db.Integer(), db.ForeignKey('strands.strand_id', ondelete='CASCADE'))
-    population = db.Column(db.Integer())
+    population = db.Column(db.Integer(), server_default='0')
 
     # Define relationship with Student table
     student = db.relationship('Student')

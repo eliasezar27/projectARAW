@@ -40,9 +40,10 @@ def add_section():
     return jsonify({'result': result, 'message': message})
 
 
-@app.route('/view/teacher', methods=['POST'])
+# Teacher Info Viewer
+@app.route('/view/teacher', methods=['GET'])
 def view_teacher():
-    teacher_idq = request.form['teacher_id']
+    teacher_idq = request.args.get('teacher_id')
 
     # Query teacher's info
     teacherInfo = db.session.query(Teacher, User)\
@@ -68,6 +69,7 @@ def view_teacher():
         return jsonify({'result': result})
 
 
+# Student list viewer
 @app.route('/view/student/list', methods=['POST'])
 def view_studentList():
     section_idq = request.form['section_id']
@@ -136,6 +138,7 @@ def view_studentList():
         return jsonify({'result': result})
 
 
+# Admin column chart
 @app.route('/section/count/perTeacher', methods=['GET'])
 def get_sectionCountPerTeacher():
     # Query number of sections handled by a teacher
@@ -155,6 +158,7 @@ def get_sectionCountPerTeacher():
     return jsonify({'result': 'result!', 'sectionCounts': sectionCounts, 'labels': labels})
 
 
+# Teacher column chart
 @app.route('/section/count/perTrack', methods=['GET'])
 def get_sectionCountPerTrack():
 
@@ -181,16 +185,61 @@ def get_sectionCountPerTrack():
     return jsonify({'result': 'result!', 'sectionCounts': sectionCounts, 'labels': labels})
 
 
+# Status changer in admin module
 @app.route('/change/user/status', methods=['POST'])
 def change_UserStatus():
     user_id = request.form['user_id']
     userStatus = request.form['userStatus']
-
-    print(userStatus)
 
     user = db.session.query(User).filter(User.id == user_id).first()
     user.active = int(userStatus)
 
     db.session.commit()
 
-    return jsonify({'result': 'success!'})
+    return jsonify({'result': 'success', 'status': userStatus})
+
+
+@app.route('/view/section/list', methods=['GET'])
+def view_sectionList():
+    teacher_idq = request.args.get('teacher_id')
+
+    # Query teacher's sections
+    sectionList = db.session.query(Section.population,
+                                   Section.section_no,
+                                   Track.name.label('track_name'),
+                                   Track.nickname.label('track_nickname'),
+                                   Strand.name.label('strand_name'),
+                                   Strand.nickname.label('strand_nickname'))\
+        .select_from(Section) \
+        .outerjoin(Strand, Strand.strand_id == Section.strand_id) \
+        .outerjoin(Track, Track.track_id == Strand.track_id) \
+        .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id) \
+        .outerjoin(User, User.id == Teacher.user_id) \
+        .filter(Teacher.teacher_id == teacher_idq).all()
+
+    teacherInfo = db.session.query(Teacher, User) \
+        .outerjoin(User, User.id == Teacher.user_id) \
+        .filter(User.id == Teacher.user_id) \
+        .filter(Teacher.teacher_id == teacher_idq).first()
+
+    if teacherInfo:
+        result = 'success'
+
+        # Transform object to dict
+        teach = vars(teacherInfo[0])
+        teacherInfo = vars(teacherInfo[1])
+        teacherInfo.update(teach)
+        del teacherInfo['password']
+        del teacherInfo['_sa_instance_state']
+        del teacherInfo['email_confirmed_at']
+        del teacherInfo['date_joined']
+
+        if sectionList:
+
+            for i in range(len(sectionList)):
+                sectionList[i] = dict(sectionList[i])
+
+        return jsonify({'result': result, 'sectionList': sectionList, 'teacherInfo': teacherInfo})
+    else:
+        result = 'danger'
+        return jsonify({'result': result})

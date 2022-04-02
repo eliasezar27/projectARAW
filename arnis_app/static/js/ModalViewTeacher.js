@@ -9,7 +9,7 @@ $(document).ready(function() {
 
             req = $.ajax({
                 url : '/view/teacher',
-                type : 'POST',
+                type : 'GET',
                 data : {
                         teacher_id : teacher_id
                         }
@@ -46,6 +46,7 @@ $(document).ready(function() {
                         teacherModalInfo($("#teacherMoreInfoModalBody"), data.teacherInfo);
                         $('input:radio[name=userStatus]').attr('user_id', data.teacherInfo['user_id']);
 
+                        // Setting which active status button is selected
                         if(data.teacherInfo['active'] == true){
                             $("#statusActive").prop("checked", true);
                         }else{

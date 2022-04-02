@@ -3,69 +3,42 @@ $(document).ready(function() {
     $(document).on(
         {'click': function() {
 
-            console.log('clicked');
+            $('#sectionListTableBody').html('');
 
-            var section_id = $(this).attr('section_id');
+            var teacher_id = $(this).attr('teacher_id');
 
             req = $.ajax({
-                url : '/view/student/list',
-                type : 'POST',
+                url : '/view/section/list',
+                type : 'GET',
                 data : {
-                        section_id : section_id
+                        teacher_id : teacher_id
                         }
             });
 
-                req.done(function(data) {
+                req.done(function(data1) {
 
-                    $('#dataTableSectionList').bootstrapTable({
-                        pagination: true,
-                        search: true,
-                    });
-
-                    function pad(str, max) {
-                      str = str.toString();
-                      return str.length < max ? pad("0" + str, max) : str;
-                    }
-
-                    var sectionListModalHeader = function(x,y) {
-                      x.html(pad(y['section_no'], 2) + '-' + y['strand_nickname']);
+                    var teacherModalHeader = function(x,y) {
+                        if(y['middle_name'] != ""){
+                                x.html('SECTIONS - ' + y['last_name'] + ', ' + y['first_name'] + ' ' + y['middle_name']);
+                           }else{
+                                 x.html('SECTIONS - ' + y['last_name'] + ', '  + y['first_name']);
+                           }
                     };
 
-                    var sectionListModalInfo = function(x,y) {
-                      x.html("<div class='card card-body'>" +
-                            "<div id='population'><strong>Number of Students:</strong> " + y['population'] + "</div>"+
-                            "<div id='track'><strong>Track:</strong> " + y['track_name'] + "</div>"+
-                            "<div id='strand'><strong>Strand:</strong> " + y['strand_name'] + " </div>"+
-                            "<div id='teacher'><strong>Assigned to:</strong> " + y['last_name'] + ", " + y['first_name'] + " " + y['middle_name'] + "</div>"+
-                          "</div>" );
-                    };
+                    if (data1.result == 'success'){
+                        console.log(data1.sectionList);
+                         teacherModalHeader($('#teacherSectionListModalHeader'), data1.teacherInfo);
+                         $('#sectionListTable').bootstrapTable('load', data1.sectionList);
 
-                    console.log(data.listStudents);
-
-                    if (data.result == 'single'){
-                        console.log('Section info');
-                        sectionListModalHeader($('#modalSectionName'), data.sectionInfo);
-                        sectionListModalInfo($("#collapseSectionInfo"), data.sectionInfo);
-                        var studentList = [];
-                    }else if(data.result == 'both'){
-                        console.log('Section info and student list');
-                        sectionListModalHeader($('#modalSectionName'), data.sectionInfo);
-                        sectionListModalInfo($("#collapseSectionInfo"), data.sectionInfo);
-                        var studentList = data.listStudents;
 
                     }else{
-                        $('#modalSectionName').html('No records found!');
-                        var studentList = [];
+                        console.log(data1.result);
                     }
-
-                    $('#dataTableSectionList').bootstrapTable("load", studentList);
-
-                console.log(data.result);
 
             });
 
 
         }
-    }, '.viewSection');
+    }, '.viewSectionList');
 
 });

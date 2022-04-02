@@ -8,10 +8,6 @@
     .float-right.search.btn-group{
         float: right;
     }
-
-    #statusActive:hover ~ label{
-        color: white;
-    }
 </style>
 
 {% endblock style %}
@@ -27,55 +23,56 @@
 
 
 <!--    Teachers list-->
-    <div class="container-fluid">
+    <div class="container px-5">
         <div id="teacherListTableContainer" class="rounded-3 my-1 text-dark">
 
-                <table class="table table-striped table-sm"
-                id="teacherListTable"
-                data-toggle="table"
-                data-search="true"
-                data-search-align="right"
-                data-pagination="true"
-                data-sort-name="last_name"
-                data-sort-order="asc"
-                data-show-toggle="false"
-                data-show-search-button="false"
-                data-detail-formatter="detailFormatter"
-                data-search-on-enter-key="false">
+            <table class="table table-light table-sm"
+            id="teacherListTable"
+            data-toggle="table"
+            data-search="true"
+            data-search-accent-neutralise="true"
+            data-search-align="right"
+            data-pagination="true"
+            data-sort-name="last_name"
+            data-sort-order="asc"
+            data-show-toggle="false"
+            data-show-search-button="false"
+            data-detail-formatter="detailFormatter"
+            data-search-on-enter-key="false">
 
-                    <thead>
+                <thead>
+                    <tr>
+                        <th data-field="last_name" data-sortable="true">Surname</th>
+                        <th data-field="first_name" data-sortable="true">Given Name</th>
+                        <th data-field="actions" data-width="100">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="teacherListTableBody">
+                    {% for teach in teacher %}
                         <tr>
-                            <th data-field="last_name" data-sortable="true">Surname</th>
-                            <th data-field="first_name" data-sortable="true">Given Name</th>
-                            <th data-field="actions" data-sortable="true">Actions</th>
+                            <td>{{teach[1].last_name}}</td>
+                            <td>{{teach[1].first_name}}</td>
+                            <td class="text-center">
+
+<!--                                    View Handled Sections List Modal-->
+                                <a class="viewSectionList px-1" teacher_id="{{teach[0].teacher_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#teacherSectionListModal">
+                                    <i class="fas fa-solid fa-users" style="color: #c46d38;"></i>
+                                </a>
+
+<!--                                    View Teacher Info Modal-->
+                                <a class="viewTeacherInfo px-1" teacher_id="{{teach[0].teacher_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#teacherMoreInfoModal">
+                                    <i class="fas fa-solid fa-circle-info" style="color: #EDB518;"></i>
+                                </a>
+
+                            </td>
                         </tr>
-                    </thead>
+                    {% endfor %}
+                </tbody>
 
-                    <tbody id="teacherListTableBody">
-                        {% for teach in teacher %}
-                            <tr>
-                                <td>{{teach[1].last_name}}</td>
-                                <td>{{teach[1].first_name}}</td>
-                                <td>
+            </table>
 
-<!--                                    View Sections Handled List-->
-                                    <a class="viewSectionList" teacher_id="{{teach[0].teacher_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#sectionListModal">
-                                        <i class="fas fa-solid fa-users" style="color: #c46d38;"></i>
-                                    </a>
-                                    &nbsp;
-
-<!--                                    View Teacher Info-->
-                                    <a class="viewTeacherInfo" teacher_id="{{teach[0].teacher_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#teacherMoreInfoModal">
-                                        <i class="fas fa-solid fa-circle-info" style="color: #EDB518;"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-
-                </table>
-
-            </div>
+        </div>
     </div>
 
 <!--    Teacher Info Modal-->
@@ -83,7 +80,9 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="teacherMoreInfoModalHeader">
+        <i class="fas fa-solid fa-circle-info fs-5 pe-1" style="color: #EDB518;"></i>
+          &nbsp;
+        <h5 class="modal-title text-black" id="teacherMoreInfoModalHeader">
             Teacher Name (Last, First)
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -92,11 +91,13 @@
         ...
       </div>
       <div class="modal-footer">
+<!--          Flash message-->
+          <div class="py-0 alert" style="display: none;" id="statChangeFlash"></div><br>
           <div class="btn-group userStatus" role="group" aria-label="Basic radio toggle button group" id="userStatus">
               <input type="radio" class="btn-check" name="userStatus" id="statusActive" autocomplete="off" value="1" user_id checked>
               <label class="btn btn-outline-success" for="statusActive">Active</label>
 
-              <input type="radio" class="btn-check" name="userStatus" id="statusInactive" autocomplete="off" user_id value="0">
+              <input type="radio" class="btn-check" name="userStatus" id="statusInactive" autocomplete="off" value="0" user_id>
               <label class="btn btn-outline-danger" for="statusInactive">Inactive</label>
           </div>
       </div>
@@ -105,11 +106,51 @@
 </div>
 
 
-
-
 <!--    Section List Modal-->
+<div class="modal fade" id="teacherSectionListModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class="fas fa-solid fa-users" style="color: #c46d38;"></i>
+          &nbsp;
+        <h5 class="modal-title text-black" id="teacherSectionListModalHeader">
+            SECTIONS - Teacher Name (Last, First)
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="teacherSectionListModalBody">
 
+        <table class="table table-light table-sm"
+            id="sectionListTable"
+            data-toggle="table"
+            data-search="true"
+            data-search-accent-neutralise="true"
+            data-search-align="right"
+            data-pagination="true"
+            data-sort-name="last_name"
+            data-sort-order="asc"
+            data-show-toggle="false"
+            data-show-search-button="false"
+            data-detail-formatter="detailFormatter"
+            data-search-on-enter-key="false">
 
+                <thead>
+                    <tr>
+                        <th data-field="section_no" data-sortable="true" data-width="100">Section Number</th>
+                        <th data-field="strand_name" data-sortable="true">Strand</th>
+                        <th data-field="track_name" data-sortable="true">Track</th>
+                        <th data-field="population" data-sortable="true" data-width="100">Population</th>
+                    </tr>
+                </thead>
+            </table>
+
+      </div>
+      <div class="modal-footer">
+
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -117,28 +158,16 @@
 
 {% block extra_js %}
 
+<script src="{{ url_for('static', filename='bootstrap/js/bootstrap-table.min.js') }}"></script>
+
 <script src="{{ url_for('static', filename='js/ModalViewTeacher.js') }}"></script>
 <script src="{{ url_for('static', filename='js/userStatusChanger.js') }}"></script>
 <script src="{{ url_for('static', filename='js/ModalViewSection.js') }}"></script>
 <script src="{{ url_for('static', filename='js/teacherReload.js') }}"></script>
 
-<script src="{{ url_for('static', filename='bootstrap/js/bootstrap-table.min.js') }}"></script>
-
 <script>
 $(document).ready(function () {
     $("#teacherTab").addClass('active');
-});
-</script>
-
-<script>
-$(document).ready(function () {
-    $('#statusActive').next().addClass('text-light');
-    $("#statusInactive").on('click', function(){
-        $('#statusActive').next().removeClass('text-light');
-    });
-    $("#statusActive").on('click', function(){
-        $('#statusActive').next().addClass('text-light');
-    });
 });
 </script>
 
