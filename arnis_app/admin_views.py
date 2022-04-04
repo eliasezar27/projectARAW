@@ -121,8 +121,14 @@ def admin_viewSections():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    teachers = db.session.query(Teacher, User) \
+        .outerjoin(User, User.id == Teacher.user_id).filter(User.id == Teacher.user_id).order_by(User.last_name).all()
+
+    tracks = db.session.query(Track).all()
+    strands = db.session.query(Strand).all()
+
     return render_template('admin/viewSections.html',
-                           user_name = user_name, filename=filename)
+                           user_name = user_name, filename=filename, teachers=teachers, tracks=tracks, strands=strands)
 
 
 @app.route('/admin/view-students')

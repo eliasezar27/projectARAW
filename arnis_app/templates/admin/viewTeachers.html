@@ -55,14 +55,14 @@
                             <td>{{teach[1].first_name}}</td>
                             <td class="text-center">
 
-<!--                                    View Handled Sections List Modal-->
+<!--                                   Action to View Handled Sections List Modal-->
                                 <a class="viewSectionList px-1" teacher_id="{{teach[0].teacher_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#teacherSectionListModal">
-                                    <i class="fas fa-solid fa-users" style="color: #c46d38;"></i>
+                                    <i class="fas fa-solid fa-users" data-bs-toggle="tooltip" data-bs-placement="top" title="Sections handled" style="color: #c46d38;"></i>
                                 </a>
 
-<!--                                    View Teacher Info Modal-->
+<!--                                   Action to View Teacher Info Modal-->
                                 <a class="viewTeacherInfo px-1" teacher_id="{{teach[0].teacher_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#teacherMoreInfoModal">
-                                    <i class="fas fa-solid fa-circle-info" style="color: #EDB518;"></i>
+                                    <i class="fas fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="top" title="More Info.." style="color: #EDB518;"></i>
                                 </a>
 
                             </td>
@@ -127,7 +127,7 @@
             data-search-accent-neutralise="true"
             data-search-align="right"
             data-pagination="true"
-            data-sort-name="last_name"
+            data-sort-name="section_no"
             data-sort-order="asc"
             data-show-toggle="false"
             data-show-search-button="false"

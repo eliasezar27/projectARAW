@@ -4,8 +4,8 @@ $(document).ready(function() {
         e.preventDefault();
 
         var section_num = $('#sectionNumber').val();
-        var trackID = $('#trackID').val();
-        var strandID = $('#strandID').val();
+        var trackID = $('#trackOptions').val();
+        var strandID = $('#strandOptions').val();
         var teacherID = $('#teacherID').val();
 
         req = $.ajax({
@@ -27,15 +27,15 @@ $(document).ready(function() {
                     $('#addResult').addClass('alert-'+data.result).removeClass('alert-danger').html(data.message);
 
                     $('#sectionNumber').val(null);
-                    $('#trackID').val(0);
-                    $('#strandID').val(0);
+                    $('#trackOptions').val(0);
+                    $('#strandOptions').val(0);
                     $('#teacherID').val(0);
 
-                    $('#sectionContainer').load(window.location.href + " #sectionList" );
-
-                    $('html, body').animate({
-                        scrollTop: $("#scrollHere").offset().top
-                    }, 100);
+//                    $('#sectionContainer').load(window.location.href + " #sectionList" );
+//
+//                    $('html, body').animate({
+//                        scrollTop: $("#scrollHere").offset().top
+//                    }, 100);
 
                 }else{
                     $('#addResult').addClass('alert-'+data.result).removeClass('alert-success').html(data.message);

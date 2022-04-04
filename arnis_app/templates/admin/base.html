@@ -47,7 +47,7 @@
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a id="dashboard" class="nav-link" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-solid fa-chart-column" style="width: 20px;"></i><span class="float-none">Dashboard</span></a></li>
                     <li class="nav-item"><a id="teacherTab" class="nav-link" href="{{ url_for('admin_viewTeachers') }}"><i class="fas fa-solid fa-people-group" style="width: 20px;"></i><span class="float-none">Teachers</span></a></li>
-                    <li class="nav-item"><a id="sectionTab" class="nav-link" href="#"><i class="fas fa-solid fa-users" style="width: 20px;"></i><span class="float-none">Sections</span></a></li>
+                    <li class="nav-item"><a id="sectionTab" class="nav-link" href="{{ url_for('admin_viewSections') }}"><i class="fas fa-solid fa-users" style="width: 20px;"></i><span class="float-none">Sections</span></a></li>
                     <li class="nav-item"><a id="studentTab" class="nav-link" href="#"><i class="fas fa-solid fa-person-half-dress" style="width: 20px;"></i><span class="float-none">Students</span></a></li>
                     <li class="nav-item"><a id="trackTab" class="nav-link" href="#"><i class="fa-solid fa-sitemap" style="width: 20px;" ></i><span class="float-none">Tracks and Strands</span></a></li>
                 </ul>

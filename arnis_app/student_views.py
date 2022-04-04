@@ -31,7 +31,7 @@ def student_instruction():
 
     sectionLists = db.session.query(Section, Strand, Track, Teacher, User)\
         .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
-        .outerjoin(Track, Track.track_id == Section.track_id)\
+        .outerjoin(Track, Track.track_id == Strand.track_id)\
         .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id)\
         .outerjoin(User, User.id == Teacher.user_id).all()
 

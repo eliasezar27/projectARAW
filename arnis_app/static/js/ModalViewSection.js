@@ -3,8 +3,6 @@ $(document).ready(function() {
     $(document).on(
         {'click': function() {
 
-            $('#sectionListTableBody').html('');
-
             var teacher_id = $(this).attr('teacher_id');
 
             req = $.ajax({

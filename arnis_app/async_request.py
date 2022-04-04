@@ -27,7 +27,6 @@ def add_section():
             section = Section(
                 section_no=section_no,
                 teacher_id=teacher_id,
-                track_id=track_id,
                 strand_id=strand_id
             )
 
@@ -243,3 +242,11 @@ def view_sectionList():
     else:
         result = 'danger'
         return jsonify({'result': result})
+
+
+# @app.route('/view/section/list', methods=['GET'])
+# def view_sectionList():
+#     result = 'success'
+#
+#
+#     return jsonify({'result': result, 'sectionList': sectionList, 'teacherInfo': teacherInfo})

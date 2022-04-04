@@ -67,7 +67,7 @@ let delayed;
                     }
                     return delay;
                   },
-    },
+            },
           },
         };
 

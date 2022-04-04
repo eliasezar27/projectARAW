@@ -4,7 +4,7 @@ $(document).ready(function() {
             url : '/section/count/perTeacher',
             type : 'GET'
         });
-
+let delayed;
     req.done(function(data) {
 
         console.log(data.result);
@@ -50,6 +50,18 @@ $(document).ready(function() {
                         }
                     },
                 },
+                animation: {
+                  onComplete: () => {
+                    delayed = true;
+                  },
+                  delay: (context) => {
+                    let delay = 0;
+                    if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                      delay = context.dataIndex * 100 + context.datasetIndex * 100;
+                    }
+                    return delay;
+                  },
+            },
           },
         };
 
