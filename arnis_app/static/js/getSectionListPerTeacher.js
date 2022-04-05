@@ -15,18 +15,14 @@ $(document).ready(function() {
 
                 req.done(function(data1) {
 
-//                                Action to View Handled Sections List Modal
-                                <a class="viewStudentList px-1" teacher_id="{{teach[0].teacher_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#teacherSectionListModal">
-                                    <i class="fas fa-solid fa-users" data-bs-toggle="tooltip" data-bs-placement="top" title="Sections handled" style="color: #c46d38;"></i>
-                                </a>
-
-//                                Action to View Teacher Info Modal
-                                <a class="viewTeacherInfo px-1" teacher_id="{{teach[0].teacher_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#teacherMoreInfoModal">
-                                    <i class="fas fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="top" title="More Info.." style="color: #EDB518;"></i>
-                                </a>
-
                     if (data1.result == 'success'){
+                        for (let i = 0; i < data1.sectionList.length; i++){
+                            data1.sectionList[i]['actions'] = "<a class='viewSectionStudentList px-2 py-2' section_id=" + data1.sectionList[i]['section_id'] + " style='cursor: pointer; text-decoration: none;' data-bs-toggle='modal' data-bs-target='#sectionStudentList'>"+
+                                                                    "<i class='fas fa-solid fa-user-group' data-bs-toggle='tooltip' data-bs-placement='top' title='More Info..' style='color: #c46d38;'></i>" +
+                                                                "</a>"
+                        }
 //                        console.log(data1.sectionList);
+//                        console.log(data1.teacherInfo);
                         console.log(data1.result);
                         $('#teacherSectionListTable').bootstrapTable('load', data1.sectionList);
                     }else{

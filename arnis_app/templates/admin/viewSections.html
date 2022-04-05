@@ -106,9 +106,10 @@
                                 <thead>
                                     <tr>
                                         <th data-field="section_no" data-sortable="true" data-width="100">Section Number</th>
-                                        <th data-field="strand_name" data-sortable="true">Strand</th>
-                                        <th data-field="track_name" data-sortable="true">Track</th>
+                                        <th data-field="strand_name" data-sortable="true" data-width="900">Strand</th>
+                                        <th data-field="track_name" data-sortable="true" data-width="900">Track</th>
                                         <th data-field="population" data-sortable="true" data-width="100">Population</th>
+                                        <th data-field="actions" data-width="100">Actions</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -118,6 +119,7 @@
                 </div>
             </div>
         </div>
+
 
     <!-- Add Section Modal -->
     <form id="formSection">
@@ -206,6 +208,47 @@
     </form>
 
 
+     <!--    Student List Modal-->
+    <div class="modal fade" id="sectionStudentList" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+              <i class="fa-solid fa-user-group" style="color: #c46d38;"></i>&nbsp;
+            <h5 class="modal-title text-black" id="sectionStudentListModalHeader">
+                SECTION __Blank__
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="sectionStudentListModalBody">
+
+            <table class="table table-light table-sm"
+                id="studentListTable"
+                data-toggle="table"
+                data-search="true"
+                data-search-accent-neutralise="true"
+                data-search-align="right"
+                data-pagination="true"
+                data-sort-name="section_no"
+                data-sort-order="asc"
+                data-show-toggle="false"
+                data-show-search-button="false"
+                data-detail-formatter="detailFormatter"
+                data-search-on-enter-key="false">
+
+                    <thead>
+                        <tr>
+                            <th data-field="last_name" data-sortable="true" data-width="900">Lastname</th>
+                            <th data-field="first_name" data-sortable="true" data-width="900">Firstname</th>
+                            <th data-field="gender" data-sortable="true" data-width="100">Sex</th>
+                        </tr>
+                    </thead>
+                </table>
+
+          </div>
+        </div>
+      </div>
+</div>
+
 
 
 
@@ -221,6 +264,7 @@
 <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-table.min.js') }}"></script>
 
 <script src="{{ url_for('static', filename='js/add_section.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ModalViewStudentList.js') }}"></script>
 <script src="{{ url_for('static', filename='js/getSectionListPerTeacher.js') }}"></script>
 <script src="{{ url_for('static', filename='js/teacherReload.js') }}"></script>
 <script src="{{ url_for('static', filename='js/trackStrandOptionControl.js') }}"></script>

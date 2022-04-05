@@ -69,9 +69,9 @@ def view_teacher():
 
 
 # Student list viewer
-@app.route('/view/student/list', methods=['POST'])
+@app.route('/view/student/list', methods=['GET'])
 def view_studentList():
-    section_idq = request.form['section_id']
+    section_idq = request.args.get('section_id')
 
     # Query section's list of students
     studentList = db.session.query(Student, Section, User) \
@@ -93,9 +93,9 @@ def view_studentList():
                 .filter(Track.track_id == Strand.track_id) \
                 .filter(Section.section_id == section_idq).first()
 
+    section = {}
     if sectionInfo:
-        result = 'single'
-        section = {}
+        result = 'success'
         section.update(vars(sectionInfo[0]))
         section.update(vars(sectionInfo[1]))
         section.update(vars(sectionInfo[2]))
@@ -110,9 +110,8 @@ def view_studentList():
         section['date_joined'] = str(section['date_joined'])
         section['population'] = 0 if not section['population'] else section['population']
 
+        listStudents = []
         if studentList:
-            result = 'both'
-            listStudents = []
             for student in studentList:
                 dictStudents = {}
                 dictStudents.update(vars(student[0]))
@@ -128,10 +127,10 @@ def view_studentList():
 
                 listStudents.append(dictStudents)
 
-            print(listStudents, ' \n', section)
-            return jsonify({'result': result, 'listStudents': listStudents, 'sectionInfo': section})
-        print(section)
-        return jsonify({'result': result, 'sectionInfo': section})
+        print(listStudents, ' \n', section)
+        return jsonify({'result': result, 'listStudents': listStudents, 'sectionInfo': section})
+        # print(section)
+        # return jsonify({'result': result, 'sectionInfo': section})
     else:
         result = 'danger'
         return jsonify({'result': result})
@@ -203,7 +202,8 @@ def view_sectionList():
     teacher_idq = request.args.get('teacher_id')
 
     # Query teacher's sections
-    sectionList = db.session.query(Section.population,
+    sectionList = db.session.query(Section.section_id,
+                                   Section.population,
                                    Section.section_no,
                                    Track.name.label('track_name'),
                                    Track.nickname.label('track_nickname'),
@@ -242,11 +242,3 @@ def view_sectionList():
     else:
         result = 'danger'
         return jsonify({'result': result})
-
-
-# @app.route('/view/section/list', methods=['GET'])
-# def view_sectionList():
-#     result = 'success'
-#
-#
-#     return jsonify({'result': result, 'sectionList': sectionList, 'teacherInfo': teacherInfo})
