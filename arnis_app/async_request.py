@@ -242,3 +242,66 @@ def view_sectionList():
     else:
         result = 'danger'
         return jsonify({'result': result})
+
+
+# Teacher Info Viewer
+@app.route('/view/student/info', methods=['GET'])
+def view_studentInfo():
+    student_idq = request.args.get('student_id')
+
+    # Query student's info
+    studentInfo = db.session.query(Student, User)\
+                .select_from(Student)\
+                .outerjoin(User, User.id == Student.user_id)\
+                .filter(Student.student_id==student_idq).first()
+
+    if studentInfo:
+        result = 'success'
+
+        # Transform object to dict
+        teach = vars(studentInfo[0])
+        studentInfo = vars(studentInfo[1])
+        studentInfo.update(teach)
+        del studentInfo['password']
+        del studentInfo['_sa_instance_state']
+        del studentInfo['email_confirmed_at']
+        studentInfo['date_joined'] = str(studentInfo['date_joined'])
+
+        print(studentInfo)
+        if studentInfo['section_id']:
+            # Query student's section info
+            sectionInfo = db.session.query(Section, Strand, Track, Teacher, User) \
+                .select_from(Section) \
+                .outerjoin(Strand, Strand.strand_id == Section.strand_id) \
+                .outerjoin(Track, Track.track_id == Strand.track_id) \
+                .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id) \
+                .outerjoin(User, User.id == Teacher.user_id) \
+                .filter(Section.section_id == studentInfo['section_id']).first()
+
+            studentSectionInfo = {}
+            if sectionInfo:
+                result = 'success'
+
+                # Transform object to dict
+                studentSectionInfo.update(vars(sectionInfo[0]))
+                studentSectionInfo.update(vars(sectionInfo[1]))
+                studentSectionInfo['strand_name'] = studentSectionInfo.pop('name')
+                studentSectionInfo['strand_nickname'] = studentSectionInfo.pop('nickname')
+                studentSectionInfo.update(vars(sectionInfo[2]))
+                studentSectionInfo['track_name'] = studentSectionInfo.pop('name')
+                studentSectionInfo['track_nickname'] = studentSectionInfo.pop('nickname')
+                studentSectionInfo.update(vars(sectionInfo[3]))
+                studentSectionInfo.update(vars(sectionInfo[4]))
+                del studentSectionInfo['password']
+                del studentSectionInfo['_sa_instance_state']
+                del studentSectionInfo['email_confirmed_at']
+                del studentSectionInfo['date_joined']
+
+                print(studentSectionInfo)
+
+                return jsonify({'result': result, 'studentInfo': studentInfo, 'studentSectionInfo': studentSectionInfo})
+
+        return jsonify({'result': result, 'studentInfo': studentInfo})
+    else:
+        result = 'danger'
+        return jsonify({'result': result})

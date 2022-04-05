@@ -1,10 +1,207 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "admin/base.html" %}
 
-</body>
-</html>
+{% block style %}
+
+<link rel="stylesheet" href=" {{ url_for('static', filename='bootstrap/css/bootstrap-table.min.css') }} ">
+
+<style>
+    .float-right.search.btn-group{
+        float: right;
+    }
+</style>
+
+{% endblock style %}
+
+{% block content %}
+
+    <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2">
+        <h3 class="text-dark mx-3">
+            <br>
+            STUDENTS
+        </h3>
+    </div>
+    <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2">
+        <form class="row" id="filterHolder" action="{{url_for('admin_viewStudents')}}" method="post">
+            <div class="col">
+                <div class="form">
+                    <label for="trackOptions">Track</label>
+                    <select name="trackOptions" class="form-select text-dark" id="trackOptions" aria-label="Floating label select example">
+                        <option value="0" selected>All</option>
+
+                          {% for track in tracks %}
+                            <option value="{{track.track_id}}" class="text-dark">{{ track.name }} - {{ track.nickname }}</option>
+                          {% endfor %}
+
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form">
+                    <label for="strandOptions">Strand</label>
+                    <select name="strandOptions" class="form-select text-dark" id="strandOptions" aria-label="Floating label select example">
+                        <option value="0" selected>All</option>
+
+                          {% for strand in strands %}
+                            <option value="{{strand.strand_id}}" name="{{strand.track_id}}" class="text-dark">{{ strand.name }} - {{ strand.nickname }}</option>
+                          {% endfor %}
+
+                    </select>
+                </div>
+            </div>
+            <div class="col pt-4">
+                <button type="submit" class="btn btn-primary" style="background: #c46d38;border-color: #c46d38;">Filter</button>
+            </div>
+        </form>
+    </div>
+
+
+
+
+<!--    Teachers list-->
+    <div class="container px-5">
+        <div id="teacherListTableContainer" class="rounded-3 my-1 text-dark">
+
+            <table class="table table-light table-sm"
+            id="teacherListTable"
+            data-toggle="table"
+            data-search="true"
+            data-search-accent-neutralise="true"
+            data-search-align="right"
+            data-pagination="true"
+            data-sort-name="last_name"
+            data-sort-order="asc"
+            data-show-toggle="false"
+            data-show-search-button="false"
+            data-detail-formatter="detailFormatter"
+            data-search-on-enter-key="false">
+
+                <thead>
+                    <tr>
+                        <th data-field="last_name" data-sortable="true">Surname</th>
+                        <th data-field="first_name" data-sortable="true">Given Name</th>
+                        <th data-field="actions" data-width="100">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="teacherListTableBody">
+                    {% for student in students_list %}
+                        <tr>
+                            <td>{{student[1].last_name}}</td>
+                            <td>{{student[1].first_name}}</td>
+                            <td class="text-center">
+<!--                                   Action to View Student Info Modal-->
+                                <a class="viewStudentInfo px-1" student_id="{{student[0].student_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#studentMoreInfoModal">
+                                    <i class="fas fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="top" title="More Info.." style="color: #EDB518;"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+<!--    Student Info Modal-->
+<div class="modal fade" id="studentMoreInfoModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class="fas fa-solid fa-circle-info fs-5 pe-1" style="color: #EDB518;"></i>
+          &nbsp;
+        <h5 class="modal-title text-black" id="studentMoreInfoModalHeader">
+            Student Name (Last, First)
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="studentMoreInfoModalBody">
+        ...
+      </div>
+      <div class="modal-footer">
+<!--          Flash message-->
+          <div class="py-0 alert" style="display: none;" id="statChangeFlash"></div><br>
+          <div class="btn-group userStatus" role="group" aria-label="Basic radio toggle button group" id="userStatus">
+              <input type="radio" class="btn-check" name="userStatus" id="statusActive" autocomplete="off" value="1" user_id checked>
+              <label class="btn btn-outline-success" for="statusActive">Active</label>
+
+              <input type="radio" class="btn-check" name="userStatus" id="statusInactive" autocomplete="off" value="0" user_id>
+              <label class="btn btn-outline-danger" for="statusInactive">Inactive</label>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--    Section List Modal-->
+<div class="modal fade" id="teacherSectionListModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class="fas fa-solid fa-users" style="color: #c46d38;"></i>
+          &nbsp;
+        <h5 class="modal-title text-black" id="teacherSectionListModalHeader">
+            SECTIONS - Teacher Name (Last, First)
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="teacherSectionListModalBody">
+
+        <table class="table table-light table-sm"
+            id="sectionListTable"
+            data-toggle="table"
+            data-search="true"
+            data-search-accent-neutralise="true"
+            data-search-align="right"
+            data-pagination="true"
+            data-sort-name="section_no"
+            data-sort-order="asc"
+            data-show-toggle="false"
+            data-show-search-button="false"
+            data-detail-formatter="detailFormatter"
+            data-search-on-enter-key="false">
+
+                <thead>
+                    <tr>
+                        <th data-field="section_no" data-sortable="true" data-width="100">Section Number</th>
+                        <th data-field="strand_name" data-sortable="true">Strand</th>
+                        <th data-field="track_name" data-sortable="true">Track</th>
+                        <th data-field="population" data-sortable="true" data-width="100">Population</th>
+                    </tr>
+                </thead>
+            </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock content %}
+
+{% block extra_js %}
+
+<script src="{{ url_for('static', filename='bootstrap/js/bootstrap-table.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/trackStrandOptionControl.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ModalViewStudentInfo.js') }}"></script>
+<script src="{{ url_for('static', filename='js/userStatusChanger.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ModalViewSection.js') }}"></script>
+<script src="{{ url_for('static', filename='js/teacherReload.js') }}"></script>
+
+<script>
+$(document).ready(function () {
+    $("#studentTab").addClass('active');
+});
+</script>
+
+<script>
+$(document).ready(function () {
+    $('#trackOptions option[value="{{selTrack}}"]').prop('selected', true);
+    $('#strandOptions option[value="{{selStrand}}"]').prop('selected', true);
+});
+</script>
+
+{% endblock extra_js %}

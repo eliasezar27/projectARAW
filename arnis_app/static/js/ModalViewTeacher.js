@@ -54,7 +54,7 @@ $(document).ready(function() {
                         }
 
                     }else{
-                        $('#ModalTeacherName').html('No records found!');
+                        $('#teacherMoreInfoModalHeader').html('No records found!');
                     }
 
                 console.log(data.result);

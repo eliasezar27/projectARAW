@@ -2,7 +2,7 @@ from arnis_app import app
 from flask_user import roles_required
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user
-from arnis_app.models import db, User, Teacher, Section, Strand, Track, Role, UserRoles, UserProfilePic
+from arnis_app.models import db, User, Teacher, Section, Strand, Track, Role, UserRoles, UserProfilePic, Student
 from flask_user.translation_utils import gettext as _
 from werkzeug.utils import secure_filename
 import uuid as uuid
@@ -131,16 +131,74 @@ def admin_viewSections():
                            user_name = user_name, filename=filename, teachers=teachers, tracks=tracks, strands=strands)
 
 
-@app.route('/admin/view-students')
+@app.route('/admin/view-students', methods=['POST', 'GET'])
 @roles_required('admin')
 def admin_viewStudents():
     user_name = current_user.first_name + " " + current_user.last_name
-    user_id = current_user.id
+    user_idq = current_user.id
 
-    filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
+    filename = UserProfilePic.query.filter_by(user_id=user_idq).first().filename
+
+    tracks = db.session.query(Track).all()
+    strands = db.session.query(Strand).all()
+
+    students_list=[]
+    track_idq, strand_idq = 0, 0
+    print(request.form)
+    if request.method == 'POST' and request.form:
+
+        if not request.form['trackOptions'] == '0' and not request.form['strandOptions'] == '0':
+            track_idq = request.form['trackOptions']
+            strand_idq = request.form['strandOptions']
+            print('both')
+
+            students_list = db.session.query(Student, User, Section, Strand, Track) \
+                .select_from(Student) \
+                .outerjoin(User, User.id == Student.user_id) \
+                .outerjoin(Section, Section.section_id == Student.section_id) \
+                .outerjoin(Strand, Strand.strand_id == Section.strand_id) \
+                .outerjoin(Track, Track.track_id == Strand.track_id) \
+                .filter(Section.strand_id == strand_idq) \
+                .filter(Strand.track_id == track_idq) \
+                .all()
+
+        elif not request.form['trackOptions'] == '0':
+            track_idq = request.form['trackOptions']
+            print('track')
+
+            students_list = db.session.query(Student, User, Section, Strand, Track) \
+                .select_from(Student) \
+                .outerjoin(User, User.id == Student.user_id) \
+                .outerjoin(Section, Section.section_id == Student.section_id) \
+                .outerjoin(Strand, Strand.strand_id == Section.strand_id) \
+                .outerjoin(Track, Track.track_id == Strand.track_id) \
+                .filter(Strand.track_id == track_idq) \
+                .all()
+
+        elif not request.form['strandOptions'] == '0':
+            strand_idq = request.form['strandOptions']
+            print('strand')
+
+            students_list = db.session.query(Student, User, Section, Strand, Track) \
+                .select_from(Student) \
+                .outerjoin(User, User.id == Student.user_id) \
+                .outerjoin(Section, Section.section_id == Student.section_id) \
+                .outerjoin(Strand, Strand.strand_id == Section.strand_id) \
+                .outerjoin(Track, Track.track_id == Strand.track_id) \
+                .filter(Section.strand_id == strand_idq) \
+                .all()
+        else:
+            students_list = db.session.query(Student, User) \
+                .select_from(Student) \
+                .outerjoin(User, User.id == Student.user_id).all()
+
+    else:
+        students_list = db.session.query(Student, User)\
+            .select_from(Student)\
+            .outerjoin(User, User.id == Student.user_id).all()
 
     return render_template('admin/viewStudents.html',
-                           user_name = user_name, filename=filename)
+                           user_name = user_name, filename=filename, tracks=tracks, strands=strands, students_list=students_list, selTrack=track_idq, selStrand=strand_idq)
 
 
 @app.route('/admin/tracks-strands')

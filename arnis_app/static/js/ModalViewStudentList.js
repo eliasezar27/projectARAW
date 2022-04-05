@@ -14,6 +14,7 @@ $(document).ready(function() {
             });
 
                 req.done(function(data) {
+
                     function pad(num, size) {
                         num = num.toString();
                         while (num.length < size) num = "0" + num;
