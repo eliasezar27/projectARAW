@@ -305,3 +305,46 @@ def view_studentInfo():
     else:
         result = 'danger'
         return jsonify({'result': result})
+
+
+@app.route('/view/strand/list', methods=['GET'])
+def view_strandList():
+    track_idq = request.args.get('track_id')
+    strand_list = db.session.query(Strand).filter(Strand.track_id == track_idq).all()
+    for i in range(len(strand_list)):
+        strand_list[i] = vars(strand_list[i])
+        strand_list[i].pop('_sa_instance_state')
+
+    return jsonify({'result': 'success', 'strand_list': strand_list})
+
+
+@app.route('/edit_track', methods=['POST'])
+def edit_track():
+    track_id = request.form['track_id']
+    track_name = request.form['track_name']
+    track_nickname = request.form['track_nickname']
+
+    trackQuery = db.session.query(Track).filter_by(track_id=track_id).first()
+    check_trackName = db.session.query(Track).filter_by(name=track_name).first()
+    check_trackNickname = db.session.query(Track).filter_by(nickname=track_nickname).first()
+
+    message = ''
+    # Check if track name is already existing
+    if check_trackName or check_trackNickname:
+        result = 'danger'
+        if check_trackName:
+            message = 'Track name already exists!'
+        if check_trackNickname:
+            message = 'Track code already exists!'
+
+    else:
+
+        trackQuery.name = track_name
+        trackQuery.nickname = track_nickname
+
+        db.session.commit()
+
+        result = 'success'
+        message = 'Track has been edited!'
+
+    return jsonify({'result': result, 'message': message})

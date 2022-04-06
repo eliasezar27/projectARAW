@@ -50,7 +50,7 @@
                         <div class="col-md-12 mb-2">
                             <a class="viewTeacherSection" teacher_id="{{teacher[0].teacher_id}}" style="cursor: pointer; text-decoration: none;">
 
-                                <div class="card shadow py-2 border-light border-3 viewTeacherSectionCard" id="viewTeacherSectionCard{{teacher[0].teacher_id}}">
+                                <div class="card shadow py-2 border-light border-3 viewTeacherSectionCard" id="viewTeacherSectionCard{{teacher[0].teacher_id}}" teacher_id="{{teacher[0].teacher_id}}">
                                     <div class="card-body py-0">
                                         <div class="row align-items-center no-gutters">
 
@@ -285,6 +285,8 @@ $(document).ready(function () {
             sec.removeClass('border-light');
             sec.addClass('border-danger');
             sec.addClass('border-3');
+            var i = $(this).attr('teacher_id')
+            $("#teacherID option[value="+i+"]").prop('selected', true);
         }
     }, '.viewTeacherSectionCard');
     $('.viewTeacherSectionCard')[0].click();

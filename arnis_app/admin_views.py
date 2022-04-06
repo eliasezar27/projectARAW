@@ -209,5 +209,7 @@ def admin_editTracks():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    tracks = db.session.query(Track).all()
+
     return render_template('admin/editTracks.html',
-                           user_name = user_name, filename=filename)
+                           user_name = user_name, filename=filename, tracks=tracks)
