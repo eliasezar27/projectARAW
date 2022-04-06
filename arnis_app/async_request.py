@@ -392,3 +392,22 @@ def add_strand():
         message = 'Invalid inputs!'
 
     return jsonify({'result': result, 'message': message})
+
+
+@app.route('/get/student/info', methods=['GET'])
+def get_studentInfo():
+    student_idq = request.args.get('student_id')
+
+    student = db.session.query(Student, User)\
+        .select_from(Student)\
+        .outerjoin(User, User.id == Student.user_id)\
+        .filter(Student.student_id == student_idq).first()
+
+    student_info = {}
+
+    student_info.update(vars(student[0]))
+    student_info.update(vars(student[1]))
+    student_info.pop('_sa_instance_state')
+    student_info.pop('password')
+
+    return jsonify({'result': 'success', 'student_info': student_info})
