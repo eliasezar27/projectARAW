@@ -124,17 +124,21 @@
 
 
     <!--    Student List Modal-->
+<form id="transferStudentForm">
     <div class="modal fade" id="transferStudentModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <i class='fas fa-solid fa-arrow-right-from-bracket' data-bs-toggle='tooltip' data-bs-placement='top' title='Transfer student' style='color: #c46d38;'></i> &nbsp;&nbsp;&nbsp;
                     <h5 class="modal-title text-black" id="transferStudentModalHeader">
+                        <i class='fas fa-solid fa-arrow-right-from-bracket' data-bs-toggle='tooltip' data-bs-placement='top' title='Transfer student' style='color: #c46d38;'></i>
+                        &nbsp;
                         TRANSFER TO DIFFERENT SECTION
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="transferStudentModalBody">
+
+                    <!--          Flash message-->
+                    <div class="alert" style="display: none;" id="transferStudentResult"></div>
 
                     <div class="row g-2 p-2">
                         <div class="col-xl">
@@ -149,7 +153,7 @@
                         <div class="col-xl">
                             <div class="form-floating">
                                 <select class="form-select text-dark" name="trackOptions" id="sectionOptions" aria-label="Floating label select example" required>
-                                    <option value=0 disabled selected>Choose...</option>
+                                    <option value disabled selected>Choose...</option>
                                     <option value=-1 class="text-danger">Remove</option>
                                     {% for section in section_list %}
                                     <option value="{{section[0].section_id}}" class="text-dark">{{ "{:02d}".format(section[0].section_no) }} - {{ section[1] }}</option>
@@ -170,7 +174,7 @@
             </div>
         </div>
     </div>
-
+</form>
 
 
 
@@ -186,6 +190,7 @@
 <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-table.min.js') }}"></script>
 
 <script src="{{ url_for('static', filename='js/add_section.js') }}"></script>
+<script src="{{ url_for('static', filename='js/transfer_section.js') }}"></script>
 <script src="{{ url_for('static', filename='js/getStudentInfo.js') }}"></script>
 <script src="{{ url_for('static', filename='js/ModalViewStudentList.js') }}"></script>
 <script src="{{ url_for('static', filename='js/getStudentListPerSection.js') }}"></script>

@@ -411,3 +411,28 @@ def get_studentInfo():
     student_info.pop('password')
 
     return jsonify({'result': 'success', 'student_info': student_info})
+
+
+@app.route('/transfer/section', methods=['POST'])
+def transfer_section():
+    student_id = int(request.form['student_id'])
+    section_id = int(request.form['section_id'])
+    transfer = db.session.query(Student).filter(Student.student_id == student_id).first()
+
+    if transfer is None:
+        result = 'danger'
+        message = 'error!'
+    else:
+        if section_id == -1:
+            transfer.section_id = None
+            transfer.reassign = None
+            transfer.request = None
+            db.session.commit()
+        else:
+            transfer.reassign = section_id
+            db.session.commit()
+
+        result = 'success'
+        message = 'Student successfully transferred!'
+
+    return jsonify({'result': result, 'message': message})
