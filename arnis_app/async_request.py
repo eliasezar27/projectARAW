@@ -14,7 +14,7 @@ def add_section():
     sectionQuery = db.session.query(Section).filter_by(section_no=section_no).filter_by(strand_id=strand_id).first()
 
     # Check input integrity
-    if not(section_no == '' or teacher_id == '0' or track_id == '0' or strand_id == '0'):
+    if not(section_no == '' or teacher_id == '0' or track_id == '' or strand_id == ''):
 
         # Check if section is already existing
         if not (sectionQuery is None):
@@ -346,5 +346,49 @@ def edit_track():
 
         result = 'success'
         message = 'Track has been edited!'
+
+    return jsonify({'result': result, 'message': message})
+
+
+@app.route('/add_strand', methods=['POST'])
+def add_strand():
+    track_id = request.form['track_id']
+    strand_name = request.form['strand_name']
+    strand_nickname = request.form['strand_nickname']
+
+    strandNameQuery = db.session.query(Strand).filter_by(name=strand_name).first()
+    strandNicknameQuery = db.session.query(Strand).filter_by(nickname=strand_nickname).first()
+
+    print(strandNameQuery)
+    print(strandNicknameQuery)
+
+    message = ''
+    # Check input integrity
+    if not(strand_name == '' or strand_nickname == '' or track_id == ''):
+
+        # Check if section is already existing
+        if not (strandNameQuery is None and strandNicknameQuery is None):
+            result = 'danger'
+
+            if not (strandNameQuery is None):
+                message = 'Strand Name is already existing!'
+
+            if not (strandNicknameQuery is None):
+                message = 'Strand Code is already existing!'
+        else:
+            result = 'success'
+            message = 'new strand has been added!'
+
+            strand = Strand(
+                name=strand_name,
+                nickname=strand_nickname,
+                track_id=int(track_id)
+            )
+
+            db.session.add(strand)
+            db.session.commit()
+    else:
+        result = 'danger'
+        message = 'Invalid inputs!'
 
     return jsonify({'result': result, 'message': message})

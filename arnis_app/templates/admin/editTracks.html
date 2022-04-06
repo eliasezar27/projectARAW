@@ -9,10 +9,6 @@
         float: right;
     }
 
-    body{
-      scrollbar-color: auto;
-    }
-
 </style>
 
 {% endblock style %}
@@ -20,28 +16,28 @@
 {% block content %}
 
 <!--    Section list-->
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        <div class="d-sm-flex justify-content-between align-items-center my-0">
-            <h3 class="text-dark mx-3 my-4">
-                TRACKS AND STRANDS
+    <div class="d-sm-flex justify-content-between align-items-center my-0">
+        <h3 class="text-dark mx-3 my-4">
+            TRACKS AND STRANDS
 
-        <!--        Refresh Button-->
-<!--                <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" id="sectionRefresh" style="background: none;border-style: none;color: #EDB518;">-->
-<!--                    <i class="fas fa-solid fa-arrows-rotate fw-bold"></i>-->
-<!--                </a>-->
-            </h3>
+            <!--        Refresh Button-->
+            <!--                <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" id="sectionRefresh" style="background: none;border-style: none;color: #EDB518;">-->
+            <!--                    <i class="fas fa-solid fa-arrows-rotate fw-bold"></i>-->
+            <!--                </a>-->
+        </h3>
 
-        <!--    Add section Button-->
-            <div>
-                <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" data-bs-toggle="modal" data-bs-target="#editTrackModal" style="background: #c46d38;border-color: #c46d38;">
-                    <i class="fas fa-solid fa-pen-to-square  text-white"></i>  Edit Track
-                </a>
-                <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" data-bs-toggle="modal" data-bs-target="#addSectionModal" style="background: #c46d38;border-color: #c46d38;">
-                    <i class="fas fa-solid fa-plus  text-white"></i>  Add Strand
-                </a>
-            </div>
+        <!--    Edit Track and add Strands Buttons-->
+        <div>
+            <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" data-bs-toggle="modal" data-bs-target="#editTrackModal" style="background: #c46d38;border-color: #c46d38;">
+                <i class="fas fa-solid fa-pen-to-square text-white"></i>  Edit Track
+            </a>
+            <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" data-bs-toggle="modal" data-bs-target="#addStrandModal" style="background: #c46d38;border-color: #c46d38;">
+                <i class="fas fa-solid fa-plus text-white"></i>  Add Strand
+            </a>
         </div>
+    </div>
 
     <div class="row">
         <!--            Track list-->
@@ -52,103 +48,103 @@
                 </div>
                 <div class="card-body" id="sectionList">
                     {% for track in tracks %}
-                        <div class="col-md-12 mb-2">
-                            <a class="viewTrack" track_id="{{track.track_id}}" style="cursor: pointer; text-decoration: none;">
+                    <div class="col-md-12 mb-2">
+                        <a class="viewTrack" track_id="{{track.track_id}}" style="cursor: pointer; text-decoration: none;">
 
-                                <div class="card shadow py-2 border-light border-3 viewTrackCard" track_id="{{track.track_id}}" track_name="{{track.name}}" track_nickname="{{track.nickname}}" id="viewTrackCard{{track.track_id}}">
-                                    <div class="card-body py-0">
-                                        <div class="row align-items-center no-gutters">
+                            <div class="card shadow py-2 border-light border-3 viewTrackCard" track_id="{{track.track_id}}" track_name="{{track.name}}" track_nickname="{{track.nickname}}" id="viewTrackCard{{track.track_id}}">
+                                <div class="card-body py-0">
+                                    <div class="row align-items-center no-gutters">
 
-                                            <div class="col col-2">
-                                                 <div class="text-dark fw-bold" data-bs-toggle="tooltip" title="{{ track.name }}">
-                                                     {% if track.track_id == 1 %}
-                                                        <i class="fas fa-solid fa-book-open-reader text-gray-300 fs-3"></i>
-                                                     {% elif track.track_id == 2 %}
-                                                        <i class="fas fa-solid fa-palette text-gray-300 fs-3"></i>
-                                                     {% elif track.track_id == 3 %}
-                                                        <i class="fas fa-solid fa-basketball text-gray-300 fs-3"></i>
-                                                     {% elif track.track_id == 4 %}
-                                                        <i class="fas fa-solid fa-microchip text-gray-300 fs-3"></i>
-                                                     {% else %}
-                                                        <i class="fas fa-solid fa-chalkboard text-gray-300 fs-3"></i>
-                                                     {% endif %}
-                                                </div>
+                                        <div class="col col-2">
+                                            <div class="text-dark fw-bold" data-bs-toggle="tooltip" title="{{ track.name }}">
+                                                {% if track.track_id == 1 %}
+                                                <i class="fas fa-solid fa-book-open-reader text-gray-300 fs-3"></i>
+                                                {% elif track.track_id == 2 %}
+                                                <i class="fas fa-solid fa-palette text-gray-300 fs-3"></i>
+                                                {% elif track.track_id == 3 %}
+                                                <i class="fas fa-solid fa-basketball text-gray-300 fs-3"></i>
+                                                {% elif track.track_id == 4 %}
+                                                <i class="fas fa-solid fa-microchip text-gray-300 fs-3"></i>
+                                                {% else %}
+                                                <i class="fas fa-solid fa-chalkboard text-gray-300 fs-3"></i>
+                                                {% endif %}
                                             </div>
-
-                                            <div class="col col-10">
-                                                <div class="text-dark text-uppercase fw-bold h5 mb-0">
-                                                    <span class="sectionNumber" style="color: #c46d38;">{{ track.name }}</span>
-                                                </div>
-                                            </div>
-
                                         </div>
+
+                                        <div class="col col-10">
+                                            <div class="text-dark text-uppercase fw-bold h5 mb-0">
+                                                <span class="sectionNumber" style="color: #c46d38;">{{ track.name }}</span>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
+                    </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
 
 
-<!--        Strand List-->
-         <div class="col-lg-8 p-0">
-              <div id="strandListContainer"  class="card h-100 border-light">
-<!--                        <div class="card-header" id="studentListTable">-->
-<!--                            <span class="text-black">-->
-<!--                                SECTION NAME-->
-<!--                            </span>-->
-<!--                        </div>-->
-                    <div class="card-body" id="studentList" style="height: 450px; overflow-y: scroll;">
-                        <div id="strandListContainerDataTable" class="rounded-3 my-1 text-dark">
+        <!--        Strand List-->
+        <div class="col-lg-8 p-0">
+            <div id="strandListContainer"  class="card h-100 border-light">
+                <!--                        <div class="card-header" id="studentListTable">-->
+                <!--                            <span class="text-black">-->
+                <!--                                SECTION NAME-->
+                <!--                            </span>-->
+                <!--                        </div>-->
+                <div class="card-body" id="strandList" style="height: 450px; overflow-y: scroll;">
+                    <div id="strandListContainerDataTable" class="rounded-3 my-1 text-dark">
 
-                            <table class="table table-light table-sm"
-                            id="strandListTable"
-                            data-toggle="table"
-                            data-search="true"
-                            data-search-accent-neutralise="true"
-                            data-search-align="right"
-                            data-pagination="true"
-                            data-sort-name="name"
-                            data-sort-order="asc"
-                            data-show-toggle="false"
-                            data-show-search-button="false"
-                            data-detail-formatter="detailFormatter"
-                            data-search-on-enter-key="false">
+                        <table class="table table-light table-sm"
+                               id="strandListTable"
+                               data-toggle="table"
+                               data-search="true"
+                               data-search-accent-neutralise="true"
+                               data-search-align="right"
+                               data-pagination="true"
+                               data-sort-name="name"
+                               data-sort-order="asc"
+                               data-show-toggle="false"
+                               data-show-search-button="false"
+                               data-detail-formatter="detailFormatter"
+                               data-search-on-enter-key="false">
 
-                                <thead>
-                                    <tr>
-                                        <th data-field="nickname" data-sortable="true" data-width="100">Strand Nickname</th>
-                                        <th data-field="name" data-sortable="true">Strands Name</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            <thead>
+                            <tr>
+                                <th data-field="nickname" data-sortable="true" data-width="100">Strand Nickname</th>
+                                <th data-field="name" data-sortable="true">Strands Name</th>
+                            </tr>
+                            </thead>
+                        </table>
 
-                      </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
 
     <!-- Edit Track Modal -->
     <form id="editTrackForm">
-        <div class="modal fade scrollable" id="editTrackModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabelAddSec" aria-hidden="true">
+        <div class="modal fade scrollable" id="editTrackModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabelEditTrack" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-dark fw-bold" id="staticBackdropLabelAddSec">Edit Track</h5>
+                        <h5 class="modal-title text-dark fw-bold" id="staticBackdropLabelEditTrack">Edit Track</h5>
                     </div>
                     <div class="modal-body">
 
-                    <!--          Flash message-->
-                      <div class="alert" style="display: none;" id="editTrackResult"></div>
+                        <!--          Flash message-->
+                        <div class="alert" style="display: none;" id="editTrackResult"></div>
 
                         <div class="row g-2 p-2">
                             <div class="col-xl">
                                 <div class="form-floating">
-                                    <input type="hidden" name="trac_id" id="track_id">
+                                    <input type="hidden" name="track_id" id="track_id">
                                     <input type="text" name="track_name" class="form-control text-dark" id="trackNameChange">
                                     <label for="trackNameChange" class="text-dark">Rename Track</label>
                                 </div>
@@ -167,59 +163,72 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="add_section">Submit</button>
+                        <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="edit_track">Submit</button>
                     </div>
-            </div>
+                </div>
             </div>
         </div>
     </form>
 
 
-     <!--    Student List Modal-->
-    <div class="modal fade" id="sectionStudentList" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-              <i class="fa-solid fa-user-group" style="color: #c46d38;"></i>&nbsp;
-            <h5 class="modal-title text-black" id="sectionStudentListModalHeader">
-                SECTION __Blank__
-            </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" id="sectionStudentListModalBody">
+    <!-- Add Strand Modal -->
+    <form id="addStrandForm">
+        <div class="modal fade scrollable" id="addStrandModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabelAddStrand" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-dark fw-bold" id="staticBackdropLabelAddStrand">Add Strand</h5>
+                    </div>
+                    <div class="modal-body">
 
-            <table class="table table-light table-sm"
-                id="studentListTable"
-                data-toggle="table"
-                data-search="true"
-                data-search-accent-neutralise="true"
-                data-search-align="right"
-                data-pagination="true"
-                data-sort-name="section_no"
-                data-sort-order="asc"
-                data-show-toggle="false"
-                data-show-search-button="false"
-                data-detail-formatter="detailFormatter"
-                data-search-on-enter-key="false">
+                        <!--          Flash message-->
+                        <div class="alert" style="display: none;" id="addStrandResult"></div>
 
-                    <thead>
-                        <tr>
-                            <th data-field="last_name" data-sortable="true" data-width="900">Lastname</th>
-                            <th data-field="first_name" data-sortable="true" data-width="900">Firstname</th>
-                            <th data-field="gender" data-sortable="true" data-width="100">Sex</th>
-                        </tr>
-                    </thead>
-                </table>
+                        <div class="row g-2 p-2">
+                            <div class="col-xl">
+                                <div class="form-floating">
+                                    <input type="text" name="track_name" class="form-control text-dark" id="addStrandName">
+                                    <label for="trackNameChange" class="text-dark">Strand Name</label>
+                                </div>
+                            </div>
+                        </div>
 
-          </div>
+                        <div class="row g-2 p-2">
+                            <div class="col-xl">
+                                <div class="form-floating">
+                                    <input type="text" name="track_code" class="form-control text-dark" id="addStrandNickname">
+                                    <label for="trackNicknameChange" class="text-dark">Strand Code</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 p-2">
+                            <div class="col-xl">
+                                <div class="form-floating">
+                                    <select class="form-select text-dark" name="trackOptions" id="trackOptions" aria-label="Floating label select example" required>
+                                        <option value=0 disabled selected>Choose...</option>
+
+                                        {% for track in tracks %}
+                                        <option value="{{track.track_id}}" class="text-dark">{{ track.name }} - {{ track.nickname }}</option>
+                                        {% endfor %}
+
+                                    </select>
+                                    <label for="trackOptions">Add Strand to Track...</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeAddStrandModal">Close</button>
+                        <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="add_strand">Submit</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </form>
+
 </div>
-
-
-
-
-    </div>
 
 
 
@@ -231,9 +240,8 @@
 <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-table.min.js') }}"></script>
 
 <script src="{{ url_for('static', filename='js/editTrack.js') }}"></script>
-<!--<script src="{{ url_for('static', filename='js/ModalViewStudentList.js') }}"></script>-->
+<script src="{{ url_for('static', filename='js/addStrand.js') }}"></script>
 <script src="{{ url_for('static', filename='js/getStrandListPerTrack.js') }}"></script>
-<!--<script src="{{ url_for('static', filename='js/teacherReload.js') }}"></script>-->
 <script src="{{ url_for('static', filename='js/trackStrandOptionControl.js') }}"></script>
 
 <script>
@@ -244,6 +252,7 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function () {
+
     $(document).on(
         {'click': function() {
             $('.viewTrackCard').removeClass('border-danger');
@@ -261,11 +270,22 @@ $(document).ready(function () {
             $("#track_id").val(h);
             $("#trackNameChange").val(i);
             $("#trackNicknameChange").val(j);
+
+            $('#trackOptions option[value=' + h + ']').prop('selected', true);
         }
 
     }, '.viewTrackCard');
     $('.viewTrackCard')[0].click();
 
+
+});
+</script>
+
+<script>
+$(document).ready(function () {
+    $('#closeAddStrandModal').click(function(){
+        $('#strandListTable').bootstrapTable('refresh');
+    });
 });
 </script>
 

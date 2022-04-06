@@ -1,5 +1,5 @@
  $( document ).ready(function(){
-    $('.alert').not('#addResult').fadeIn('slow', function(){
-       $('.alert').not('#addResult').delay(3000).fadeOut();
+    $('.alert').not('#addResult, #editTrackResult, #addStrandResult').fadeIn('slow', function(){
+       $('.alert').not('#addResult, #editTrackResult, #addStrandResult').delay(3000).fadeOut();
     });
 });

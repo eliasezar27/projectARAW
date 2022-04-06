@@ -20,105 +20,105 @@
 {% block content %}
 
 <!--    Section list-->
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        <div class="d-sm-flex justify-content-between align-items-center my-0">
-            <h3 class="text-dark mx-3 my-4">
-                SECTIONS
+    <div class="d-sm-flex justify-content-between align-items-center my-0">
+        <h3 class="text-dark mx-3 my-4">
+            SECTIONS
 
-        <!--        Refresh Button-->
-<!--                <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" id="sectionRefresh" style="background: none;border-style: none;color: #EDB518;">-->
-<!--                    <i class="fas fa-solid fa-arrows-rotate fw-bold"></i>-->
-<!--                </a>-->
-            </h3>
+            <!--        Refresh Button-->
+            <!--                <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" id="sectionRefresh" style="background: none;border-style: none;color: #EDB518;">-->
+            <!--                    <i class="fas fa-solid fa-arrows-rotate fw-bold"></i>-->
+            <!--                </a>-->
+        </h3>
 
         <!--    Add section Button-->
-            <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" data-bs-toggle="modal" data-bs-target="#addSectionModal" style="background: #c46d38;border-color: #c46d38;">
-                <i class="fas fa-solid fa-plus  text-white"></i>  Register a section
-            </a>
-        </div>
+        <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" data-bs-toggle="modal" data-bs-target="#addSectionModal" style="background: #c46d38;border-color: #c46d38;">
+            <i class="fas fa-solid fa-plus  text-white"></i>  Register a section
+        </a>
+    </div>
 
     <div class="row">
         <!--            Sections list-->
         <div class="col-lg-4 p-0" style="height: 500px;">
             <div id="teacherListContainer" class="card h-100 border border-light overflow-auto">
-                    <div class="card-header text-black">
-                        <h4>Teachers</h4>
-                    </div>
+                <div class="card-header text-black">
+                    <h4>Teachers</h4>
+                </div>
                 <div class="card-body" id="sectionList">
                     {% for teacher in teachers %}
-                        <div class="col-md-12 mb-2">
-                            <a class="viewTeacherSection" teacher_id="{{teacher[0].teacher_id}}" style="cursor: pointer; text-decoration: none;">
+                    <div class="col-md-12 mb-2">
+                        <a class="viewTeacherSection" teacher_id="{{teacher[0].teacher_id}}" style="cursor: pointer; text-decoration: none;">
 
-                                <div class="card shadow py-2 border-light border-3 viewTeacherSectionCard" id="viewTeacherSectionCard{{teacher[0].teacher_id}}" teacher_id="{{teacher[0].teacher_id}}">
-                                    <div class="card-body py-0">
-                                        <div class="row align-items-center no-gutters">
+                            <div class="card shadow py-2 border-light border-3 viewTeacherSectionCard" id="viewTeacherSectionCard{{teacher[0].teacher_id}}" teacher_id="{{teacher[0].teacher_id}}">
+                                <div class="card-body py-0">
+                                    <div class="row align-items-center no-gutters">
 
-                                            <div class="col col-2">
-                                                 <div class="text-dark fw-bold" data-bs-toggle="tooltip" title="{{ teacher[1].last_name }}">
-                                                    <i class="fas fa-solid fa-person-chalkboard text-gray-300 fs-3"></i>
-                                                </div>
+                                        <div class="col col-2">
+                                            <div class="text-dark fw-bold" data-bs-toggle="tooltip" title="{{ teacher[1].last_name }}">
+                                                <i class="fas fa-solid fa-person-chalkboard text-gray-300 fs-3"></i>
                                             </div>
-
-                                            <div class="col col-10">
-                                                <div class="text-dark text-uppercase fw-bold h5 mb-0">
-                                                    <span class="sectionNumber" style="color: #c46d38;">{{ teacher[1].last_name }}</span>,
-                                                    <span class="sectionStrand" style="color: #EDB518;">{{ teacher[1].first_name }}</span>
-                                                </div>
-                                            </div>
-
                                         </div>
+
+                                        <div class="col col-10">
+                                            <div class="text-dark text-uppercase fw-bold h5 mb-0">
+                                                <span class="sectionNumber" style="color: #c46d38;">{{ teacher[1].last_name }}</span>,
+                                                <span class="sectionStrand" style="color: #EDB518;">{{ teacher[1].first_name }}</span>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
+                    </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
 
 
-<!--        Section List-->
-         <div class="col-lg-8 p-0">
-              <div id="teacherSectionListContainer"  class="card h-100 border-light">
-<!--                        <div class="card-header" id="studentListTable">-->
-<!--                            <span class="text-black">-->
-<!--                                SECTION NAME-->
-<!--                            </span>-->
-<!--                        </div>-->
-                    <div class="card-body" id="studentList" style="height: 450px; overflow-y: scroll;">
-                        <div id="teacherSectionListContainerDataTable" class="rounded-3 my-1 text-dark">
+        <!--        Section List-->
+        <div class="col-lg-8 p-0">
+            <div id="teacherSectionListContainer"  class="card h-100 border-light">
+                <!--                        <div class="card-header" id="studentListTable">-->
+                <!--                            <span class="text-black">-->
+                <!--                                SECTION NAME-->
+                <!--                            </span>-->
+                <!--                        </div>-->
+                <div class="card-body" id="studentList" style="height: 450px; overflow-y: scroll;">
+                    <div id="teacherSectionListContainerDataTable" class="rounded-3 my-1 text-dark">
 
-                            <table class="table table-light table-sm"
-                            id="teacherSectionListTable"
-                            data-toggle="table"
-                            data-search="true"
-                            data-search-accent-neutralise="true"
-                            data-search-align="right"
-                            data-pagination="true"
-                            data-sort-name="section_no"
-                            data-sort-order="asc"
-                            data-show-toggle="false"
-                            data-show-search-button="false"
-                            data-detail-formatter="detailFormatter"
-                            data-search-on-enter-key="false">
+                        <table class="table table-light table-sm"
+                               id="teacherSectionListTable"
+                               data-toggle="table"
+                               data-search="true"
+                               data-search-accent-neutralise="true"
+                               data-search-align="right"
+                               data-pagination="true"
+                               data-sort-name="section_no"
+                               data-sort-order="asc"
+                               data-show-toggle="false"
+                               data-show-search-button="false"
+                               data-detail-formatter="detailFormatter"
+                               data-search-on-enter-key="false">
 
-                                <thead>
-                                    <tr>
-                                        <th data-field="section_no" data-sortable="true" data-width="100">Section Number</th>
-                                        <th data-field="strand_name" data-sortable="true" data-width="900">Strand</th>
-                                        <th data-field="track_name" data-sortable="true" data-width="900">Track</th>
-                                        <th data-field="population" data-sortable="true" data-width="100">Population</th>
-                                        <th data-field="actions" data-width="100">Actions</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            <thead>
+                            <tr>
+                                <th data-field="section_no" data-sortable="true" data-width="100">Section Number</th>
+                                <th data-field="strand_name" data-sortable="true" data-width="900">Strand</th>
+                                <th data-field="track_name" data-sortable="true" data-width="900">Track</th>
+                                <th data-field="population" data-sortable="true" data-width="100">Population</th>
+                                <th data-field="actions" data-width="100">Actions</th>
+                            </tr>
+                            </thead>
+                        </table>
 
-                      </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
 
     <!-- Add Section Modal -->
@@ -131,128 +131,128 @@
                     </div>
                     <div class="modal-body">
 
-                    <!--          Flash message-->
-                      <div class="alert" style="display: none;" id="addResult"></div>
+                        <!--          Flash message-->
+                        <div class="alert" style="display: none;" id="addResult"></div>
 
                         <div class="row g-2 p-2">
 
-                          <div class="col-xl">
-                            <div class="form-floating">
-                              <select class="form-select text-dark" id="teacherID" aria-label="Floating label select example">
-                                <option value="0" selected>Available Teachers</option>
+                            <div class="col-xl">
+                                <div class="form-floating">
+                                    <select class="form-select text-dark" id="teacherID" aria-label="Floating label select example">
+                                        <option value="0" selected>Available Teachers</option>
 
-                                  {% for teacher in teachers %}
-                                    <option value="{{teacher[0].teacher_id}}" class="text-dark">{{ teacher[1].last_name }}, {{ teacher[1].first_name }}</option>
-                                  {% endfor %}
+                                        {% for teacher in teachers %}
+                                        <option value="{{teacher[0].teacher_id}}" class="text-dark">{{ teacher[1].last_name }}, {{ teacher[1].first_name }}</option>
+                                        {% endfor %}
 
-                              </select>
-                              <label for="teacherID">Assign a Teacher</label>
+                                    </select>
+                                    <label for="teacherID">Assign a Teacher</label>
+                                </div>
                             </div>
-                          </div>
 
-                      </div>
+                        </div>
 
-                      <div class="row g-2 p-2">
-                          <div class="col-xl">
-                            <div class="form-floating">
-                              <input type="number" class="form-control text-dark" id="sectionNumber" min="1" required>
-                              <label for="sectionNumber" class="text-dark">Input Section Numbers</label>
+                        <div class="row g-2 p-2">
+                            <div class="col-xl">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control text-dark" id="sectionNumber" min="1" required>
+                                    <label for="sectionNumber" class="text-dark">Input Section Numbers</label>
+                                </div>
                             </div>
-                          </div>
-                      </div>
+                        </div>
 
-                      <div class="row g-2 p-2">
+                        <div class="row g-2 p-2">
 
-                          <div class="col-xl">
-                            <div class="form-floating">
-                                <select class="form-select text-dark" id="trackOptions" aria-label="Floating label select example" required>
-                                    <option value=0 disabled selected>Choose...</option>
+                            <div class="col-xl">
+                                <div class="form-floating">
+                                    <select class="form-select text-dark" id="trackOptions" aria-label="Floating label select example" required>
+                                        <option value=0 disabled selected>Choose...</option>
 
-                                      {% for track in tracks %}
+                                        {% for track in tracks %}
                                         <option value="{{track.track_id}}" class="text-dark">{{ track.name }} - {{ track.nickname }}</option>
-                                      {% endfor %}
+                                        {% endfor %}
 
-                                </select>
-                              <label for="trackOptions">Track</label>
+                                    </select>
+                                    <label for="trackOptions">Track</label>
+                                </div>
                             </div>
-                          </div>
 
-                      </div>
+                        </div>
 
-                      <div class="row g-2 p-2">
+                        <div class="row g-2 p-2">
 
-                          <div class="col-xl">
-                            <div class="form-floating">
-                                <select class="form-select text-dark" id="strandOptions" aria-label="Floating label select example" required>
-                                    <option value=0 disabled selected>Choose...</option>
+                            <div class="col-xl">
+                                <div class="form-floating">
+                                    <select class="form-select text-dark" id="strandOptions" aria-label="Floating label select example" required>
+                                        <option value=0 disabled selected>Choose...</option>
 
-                                      {% for strand in strands %}
+                                        {% for strand in strands %}
                                         <option value="{{strand.strand_id}}" name="{{strand.track_id}}" class="text-dark">{{ strand.name }} - {{ strand.nickname }}</option>
-                                      {% endfor %}
+                                        {% endfor %}
 
-                                </select>
-                              <label for="strandOptions">Strand</label>
+                                    </select>
+                                    <label for="strandOptions">Strand</label>
+                                </div>
                             </div>
-                          </div>
 
-                      </div>
+                        </div>
 
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="add_section">Submit</button>
                     </div>
-            </div>
+                </div>
             </div>
         </div>
     </form>
 
 
-     <!--    Student List Modal-->
+    <!--    Student List Modal-->
     <div class="modal fade" id="sectionStudentList" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-              <i class="fa-solid fa-user-group" style="color: #c46d38;"></i>&nbsp;
-            <h5 class="modal-title text-black" id="sectionStudentListModalHeader">
-                SECTION __Blank__
-            </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" id="sectionStudentListModalBody">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="fa-solid fa-user-group" style="color: #c46d38;"></i>&nbsp;
+                    <h5 class="modal-title text-black" id="sectionStudentListModalHeader">
+                        SECTION __Blank__
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="sectionStudentListModalBody">
 
-            <table class="table table-light table-sm"
-                id="studentListTable"
-                data-toggle="table"
-                data-search="true"
-                data-search-accent-neutralise="true"
-                data-search-align="right"
-                data-pagination="true"
-                data-sort-name="section_no"
-                data-sort-order="asc"
-                data-show-toggle="false"
-                data-show-search-button="false"
-                data-detail-formatter="detailFormatter"
-                data-search-on-enter-key="false">
+                    <table class="table table-light table-sm"
+                           id="studentListTable"
+                           data-toggle="table"
+                           data-search="true"
+                           data-search-accent-neutralise="true"
+                           data-search-align="right"
+                           data-pagination="true"
+                           data-sort-name="section_no"
+                           data-sort-order="asc"
+                           data-show-toggle="false"
+                           data-show-search-button="false"
+                           data-detail-formatter="detailFormatter"
+                           data-search-on-enter-key="false">
 
-                    <thead>
+                        <thead>
                         <tr>
                             <th data-field="last_name" data-sortable="true" data-width="900">Lastname</th>
                             <th data-field="first_name" data-sortable="true" data-width="900">Firstname</th>
                             <th data-field="gender" data-sortable="true" data-width="100">Sex</th>
                         </tr>
-                    </thead>
-                </table>
+                        </thead>
+                    </table>
 
-          </div>
+                </div>
+            </div>
         </div>
-      </div>
-</div>
-
-
-
-
     </div>
+
+
+
+
+</div>
 
 
 

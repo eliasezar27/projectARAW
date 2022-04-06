@@ -25,7 +25,6 @@ $(document).ready(function() {
                 $('#editTrackResult').addClass('alert-'+data.result).removeClass('alert-danger').html(data.message);
 
                 $('#trackListMainContainer').load(location.href + " #trackListContainer" );
-                $('.viewTrackCard')[0].click();
 
             }else{
                 $('#editTrackResult').addClass('alert-'+data.result).removeClass('alert-success').html(data.message);
@@ -35,9 +34,7 @@ $(document).ready(function() {
                $('#editTrackResult').delay(3000).fadeOut();
             });
 
-
-
-        console.log(data.result);
+            console.log(data.result);
 
         });
 
