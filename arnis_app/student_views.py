@@ -24,14 +24,50 @@ def student_instruction():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    # check if student belongs to a section
     sectionJoined = db.session.query(Student)\
         .select_from(Student).filter(Student.user_id == user_id).first()
 
+    # Query section list for student options
     sectionLists = db.session.query(Section, Strand, Track, Teacher, User)\
         .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
         .outerjoin(Track, Track.track_id == Strand.track_id)\
         .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id)\
-        .outerjoin(User, User.id == Teacher.user_id).all()
+        .outerjoin(User, User.id == Teacher.user_id).order_by(Section.section_no).all()
+
+    # check if student is reassigned to another section
+    reassigned = db.session.query(Student).select_from(Student).filter(Student.user_id == user_id).filter(Student.reassign == 1).first()
+
+    is_reassigned = False
+    reassign_msg = ''
+    newSection = ()
+    if reassigned:
+        reassign_msg = reassigned.reason
+        is_reassigned = True
+        newSection = db.session.query(Section, Student, Strand)\
+            .select_from(Section)\
+            .outerjoin(Student, Student.section_id == Section.section_id)\
+            .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
+            .filter(Student.user_id == user_id).first()
+
+    # check if student was removed from a section
+    removed_student = db.session.query(Student).select_from(Student).filter(Student.user_id == user_id).filter(Student.removed == 1).first()
+
+    remove_msg = ''
+    was_removed = False
+    if removed_student:
+        remove_msg = removed_student.reason
+        was_removed = True
+
+    request_join = db.session.query(Student.request).select_from(Student).filter(Student.user_id == user_id).first()
+
+    print(request_join)
+
+    requested = True
+    if None in request_join:
+        requested = False
+
+    print(requested)
 
     # print(sectionLists)
     if request.method == "POST":
@@ -45,7 +81,8 @@ def student_instruction():
     sectionExist = sectionJoined.section_id is None
 
     return render_template('student/instruction.html',
-                           user_name = user_name, filename=filename, sectionJoined=sectionExist, sectionLists=sectionLists)
+                           user_name = user_name, filename=filename, sectionJoined=sectionExist, was_removed=was_removed, remove_msg=remove_msg,
+                           sectionLists=sectionLists, is_reassigned=is_reassigned, reassign_msg=reassign_msg, newSection=newSection, requested=requested)
 
 
 @app.route('/student/profile', methods=['GET', 'POST'])

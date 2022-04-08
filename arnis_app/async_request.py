@@ -486,3 +486,22 @@ def request_action():
         flash(_(message), 'danger')
 
     return jsonify({'result': result, 'message': message})
+
+
+@app.route('/reassign/student', methods=['POST'])
+def reassign_student():
+    student_id = int(request.form['student_id'])
+
+    student_reassign = db.session.query(Student).filter(Student.student_id == student_id).first()
+
+    if student_reassign is not None:
+        student_reassign.reassign = None
+        db.session.commit()
+
+        result = 'success'
+        message = 'student reassigned'
+    else:
+        result = 'danger'
+        message = 'update failed'
+
+    return jsonify({'result': result, 'message': message})

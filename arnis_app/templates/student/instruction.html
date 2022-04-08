@@ -12,42 +12,88 @@
 
     </div>
 
-{% if sectionJoined %}
+{% if sectionJoined or is_reassigned %}
     <!-- Add Section Modal -->
 <form id="joinSectionForm" method="post" action="{{ url_for('student_instruction') }}">
     <div class="modal fade scrollable" id="joinSectionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelJoinSec" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-dark fw-bold" id="staticBackdropLabelJoinSec">Join a section</h5>
+                    <h5 class="modal-title text-dark fw-bold" id="staticBackdropLabelJoinSec">
+                        {% if not is_reassigned %}
+                            Join a section
+                        {% else %}
+                            You have been reassigned to new section.
+                        {% endif %}
+                    </h5>
                 </div>
                 <div class="modal-body">
-                    <div>
-                        Join a section to start navigating the web-application.
-                    </div>
+                    {% if not is_reassigned and not requested %}
+                        <div class="mb-4 alert alert-success">
+                            <small>
+                                <i class="fas fa-solid fa-circle-info pe-1"></i>
+                                Join a section in order to start navigating the web-application. Wait for your teacher's confirmation to start your online Arnis experience.
+                            </small>
+                        </div>
+                    {% endif %}
 
-                    <div class="row g-2 p-2">
+                    <div class="row g-2 p-2 text-black">
                         <div class="col-xl">
-                            <div class="form-floating">
-                                <input type="hidden">
-                                <select class="form-select text-dark" id="sectionListDrop" name="section_id" aria-label="Floating label select example" required>
-                                    <option value disabled selected>Choose...</option>
-                                    {% for section, strand, track, teacher, user in sectionLists %}
-                                    <option value="{{section.section_id}}" class="text-dark">
-                                        {{ "%02d" % section.section_no }} - {{ strand.name }}
-                                    </option>
-                                    {% endfor %}
-                                </select>
-                                <label for="sectionListDrop">Existing Sections</label>
-                            </div>
+                            {% if is_reassigned %}
+                                <div class="fs-6">
+                                    New Section: <br><br>
+                                    {{ "{:02d}".format(newSection[0].section_no) }} - {{ newSection[2].name }}
+                                </div>
+                                <div class="fs-6 mt-3">
+                                    <strong> Note: </strong> {{ reassign_msg }}
+                                </div>
+                            {% else %}
+
+                                {% if was_removed %}
+                                    <div class="fs-6">
+                                        You were removed from your previous section, please join another section again.
+                                    </div>
+                                    <div class="fs-6 my-3">
+                                        <strong> Note: </strong> {{ remove_msg }}
+                                    </div>
+                                {% endif %}
+
+                                {% if not requested %}
+                                    <div class="form-floating">
+                                        <input type="hidden">
+                                        <select class="form-select text-dark" id="sectionListDrop" name="section_id" aria-label="Floating label select example" required>
+                                            <option value disabled selected>Choose...</option>
+                                            {% for section, strand, track, teacher, user in sectionLists %}
+                                            <option value="{{section.section_id}}" class="text-dark">
+                                                {{ "%02d" % section.section_no }} - {{ strand.name }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <label for="sectionListDrop">Existing Sections</label>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        You are currently waiting for your teacher to accept your request.
+                                    </div>
+                                {% endif %}
+                            {% endif %}
                         </div>
 
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="add_section">Submit</button>
-                </div>
+                {% if not requested %}
+                    <div class="modal-footer">
+
+                        {% if is_reassigned %}
+                            <a type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="reassign_confirm" student_id="{{ newSection[1].student_id }}">Confirm</a>
+
+                        {% else %}
+                            <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="add_section">Submit</button>
+                        {% endif %}
+
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -118,6 +164,7 @@
 
 <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script src="{{ url_for('static', filename='js/confirmReassign.js') }}"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {

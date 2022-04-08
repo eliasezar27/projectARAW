@@ -20,6 +20,8 @@ $(document).ready(function(){
             case 'jeah@example.com':
             password = 'cuteAKO1212';
             break;
+            default:
+            password = 'Password1';
 
 
         }
