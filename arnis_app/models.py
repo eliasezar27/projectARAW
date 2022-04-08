@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
     active = db.Column('is_active', db.Boolean(), nullable=False, server_default='1')
     last_name = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
     first_name = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
-    middle_name = db.Column(db.String(100, collation='NOCASE'), nullable=True, server_default='')
+    middle_name = db.Column(db.String(100, collation='NOCASE'), nullable=True)
     gender = db.Column(db.String(10, collation='NOCASE'), nullable=False, server_default='')
 
     # User authentication information. The collation='NOCASE' is required
@@ -75,7 +75,10 @@ class Student(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
     section_id = db.Column(db.Integer(), db.ForeignKey('sections.section_id', ondelete='CASCADE'))
     request = db.Column(db.Integer())
+    request_decision = db.Column(db.Boolean(), nullable=True)
     reassign = db.Column(db.Integer())
+    removed = db.Column(db.Boolean(), nullable=False, server_default='0')
+    reason = db.Column(db.Text())
 
     # Define relationship with Activity & Video table
     activity = db.relationship('Activity')

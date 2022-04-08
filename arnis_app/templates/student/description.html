@@ -11,6 +11,20 @@
         <h1 class="text-dark mx-3" style="height: 127px;"><br>Pose Descriptions<br><br></h1>
 
     </div>
+    <div class="container-fluid">
+        {% for i in range(12) %}
+            <div class="row">
+                <div class="col-6">
+                    <img src="">
+                </div>
+                <div class="col-6">
+                    <img src="">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
 {% endblock content %}
 
 {% block extra_js %}

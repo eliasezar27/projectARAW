@@ -4,12 +4,6 @@
 
 <link rel="stylesheet" href=" {{ url_for('static', filename='bootstrap/css/bootstrap-table.min.css') }} ">
 
-<style>
-    .float-right.search.btn-group{
-        float: right;
-    }
-</style>
-
 {% endblock style %}
 
 {% block content %}
@@ -26,24 +20,31 @@
     <div class="container px-5">
         <div id="teacherListTableContainer" class="rounded-3 my-1 text-dark">
 
+            <div class="input-group mb-3 float-end w-50">
+
+                <select id="selectTable" class="form-select" aria-label="User status filter">
+                    <option value="" selected>All</option>
+                    <option value="active">Active</option>
+                    <option value="disabled">Disabled</option>
+                </select>
+
+                <input id="searchTable" type="text" class="form-control w-50" aria-label="Search input" placeholder="Search...">
+
+            </div>
+
             <table class="table table-light table-sm"
             id="teacherListTable"
             data-toggle="table"
-            data-search="true"
-            data-search-accent-neutralise="true"
-            data-search-align="right"
             data-pagination="true"
             data-sort-name="last_name"
             data-sort-order="asc"
-            data-show-toggle="false"
-            data-show-search-button="false"
-            data-detail-formatter="detailFormatter"
-            data-search-on-enter-key="false">
+            data-show-toggle="false">
 
                 <thead>
                     <tr>
                         <th data-field="last_name" data-sortable="true">Surname</th>
                         <th data-field="first_name" data-sortable="true">Given Name</th>
+                        <th data-field="status" data-sortable="true">Status</th>
                         <th data-field="actions" data-width="100">Actions</th>
                     </tr>
                 </thead>
@@ -53,6 +54,13 @@
                         <tr>
                             <td>{{teach[1].last_name}}</td>
                             <td>{{teach[1].first_name}}</td>
+                            <td>
+                                {% if teach[1].active == 1 %}
+                                    Active
+                                {% else %}
+                                    Disabled
+                                {% endif %}
+                            </td>
                             <td class="text-center">
 
 <!--                                   Action to View Handled Sections List Modal-->
@@ -85,7 +93,7 @@
         <h5 class="modal-title text-black" id="teacherMoreInfoModalHeader">
             Teacher Name (Last, First)
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="window.location.reload();"></button>
       </div>
       <div class="modal-body" id="teacherMoreInfoModalBody">
         ...
@@ -166,6 +174,30 @@
 $(document).ready(function () {
     $("#teacherTab").addClass('active');
 });
+</script>
+
+<script>
+    //Search filter
+    $(document).ready(function(){
+      $("#searchTable").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#teacherListTableBody tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+</script>
+
+<script>
+    //Select filter
+    $(document).ready(function(){
+      $("#selectTable").on("change", function() {
+        var value = $(this).val().toLowerCase();
+        $("#teacherListTableBody tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
 </script>
 
 {% endblock extra_js %}

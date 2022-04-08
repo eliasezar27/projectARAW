@@ -39,41 +39,40 @@
     </div>
 
     <div class="row">
-        <!--            Sections list-->
+        <!--            Teacher list-->
         <div class="col-lg-4 p-0" style="height: 500px;">
             <div id="teacherListContainer" class="card h-100 border border-light overflow-auto">
-                <div class="card-header text-black">
-                    <h4>Teachers</h4>
-                </div>
-                <div class="card-body" id="sectionList">
+<!--                <div class="card-header text-black">-->
+<!--                    <h4>Teachers</h4>-->
+<!--                </div>-->
+                <ul class="list-group list-group-flush" id="sectionList">
                     {% for teacher in teachers %}
-                    <div class="col-md-12 mb-2">
+<!--                    <div class="col-md-12 mb-2">-->
                         <a class="viewTeacherSection" teacher_id="{{teacher[0].teacher_id}}" style="cursor: pointer; text-decoration: none;">
-
-                            <div class="card shadow py-2 border-light border-3 viewTeacherSectionCard" id="viewTeacherSectionCard{{teacher[0].teacher_id}}" teacher_id="{{teacher[0].teacher_id}}">
-                                <div class="card-body py-0">
+                            <li class="list-group-item my-0 viewTeacherSectionCard" id="viewTeacherSectionCard{{teacher[0].teacher_id}}" teacher_id="{{teacher[0].teacher_id}}">
+<!--                                <div class="card-body py-0">-->
                                     <div class="row align-items-center no-gutters">
 
-                                        <div class="col col-2">
-                                            <div class="text-dark fw-bold" data-bs-toggle="tooltip" title="{{ teacher[1].last_name }}">
-                                                <i class="fas fa-solid fa-person-chalkboard text-gray-300 fs-3"></i>
-                                            </div>
-                                        </div>
+<!--                                        <div class="col col-2">-->
+<!--                                            <div class="text-dark fw-bold" data-bs-toggle="tooltip" title="{{ teacher[1].last_name }}">-->
+<!--                                                <i class="fas fa-solid fa-person-chalkboard text-gray-300 fs-3"></i>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="col col-10">
-                                            <div class="text-dark text-uppercase fw-bold h5 mb-0">
-                                                <span class="sectionNumber" style="color: #c46d38;">{{ teacher[1].last_name }}</span>,
-                                                <span class="sectionStrand" style="color: #EDB518;">{{ teacher[1].first_name }}</span>
+                                        <div class="col col-12">
+                                            <div class="text-uppercase fw-bold h6 p-2">
+                                                <span class="sectionNumber">{{ teacher[1].last_name }}</span>,
+                                                <span class="sectionStrand">{{ teacher[1].first_name }}</span>
                                             </div>
                                         </div>
 
                                     </div>
-                                </div>
-                            </div>
+<!--                                </div>-->
+                            </li>
                         </a>
-                    </div>
+<!--                    </div>-->
                     {% endfor %}
-                </div>
+                </ul>
             </div>
         </div>
 
@@ -210,7 +209,7 @@
 
     <!--    Student List Modal-->
     <div class="modal fade" id="sectionStudentList" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <i class="fa-solid fa-user-group" style="color: #c46d38;"></i>&nbsp;
@@ -279,12 +278,10 @@ $(document).ready(function () {
 $(document).ready(function () {
     $(document).on(
         {'click': function() {
-            $('.viewTeacherSectionCard').removeClass('border-danger');
-            $('.viewTeacherSectionCard').removeClass('border-3');
+            $('.viewTeacherSectionCard').removeClass('text-danger');
             var sec = $(this);
-            sec.removeClass('border-light');
-            sec.addClass('border-danger');
-            sec.addClass('border-3');
+            sec.removeClass('text-dark');
+            sec.addClass('text-danger');
             var i = $(this).attr('teacher_id')
             $("#teacherID option[value="+i+"]").prop('selected', true);
         }

@@ -38,45 +38,45 @@
         <!--            Sections list-->
         <div class="col-lg-4 p-0" style="height: 500px;">
             <div id="teacherListContainer" class="card h-100 border border-light overflow-auto">
-                <div class="card-body" id="sectionList">
+                <ul class="list-group list-group-flush" id="sectionList">
                     {% for section in section_list %}
-                    <div class="col-md-12 mb-2">
+<!--                    <div class="col-md-12 mb-2">-->
                         <a class="viewSectionStudentList" section_id="{{section[0].section_id}}" style="cursor: pointer; text-decoration: none;">
 
-                            <div class="card shadow py-2 border-light border-3 viewSectionStudentListCard" id="viewSectionStudentListCard{{section[0].section_id}}"  section_id="{{section[0].section_id}}">
-                                <div class="card-body py-0">
+                            <li class="list-group-item my-0 viewSectionStudentListCard" id="viewSectionStudentListCard{{section[0].section_id}}"  section_id="{{section[0].section_id}}">
+<!--                                <div class="card-body py-0">-->
                                     <div class="row align-items-center no-gutters">
 
-                                        <div class="col col-2">
-                                            <div class="text-dark fw-bold" data-bs-toggle="tooltip" title="section">
-                                                {% if section[2] == 1 %}
-                                                <i class="fas fa-solid fa-book-open-reader text-gray-300 fs-3" data-bs-toggle='tooltip' data-bs-placement='top' title='Academic Track'></i>
-                                                {% elif section[2] == 2 %}
-                                                <i class="fas fa-solid fa-palette text-gray-300 fs-3" data-bs-toggle='tooltip' data-bs-placement='top' title='Arts and Design Track'></i>
-                                                {% elif section[2] == 3 %}
-                                                <i class="fas fa-solid fa-basketball text-gray-300 fs-3" data-bs-toggle='tooltip' data-bs-placement='top' title='Sports Track'></i>
-                                                {% elif section[2] == 4 %}
-                                                <i class="fas fa-solid fa-microchip text-gray-300 fs-3" data-bs-toggle='tooltip' data-bs-placement='top' title='TVL Track'></i>
-                                                {% else %}
-                                                <i class="fas fa-solid fa-chalkboard text-gray-300 fs-3"></i>
-                                                {% endif %}
-                                            </div>
-                                        </div>
+<!--                                        <div class="col col-2">-->
+<!--                                            <div class="text-dark fw-bold">-->
+<!--                                                {% if section[2] == 1 %}-->
+<!--                                                <i class="fas fa-solid fa-book-open-reader text-gray-300 fs-3" data-bs-toggle='tooltip' data-bs-placement='top' title='Academic Track'></i>-->
+<!--                                                {% elif section[2] == 2 %}-->
+<!--                                                <i class="fas fa-solid fa-palette text-gray-300 fs-3" data-bs-toggle='tooltip' data-bs-placement='top' title='Arts and Design Track'></i>-->
+<!--                                                {% elif section[2] == 3 %}-->
+<!--                                                <i class="fas fa-solid fa-basketball text-gray-300 fs-3" data-bs-toggle='tooltip' data-bs-placement='top' title='Sports Track'></i>-->
+<!--                                                {% elif section[2] == 4 %}-->
+<!--                                                <i class="fas fa-solid fa-microchip text-gray-300 fs-3" data-bs-toggle='tooltip' data-bs-placement='top' title='TVL Track'></i>-->
+<!--                                                {% else %}-->
+<!--                                                <i class="fas fa-solid fa-chalkboard text-gray-300 fs-3"></i>-->
+<!--                                                {% endif %}-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="col col-10">
-                                            <div class="text-dark text-uppercase fw-bold h5 mb-0">
-                                                <span class="sectionNumber" style="color: #c46d38;">{{ "{:02d}".format(section[0].section_no) }}</span> -
-                                                <span class="sectionStrand" style="color: #EDB518;">{{ section[1] }}</span>
+                                        <div class="col col-12">
+                                            <div class="text-uppercase fw-bold h6 p-2">
+                                                <span class="sectionNumber">{{ "{:02d}".format(section[0].section_no) }}</span> -
+                                                <span class="sectionStrand">{{ section[1] }}</span>
                                             </div>
                                         </div>
 
                                     </div>
-                                </div>
-                            </div>
+<!--                                </div>-->
+                            </li>
                         </a>
-                    </div>
+<!--                    </div>-->
                     {% endfor %}
-                </div>
+                </ul>
             </div>
         </div>
 
@@ -108,8 +108,8 @@
 
                             <thead>
                             <tr>
-                                <th data-field="last_name" data-sortable="true" data-width="900">Section Number</th>
-                                <th data-field="first_name" data-sortable="true" data-width="900">Strand</th>
+                                <th data-field="last_name" data-sortable="true" data-width="900">Lastname</th>
+                                <th data-field="first_name" data-sortable="true" data-width="900">Firstname</th>
                                 <th data-field="actions" data-width="100">Actions</th>
                             </tr>
                             </thead>
@@ -143,7 +143,7 @@
                     <div class="row g-2 p-2">
                         <div class="col-xl">
                             <div class="form-floating">
-                                <input type="text" name="track_code" class="form-control text-dark" id="student_id" value student_id="">
+                                <input type="text" name="track_code" class="form-control text-dark" id="student_id" value student_id="" readonly>
                                 <label for="student_id" class="text-dark">Student</label>
                             </div>
                         </div>
@@ -160,7 +160,16 @@
                                     {% endfor %}
 
                                 </select>
-                                <label for="sectionOptions">Transfer to...</label>
+                                <label for="sectionOptions">Modify Student's Section...</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 p-2">
+                        <div class="col-xl">
+                            <div class="form-floating">
+                                <textarea name="actionReason" class="form-control" placeholder="Leave a comment here" id="reasonTextArea" style="height: 100px" required></textarea>
+                                <label for="reasonTextArea">Please state your reason.</label>
                             </div>
                         </div>
                     </div>
@@ -168,7 +177,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="closeAddStrandModal">CANCEL</button>
-                    <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="transferStudent">TRANSFER</button>
+                    <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="transferStudent">SUBMIT</button>
 
                 </div>
             </div>
@@ -207,12 +216,10 @@ $(document).ready(function () {
 $(document).ready(function () {
     $(document).on(
         {'click': function() {
-            $('.viewSectionStudentListCard').removeClass('border-danger');
-            $('.viewSectionStudentListCard').removeClass('border-3');
+            $('.viewSectionStudentListCard').removeClass('text-danger');
             var sec = $(this);
-            sec.removeClass('border-light');
-            sec.addClass('border-danger');
-            sec.addClass('border-3');
+            sec.removeClass('text-dark');
+            sec.addClass('text-danger');
             var i = $(this).attr('teacher_id')
             $("#teacherID option[value="+i+"]").prop('selected', true);
         }

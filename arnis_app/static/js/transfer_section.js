@@ -5,13 +5,15 @@ $(document).ready(function() {
 
         var student_id = $('#student_id').attr('student_id');
         var section_id = $('#sectionOptions').val();
+        var reasonAction = $('#reasonTextArea').val();
 
         req = $.ajax({
             url : '/transfer/section',
             type : 'POST',
             data : {
                     student_id : student_id,
-                    section_id : section_id
+                    section_id : section_id,
+                    reasonAction : reasonAction
                     }
         });
 

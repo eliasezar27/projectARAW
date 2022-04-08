@@ -20,7 +20,11 @@
             STUDENTS
         </h3>
     </div>
-    <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2">
+
+
+
+<!--    Filter section-->
+    <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2 mb-5">
         <form class="row" id="filterHolder" action="{{url_for('admin_viewStudents')}}" method="post">
             <div class="col">
                 <div class="form">
@@ -58,28 +62,35 @@
 
 
 
-<!--    Teachers list-->
+<!--    Students list-->
     <div class="container px-5">
         <div id="teacherListTableContainer" class="rounded-3 my-1 text-dark">
+
+            <div class="input-group mb-3 float-end w-50">
+
+                <select id="selectTable" class="form-select" aria-label="User status filter">
+                    <option value="" selected>All</option>
+                    <option value="active">Active</option>
+                    <option value="disabled">Disabled</option>
+                </select>
+
+                <input id="searchTable" type="text" class="form-control w-50" aria-label="Search input">
+
+            </div>
 
             <table class="table table-light table-sm"
             id="teacherListTable"
             data-toggle="table"
-            data-search="true"
-            data-search-accent-neutralise="true"
-            data-search-align="right"
             data-pagination="true"
             data-sort-name="last_name"
             data-sort-order="asc"
-            data-show-toggle="false"
-            data-show-search-button="false"
-            data-detail-formatter="detailFormatter"
             data-search-on-enter-key="false">
 
                 <thead>
                     <tr>
                         <th data-field="last_name" data-sortable="true">Surname</th>
                         <th data-field="first_name" data-sortable="true">Given Name</th>
+                        <th data-field="status" data-sortable="true">Status</th>
                         <th data-field="actions" data-width="100">Actions</th>
                     </tr>
                 </thead>
@@ -89,6 +100,13 @@
                         <tr>
                             <td>{{student[1].last_name}}</td>
                             <td>{{student[1].first_name}}</td>
+                            <td>
+                                {% if student[1].active == 1 %}
+                                    Active
+                                {% else %}
+                                    Disabled
+                                {% endif %}
+                            </td>
                             <td class="text-center">
 <!--                                   Action to View Student Info Modal-->
                                 <a class="viewStudentInfo px-1" student_id="{{student[0].student_id}}" style="cursor: pointer; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#studentMoreInfoModal">
@@ -115,7 +133,7 @@
         <h5 class="modal-title text-black" id="studentMoreInfoModalHeader">
             Student Name (Last, First)
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="window.location.reload();"></button>
       </div>
       <div class="modal-body" id="studentMoreInfoModalBody">
         ...
@@ -186,7 +204,7 @@
 {% block extra_js %}
 
 <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-table.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/trackStrandOptionControl.js') }}"></script>
+
 <script src="{{ url_for('static', filename='js/ModalViewStudentInfo.js') }}"></script>
 <script src="{{ url_for('static', filename='js/userStatusChanger.js') }}"></script>
 <script src="{{ url_for('static', filename='js/ModalViewSection.js') }}"></script>
@@ -203,6 +221,31 @@ $(document).ready(function () {
     $('#trackOptions option[value="{{selTrack}}"]').prop('selected', true);
     $('#strandOptions option[value="{{selStrand}}"]').prop('selected', true);
 });
+</script>
+<script src="{{ url_for('static', filename='js/trackStrandOptionControl.js') }}"></script>
+
+<script>
+    //Search filter
+    $(document).ready(function(){
+      $("#searchTable").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#teacherListTableBody tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+</script>
+
+<script>
+    //Select filter
+    $(document).ready(function(){
+      $("#selectTable").on("change", function() {
+        var value = $(this).val().toLowerCase();
+        $("#teacherListTableBody tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
 </script>
 
 {% endblock extra_js %}

@@ -24,10 +24,8 @@ def student_instruction():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
-    sectionJoined = db.session.query(Student.section_id)\
+    sectionJoined = db.session.query(Student)\
         .select_from(Student).filter(Student.user_id == user_id).first()
-
-    sectionJoined = None in sectionJoined
 
     sectionLists = db.session.query(Section, Strand, Track, Teacher, User)\
         .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
@@ -35,10 +33,19 @@ def student_instruction():
         .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id)\
         .outerjoin(User, User.id == Teacher.user_id).all()
 
-    print(sectionLists)
+    # print(sectionLists)
+    if request.method == "POST":
+        section_id = request.form['section_id']
+
+        sectionJoined.request = section_id
+        db.session.commit()
+        flash(_("You have successfully requested to join a section. Please wait for your to teacher to accept your request."), 'success')
+        return redirect(url_for('student_instruction'))
+
+    sectionExist = sectionJoined.section_id is None
 
     return render_template('student/instruction.html',
-                           user_name = user_name, filename=filename, sectionJoined=sectionJoined, sectionLists=sectionLists)
+                           user_name = user_name, filename=filename, sectionJoined=sectionExist, sectionLists=sectionLists)
 
 
 @app.route('/student/profile', methods=['GET', 'POST'])

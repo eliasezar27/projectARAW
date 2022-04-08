@@ -8,9 +8,28 @@
 
 {% block content %}
     <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2" style="height: 80px !important;">
-        <h1 class="text-dark mx-3" style="height: 127px;"><br>Pose Descriptions<br><br></h1>
+        <h1 class="text-dark mx-3" style="height: 127px;"><br>GRADING<br><br></h1>
 
     </div>
+
+    <div class="container" style="display:block;">
+        <div id="container" class="position-absolute top-50 start-50 translate-middle pt-5">
+            <div class="row">
+                <div class="col">
+                    <video autoplay="true" id="videoElement">
+
+                    </video>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-success float-end text-white">See Results</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 {% endblock content %}
 
 {% block extra_js %}
@@ -23,5 +42,18 @@ $(document).ready(function() {
     $("#grade").addClass('active');
 });
 
+</script>
+<script>
+    var video = document.querySelector("#videoElement");
+
+if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function (stream) {
+      video.srcObject = stream;
+    })
+    .catch(function (err0r) {
+      console.log("Something went wrong!");
+    });
+}
 </script>
 {% endblock extra_js %}

@@ -24,11 +24,33 @@ def teacher_dashboard():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
-    student_req = db.session.query(User.id, User.last_name, User.last_name)\
-        .select_from(Student)
+    student_req = db.session.query(Student, User, Section, Strand, Teacher)\
+        .select_from(Student)\
+        .outerjoin(User, User.id == Student.user_id)\
+        .outerjoin(Section, Section.section_id == Student.request)\
+        .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
+        .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id) \
+        .filter(Teacher.user_id == user_id) \
+        .all()
+
+    student_requests = {}
+    if student_req:
+        for i in range(len(student_req)):
+            student_requests = {}
+            student_requests.update(vars(student_req[i][0]))
+            student_requests.update(vars(student_req[i][1]))
+            student_requests.update(vars(student_req[i][2]))
+            student_requests.update(vars(student_req[i][3]))
+            student_requests.update(vars(student_req[i][4]))
+            del student_requests['password']
+            del student_requests['_sa_instance_state']
+            del student_requests['email_confirmed_at']
+            del student_requests['date_joined']
+
+            student_req[i] = student_requests
 
     return render_template('teacher/index.html',
-                           user_name = user_name, filename=filename)
+                           user_name = user_name, filename=filename, student_requests=student_req)
 
 
 @app.route('/teacher/profile', methods=['GET', 'POST'])
@@ -99,12 +121,13 @@ def teacher_viewSections():
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
     # Section table join Strand, Teacher, and User Table
-    section_list = db.session.query(Section, Strand.nickname, Strand.track_id) \
+    section_list = db.session.query(Section, Strand.name, Strand.track_id) \
         .select_from(Section) \
         .outerjoin(Strand, Strand.strand_id == Section.strand_id) \
         .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id) \
         .outerjoin(User, User.id == Teacher.user_id) \
-        .filter(Teacher.user_id == user_id) \
+        .filter(Teacher.user_id == user_id)\
+        .order_by(Section.section_no) \
         .all()
 
     return render_template('teacher/viewSections.html',

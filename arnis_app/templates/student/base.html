@@ -46,11 +46,10 @@
 <!--                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>-->
                 <ul class="navbar-nav text-light" id="accordionSidebar">
 <!--                    <li class="nav-item"><a id="dashboard" class="nav-link" href="{# url_for('student_dashboard') #}"><i class="fas fa-tachometer-alt"></i><span class="float-none">Dashboard</span></a></li>-->
+                    <li class="nav-item"><a id="instruction" class="nav-link" href="{{ url_for('student_instruction')}}"><i class="fas fa-solid fa-hand-pointer fs-6"></i> <span class="float-none">How to use</span></a></li>
                     <li class="nav-item"><a id="practice" class="nav-link" href="{{ url_for('student_practice') }}"><i class="fas fa-solid fa-person-walking-with-cane fs-4"></i><span class="float-none">Practice!</span></a></li>
                     <li class="nav-item"><a id="grade" class="nav-link" href="{{ url_for('student_grading') }}"><i class="fas fa-solid fa-person-circle-check fs-5"></i><span class="float-none">Grading</span></a></li>
                     <li class="nav-item"><a id="posedesc" class="nav-link" href="{{ url_for('student_description') }}"><i class="fas fa-solid fa-person-circle-question fs-5"></i><span class="float-none">Pose Description</span></a></li>
-                    <li class="nav-item"><a id="instruction" class="nav-link" href="{{ url_for('student_instruction')}}"><i class="fas fa-solid fa-hand-pointer fs-6"></i> <span class="float-none">How to use</span></a></li>
-                    <li class="nav-item"><a id="profile" class="nav-link" href="{{ url_for('student_profile') }}"><i class="fas fa-user"></i><span class="float-none">Profile</span></a></li>
                 </ul>
             </div>
         </nav>

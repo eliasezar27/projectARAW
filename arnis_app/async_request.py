@@ -1,7 +1,8 @@
 from arnis_app.models import db, User, Teacher, Section, Strand, Track, Student
-from flask import request, jsonify
+from flask import request, jsonify, flash
 from arnis_app import app
 from flask_login import current_user
+from flask_user.translation_utils import gettext as _
 
 
 @app.route('/add_section', methods=['POST'])
@@ -417,22 +418,71 @@ def get_studentInfo():
 def transfer_section():
     student_id = int(request.form['student_id'])
     section_id = int(request.form['section_id'])
+    reason = request.form['reasonAction']
     transfer = db.session.query(Student).filter(Student.student_id == student_id).first()
 
     if transfer is None:
         result = 'danger'
-        message = 'error!'
+        message = 'Student not recognized!'
     else:
         if section_id == -1:
             transfer.section_id = None
-            transfer.reassign = None
-            transfer.request = None
-            db.session.commit()
-        else:
-            transfer.reassign = section_id
+            transfer.removed = 1
+            transfer.reason = reason
+            transfer.request_decision = None
             db.session.commit()
 
-        result = 'success'
-        message = 'Student successfully transferred!'
+            result = 'warning'
+            message = 'Student removed from class'
+
+        else:
+            transfer.section_id = section_id
+            transfer.reassign = 1
+            transfer.reason = reason
+            db.session.commit()
+
+            result = 'success'
+            message = 'Student successfully transferred!'
+
+    return jsonify({'result': result, 'message': message})
+
+
+@app.route('/request/action', methods=['POST'])
+def request_action():
+    result = ''
+    message = ''
+    section_id = int(request.form['section_id'])
+    student_id = int(request.form['student_id'])
+    action = int(request.form['action'])
+
+    student_req = db.session.query(Student).filter(Student.student_id == student_id).first()
+
+    if student_req is not None:
+        student_req.request_decision = action
+
+        # Request accept
+        if action:
+            student_req.section_id = section_id
+
+            result = 'success'
+            message = 'Request Approved!'
+            flash(_(message), 'success')
+
+        # Request declined
+        else:
+            result = 'success'
+            message = 'Request Declined!'
+            flash(_(message), 'warning')
+
+        student_req.request = None
+        student_req.removed = 0
+        student_req.reassign = None
+        student_req.reason = None
+
+        db.session.commit()
+    else:
+        result = 'danger'
+        message = 'update failed'
+        flash(_(message), 'danger')
 
     return jsonify({'result': result, 'message': message})

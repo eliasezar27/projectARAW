@@ -22,7 +22,7 @@
         <div class="row" style="height: auto;">
 
 <!--            Barchart column-->
-            <div class="col-lg-7 p-0">
+            <div class="col-lg-7 p-0 px-2">
                 <div id="chartContainer" class="card h-100">
                     <div class="card-body">
                         <canvas id="stackCol" width="1000" height="700"></canvas>
@@ -31,26 +31,45 @@
             </div>
 
 <!--            New students column-->
-            <div class="col-lg-5 p-0">
-              <div class="card h-100">
+            <div class="col-lg-5 p-0 px-2" id="joinRequestCardContainer">
+                <div class="card h-100" id="joinRequestCard">
                     <div class="card-header">
-                        INCOMING STUDENT
+                        JOIN REQUESTS
                     </div>
-                    <div class="card-body p-1" style="height: 400px; overflow-y: scroll;">
-
-                        <div id="incomingStudentList" class="rounded-3 my-1 text-dark">
-
-                            {% for i in range(9) %}
-                                <div class="card border-light mb-1">
-                                  <div class="card-body">
-                                    This is some text within a card body.
-                                  </div>
-                                </div>
+                    <ul id="incomingStudentList" class="list-group list-group-flush p-1" style="height: 400px; overflow-y: scroll;">
+                        {% if student_requests %}
+                            {% for request in student_requests %}
+                                <li  class="list-group-item my-1 text-dark">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div>
+                                                {{ request['last_name'] }}, {{ request['first_name'] }}
+                                            </div>
+                                            <div>
+                                                {{ request['section_no'] }} - {{ request['name'] }}
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="float-end">
+                                                <a type="button" class="btn btn-outline-success acceptRequestButton align-middle" section_id="{{ request['section_id'] }}" action="1" student_id="{{ request['student_id'] }}">
+                                                    <i class="fas fa-solid fa-check fs-5"></i>
+                                                </a>
+                                                <a type="button" class="btn btn-outline-danger align-middle rejectRequestButton" section_id="{{ request['section_id'] }}" action="0" student_id="{{ request['student_id'] }}">
+                                                    <i class="fas fa-solid fa-xmark fs-5"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
                             {% endfor %}
+                        {% else %}
+                            <li  class="list-group-item my-1 text-dark">
+                                <span>No Student Requests.</span>
+                            </li>
+                        {% endif %}
+                            <li class="hr"></li>
 
-                      </div>
-
-                    </div>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -64,6 +83,7 @@
 {% block extra_js %}
 
 <script src="{{ url_for('static', filename='js/teacherChart.js') }}"></script>
+<script src="{{ url_for('static', filename='js/studentRequests.js') }}"></script>
 
 <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>

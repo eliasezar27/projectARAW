@@ -11,6 +11,24 @@
         <h1 class="text-dark mx-3" style="height: 127px;"><br>Practice<br><br></h1>
 
     </div>
+
+    <div class="container" style="display:block;">
+        <div id="container" class="position-absolute top-50 start-50 translate-middle pt-5">
+            <div class="row">
+                <div class="col">
+                    <video autoplay="true" id="videoElement">
+
+                    </video>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 {% endblock content %}
 
 {% block extra_js %}
@@ -23,5 +41,18 @@ $(document).ready(function() {
     $("#practice").addClass('active');
 });
 
+</script>
+<script>
+    var video = document.querySelector("#videoElement");
+
+if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function (stream) {
+      video.srcObject = stream;
+    })
+    .catch(function (err0r) {
+      console.log("Something went wrong!");
+    });
+}
 </script>
 {% endblock extra_js %}

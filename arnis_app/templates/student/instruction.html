@@ -14,44 +14,103 @@
 
 {% if sectionJoined %}
     <!-- Add Section Modal -->
-    <form id="joinSectionForm">
-        <div class="modal fade scrollable" id="joinSectionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelAddSec" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title text-dark fw-bold" id="staticBackdropLabelAddSec">Join a section</h5>
-          </div>
-          <div class="modal-body">
-
-              <div class="row g-2 p-2">
-
-                  <div class="col-xl">
-                    <div class="form-floating">
-                      <select class="form-select text-dark" id="trackID" aria-label="Floating label select example" required>
-                        <option value=0 disabled selected>Choose...</option>
-                          {% for section, strand, track, teacher, user in sectionLists %}
-                            <option value="{{section.section_id}}" class="text-dark">
-                                {{ "%02d" % section.section_no }} - {{ strand.nickname }}
-                            </option>
-                          {% endfor %}
-                      </select>
-                      <label for="trackID">Existing Sections</label>
+<form id="joinSectionForm" method="post" action="{{ url_for('student_instruction') }}">
+    <div class="modal fade scrollable" id="joinSectionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelJoinSec" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark fw-bold" id="staticBackdropLabelJoinSec">Join a section</h5>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        Join a section to start navigating the web-application.
                     </div>
-                  </div>
 
-              </div>
+                    <div class="row g-2 p-2">
+                        <div class="col-xl">
+                            <div class="form-floating">
+                                <input type="hidden">
+                                <select class="form-select text-dark" id="sectionListDrop" name="section_id" aria-label="Floating label select example" required>
+                                    <option value disabled selected>Choose...</option>
+                                    {% for section, strand, track, teacher, user in sectionLists %}
+                                    <option value="{{section.section_id}}" class="text-dark">
+                                        {{ "%02d" % section.section_no }} - {{ strand.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <label for="sectionListDrop">Existing Sections</label>
+                            </div>
+                        </div>
 
+                    </div>
+                </div>
 
-
-          </div>
-          <div class="modal-footer">
-              <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="add_section">Submit</button>
-          </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn" style="background: #c46d38;border-color: #c46d38 !important; color: white !important;" id="add_section">Submit</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    </form>
+</form>
 {% endif %}
+
+<div class="container">
+    <div class="row pb-3">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row pb-3">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row pb-3">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
 
 {% endblock content %}
 
