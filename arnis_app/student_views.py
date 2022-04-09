@@ -209,8 +209,13 @@ def student_description():
         for line in f:
             pose_descs.append(line.replace('\n', ''))
 
+    hash = []
+    with open('arnis_app/static/images/youtube_links.txt') as h:
+        for ln in h:
+            hash.append(ln.replace('\n', ''))
+
     return render_template('student/description.html',
-                           user_name = user_name, filename=filename, poses=poses, pose_imgs=pose_imgs, pose_descs=pose_descs)
+                           user_name = user_name, filename=filename, poses=poses, pose_imgs=pose_imgs, pose_descs=pose_descs, hash=hash)
 
 
 @app.route('/student/results', methods=['GET', 'POST'])

@@ -12,7 +12,7 @@
 </div>
 
 <div class="row">
-    <!--            Sections list-->
+    <!--            Pose list-->
     <div class="col-lg-4 p-0" style="height: 600px;">
         <div id="teacherListContainer" class="card h-100 border border-light overflow-auto">
             <ul class="list-group list-group-flush" id="sectionList">
@@ -22,6 +22,9 @@
                     <p hidden>
                         {{ pose_descs[i] }}
                     </p>
+                    <b hidden>
+                        {{ hash[i] }}
+                    </b>
                     <li class="list-group-item my-0 viewPoseDescriptionListCard" id="viewPoseDescription{{poses[i]}}"  pose_name="{{ poses[i] }}">
                         <!--                                <div class="card-body py-0">-->
                         <div class="row align-items-center no-gutters">
@@ -43,7 +46,7 @@
     </div>
 
 
-    <!--        Section List-->
+    <!--        Pose Content-->
     <div class="col-lg-8 p-0">
         <div id="poseDescriptionContainer"  class="card h-100 border-light">
             <div class="card-header" id="poseDescriptionHeader">
@@ -61,7 +64,7 @@
                         <p class="m-3">
 
                         </p>
-                        <a id="" type="button" class="btn btn-outline-danger d-block m-3" data-bs-toggle="modal" data-bs-target="#watchVideo">
+                        <a id="watchVidDemo" address type="button" class="btn btn-outline-danger d-block m-3" data-bs-toggle="modal" data-bs-target="#watchVideo">
                             <i class="fas fa-solid fa-play pe-2"></i>
                             Watch how
                         </a>
@@ -81,7 +84,7 @@
         <div class="modal-content">
 
             <div class="modal-header" id="videoModalHeader">
-                <h5 class="modal-title">Modal title</h5>
+                <h5 class="modal-title text-black">Modal title</h5>
             </div>
 
             <div class="modal-body" id="videoModalBody">
@@ -100,6 +103,7 @@
 {% block extra_js %}
 
 <script src="{{ url_for('static', filename='js/poseDescription.js') }}"></script>
+<script src="{{ url_for('static', filename='js/youtube_address.js') }}"></script>
 <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
