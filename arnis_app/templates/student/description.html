@@ -7,28 +7,99 @@
 {% endblock style %}
 
 {% block content %}
-    <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2" style="height: 80px !important;">
-        <h1 class="text-dark mx-3" style="height: 127px;"><br>Pose Descriptions<br><br></h1>
+<div class="d-sm-flex justify-content-between align-items-center my-0 mx-2" style="height: 80px !important;">
+    <h1 class="text-dark mx-3" style="height: 127px;"><br>Pose Descriptions<br><br></h1>
+</div>
 
+<div class="row">
+    <!--            Sections list-->
+    <div class="col-lg-4 p-0" style="height: 600px;">
+        <div id="teacherListContainer" class="card h-100 border border-light overflow-auto">
+            <ul class="list-group list-group-flush" id="sectionList">
+                {% for i in range(25) %}
+                <!--                    <div class="col-md-12 mb-2">-->
+                <a class="viewPoseDescriptionListLink" pose_name="{{ poses[i] }}" pose_img="{{ pose_imgs[i] }}" style="cursor: pointer; text-decoration: none;">
+                    <p hidden>
+                        {{ pose_descs[i] }}
+                    </p>
+                    <li class="list-group-item my-0 viewPoseDescriptionListCard" id="viewPoseDescription{{poses[i]}}"  pose_name="{{ poses[i] }}">
+                        <!--                                <div class="card-body py-0">-->
+                        <div class="row align-items-center no-gutters">
+
+                            <div class="col col-12">
+                                <div class="text-uppercase fw-bold h6 p-2">
+                                    <span class="sectionNumber">{{ poses[i] }}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--                                </div>-->
+                    </li>
+                </a>
+                <!--                    </div>-->
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-    <div class="container-fluid">
-        {% for i in range(12) %}
-            <div class="row">
-                <div class="col-6">
-                    <img src="">
-                </div>
-                <div class="col-6">
-                    <img src="">
+
+
+    <!--        Section List-->
+    <div class="col-lg-8 p-0">
+        <div id="poseDescriptionContainer"  class="card h-100 border-light">
+            <div class="card-header" id="poseDescriptionHeader">
+                    <span class="text-black text-uppercase">
+                        Pose Name
+                    </span>
+            </div>
+
+            <div class="card-body" id="poseDescriptionBody">
+                <div class="row">
+                    <div class="col-7" id="imageHolder">
+                        <img height="500px" src="{{ url_for('static', filename='images/poses/000_pugay.png') }}">
+                    </div>
+                    <div class="col-5 px-2 text-black" id="descHolder">
+                        <p class="m-3">
+
+                        </p>
+                        <a id="" type="button" class="btn btn-outline-danger d-block m-3" data-bs-toggle="modal" data-bs-target="#watchVideo">
+                            <i class="fas fa-solid fa-play pe-2"></i>
+                            Watch how
+                        </a>
+
+                    </div>
                 </div>
             </div>
-        {% endfor %}
+
+        </div>
     </div>
+
+</div>
+
+
+<div class="modal fade" id="watchVideo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header" id="videoModalHeader">
+                <h5 class="modal-title">Modal title</h5>
+            </div>
+
+            <div class="modal-body" id="videoModalBody">
+                <iframe height="500" src="https://www.youtube.com/embed/JCc3nFP77PY?autoplay=1&controls=0&loop=1&mute=1&playlist=JCc3nFP77PY" class="px-5 mx-5"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock content %}
 
 {% block extra_js %}
 
+<script src="{{ url_for('static', filename='js/poseDescription.js') }}"></script>
 <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
@@ -38,4 +109,22 @@ $(document).ready(function() {
 });
 
 </script>
+
+<script>
+$(document).ready(function () {
+    $(document).on(
+        {'click': function() {
+            $('.viewPoseDescriptionListCard').removeClass('text-danger');
+            var sec = $(this);
+            sec.removeClass('text-dark');
+            sec.addClass('text-danger');
+            var i = $(this).attr('teacher_id')
+            $("#teacherID option[value="+i+"]").prop('selected', true);
+        }
+    }, '.viewPoseDescriptionListCard');
+    $('.viewPoseDescriptionListCard')[0].click();
+
+});
+</script>
+
 {% endblock extra_js %}

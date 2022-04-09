@@ -176,8 +176,41 @@ def student_description():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    poses = ['Preparation',
+        'Left Temple Strike',
+     'Right Temple Strike',
+     'Left Arm/Shoulder Strike',
+     'Right Arm/Shoulder Strike',
+     'Stomach Thrust',
+     'Left Chest Thrust',
+     'Right Chest Thrust',
+     'Right Knee/Leg Strike',
+     'Left Knee/Leg Strike',
+     'Left Eye Thrust',
+     'Right Eye Thrust',
+     'Crown Strike',
+     'Left Temple Block',
+     'Right Temple Block',
+     'Left Arm/Shoulder Block',
+     'Right Arm/Shoulder Block',
+     'Stomach Thrust Block',
+     'Left Chest Block',
+     'Right Chest Block',
+     'Right Knee/Leg Block',
+     'Left Knee/Leg Block',
+     'Left Eye Block',
+     'Right Eye Block',
+     'Rising Block']
+
+    pose_imgs = os.listdir('arnis_app/static/images/poses')
+
+    pose_descs = []
+    with open('arnis_app/static/images/pose_descriptions.txt') as f:
+        for line in f:
+            pose_descs.append(line.replace('\n', ''))
+
     return render_template('student/description.html',
-                           user_name = user_name, filename=filename)
+                           user_name = user_name, filename=filename, poses=poses, pose_imgs=pose_imgs, pose_descs=pose_descs)
 
 
 @app.route('/student/results', methods=['GET', 'POST'])
