@@ -44,6 +44,13 @@
                 </a>
                 <hr class="sidebar-divider my-4" style="color: rgb(0,0,0);">
 <!--                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>-->
+                {% if role_no > 1 %}
+                    <div class="btn-group" role="group" aria-label="admin-teacher toggle">
+                        <a type="button" class="btn btn-warning">Admin</a>
+                        <a href="{{ url_for('teacher_dashboard') }}" type="button" class="btn btn-outline-warning">Teacher</a>
+                    </div>
+                    <hr class="sidebar-divider my-4" style="color: rgb(0,0,0);">
+                {% endif %}
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a id="dashboard" class="nav-link" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-solid fa-chart-column" style="width: 20px;"></i><span class="float-none">Dashboard</span></a></li>
                     <li class="nav-item"><a id="teacherTab" class="nav-link" href="{{ url_for('admin_viewTeachers') }}"><i class="fas fa-solid fa-people-group" style="width: 20px;"></i><span class="float-none">Teachers</span></a></li>

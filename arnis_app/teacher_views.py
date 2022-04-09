@@ -24,6 +24,15 @@ def teacher_dashboard():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    user_roles = db.session.query(Role.id, Role.name) \
+        .select_from(Role) \
+        .outerjoin(UserRoles, UserRoles.role_id == Role.id) \
+        .filter(UserRoles.user_id == user_id) \
+        .all()
+
+    user_roles = dict(user_roles)
+    role_no = len(user_roles)
+
     student_req = db.session.query(Student, User, Section, Strand, Teacher)\
         .select_from(Student)\
         .outerjoin(User, User.id == Student.user_id)\
@@ -49,8 +58,8 @@ def teacher_dashboard():
 
             student_req[i] = student_requests
 
-    return render_template('teacher/index.html',
-                           user_name = user_name, filename=filename, student_requests=student_req)
+    return render_template('teacher/index.html', user_name = user_name,
+                           filename=filename, student_requests=student_req, role_no=role_no)
 
 
 @app.route('/teacher/profile', methods=['GET', 'POST'])
@@ -70,6 +79,7 @@ def teacher_profile():
         .all()
 
     user_roles = dict(user_roles)
+    role_no = len(user_roles)
 
     user_info = {'email': user_email, 'mobile': user_mobile, 'firstname': user_first_name, 'lastname': user_last_name}
 
@@ -109,7 +119,8 @@ def teacher_profile():
 
             return redirect(url_for('teacher_dashboard'))
 
-    return render_template('teacher/profile.html', user_name = user_name, filename=filename, user_info=user_info, user_roles= user_roles)
+    return render_template('teacher/profile.html', user_name = user_name, filename=filename,
+                           user_info=user_info, user_roles= user_roles, role_no=role_no)
 
 
 @app.route('/teacher/view-sections')
@@ -119,6 +130,15 @@ def teacher_viewSections():
     user_id = current_user.id
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
+
+    user_roles = db.session.query(Role.id, Role.name) \
+        .select_from(Role) \
+        .outerjoin(UserRoles, UserRoles.role_id == Role.id) \
+        .filter(UserRoles.user_id == user_id) \
+        .all()
+
+    user_roles = dict(user_roles)
+    role_no = len(user_roles)
 
     # Section table join Strand, Teacher, and User Table
     section_list = db.session.query(Section, Strand.name, Strand.track_id) \
@@ -130,5 +150,5 @@ def teacher_viewSections():
         .order_by(Section.section_no) \
         .all()
 
-    return render_template('teacher/viewSections.html',
-                           user_name = user_name, filename=filename, section_list=section_list)
+    return render_template('teacher/viewSections.html', user_name = user_name,
+                           filename=filename, section_list=section_list, role_no=role_no)

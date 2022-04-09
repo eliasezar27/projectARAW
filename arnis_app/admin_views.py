@@ -24,6 +24,15 @@ def admin_dashboard():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    user_roles = db.session.query(Role.id, Role.name) \
+        .select_from(Role) \
+        .outerjoin(UserRoles, UserRoles.role_id == Role.id) \
+        .filter(UserRoles.user_id == user_id) \
+        .all()
+
+    user_roles = dict(user_roles)
+    role_no = len(user_roles)
+
     # Section table join Strand, Teacher, and User Table
     secs = db.session.query(Section, Strand.nickname, User)\
         .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
@@ -34,9 +43,8 @@ def admin_dashboard():
 
     strands = Strand.query.all()
 
-    return render_template('admin/index.html',
-                           user_name = user_name, filename=filename,sec=secs,
-                           tracks=tracks, strands=strands)
+    return render_template('admin/index.html', user_name = user_name, filename=filename, sec=secs,
+                           tracks=tracks, strands=strands, role_no=role_no)
 
 
 @app.route('/admin/profile', methods=['GET', 'POST'])
@@ -60,6 +68,8 @@ def admin_profile():
     user_info = {'email': user_email, 'mobile': user_mobile, 'firstname': user_first_name, 'lastname': user_last_name}
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
+
+    role_no = len(user_roles)
 
     if request.method == "POST":
         if 'profileImg' in request.files:
@@ -95,7 +105,8 @@ def admin_profile():
 
             return redirect(url_for('admin_dashboard'))
 
-    return render_template('admin/profile.html', user_name = user_name, filename=filename, user_info=user_info, user_roles= user_roles)
+    return render_template('admin/profile.html', user_name = user_name, filename=filename,
+                           user_info=user_info, user_roles= user_roles, role_no=role_no)
 
 
 @app.route('/admin/view-teachers')
@@ -106,11 +117,19 @@ def admin_viewTeachers():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    user_roles = db.session.query(Role.id, Role.name) \
+        .select_from(Role) \
+        .outerjoin(UserRoles, UserRoles.role_id == Role.id) \
+        .filter(UserRoles.user_id == user_id) \
+        .all()
+
+    user_roles = dict(user_roles)
+    role_no = len(user_roles)
+
     teachers = db.session.query(Teacher, User)\
         .outerjoin(User, User.id == Teacher.user_id).filter(User.id == Teacher.user_id).order_by(User.last_name).all()
 
-    return render_template('admin/viewTeachers.html',
-                           user_name = user_name, filename=filename, teacher=teachers)
+    return render_template('admin/viewTeachers.html', user_name = user_name, filename=filename, teacher=teachers, role_no=role_no)
 
 
 @app.route('/admin/view-sections')
@@ -121,14 +140,23 @@ def admin_viewSections():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    user_roles = db.session.query(Role.id, Role.name) \
+        .select_from(Role) \
+        .outerjoin(UserRoles, UserRoles.role_id == Role.id) \
+        .filter(UserRoles.user_id == user_id) \
+        .all()
+
+    user_roles = dict(user_roles)
+    role_no = len(user_roles)
+
     teachers = db.session.query(Teacher, User) \
         .outerjoin(User, User.id == Teacher.user_id).filter(User.id == Teacher.user_id).order_by(User.last_name).all()
 
     tracks = db.session.query(Track).all()
     strands = db.session.query(Strand).all()
 
-    return render_template('admin/viewSections.html',
-                           user_name = user_name, filename=filename, teachers=teachers, tracks=tracks, strands=strands)
+    return render_template('admin/viewSections.html', user_name = user_name, filename=filename,
+                           teachers=teachers, tracks=tracks, strands=strands, role_no=role_no)
 
 
 @app.route('/admin/view-students', methods=['POST', 'GET'])
@@ -138,6 +166,15 @@ def admin_viewStudents():
     user_idq = current_user.id
 
     filename = UserProfilePic.query.filter_by(user_id=user_idq).first().filename
+
+    user_roles = db.session.query(Role.id, Role.name) \
+        .select_from(Role) \
+        .outerjoin(UserRoles, UserRoles.role_id == Role.id) \
+        .filter(UserRoles.user_id == user_idq) \
+        .all()
+
+    user_roles = dict(user_roles)
+    role_no = len(user_roles)
 
     tracks = db.session.query(Track).all()
     strands = db.session.query(Strand).all()
@@ -198,7 +235,8 @@ def admin_viewStudents():
             .outerjoin(User, User.id == Student.user_id).all()
 
     return render_template('admin/viewStudents.html',
-                           user_name = user_name, filename=filename, tracks=tracks, strands=strands, students_list=students_list, selTrack=track_idq, selStrand=strand_idq)
+                           user_name = user_name, filename=filename, tracks=tracks, strands=strands,
+                           students_list=students_list, selTrack=track_idq, selStrand=strand_idq, role_no=role_no)
 
 
 @app.route('/admin/tracks-strands')
@@ -209,7 +247,16 @@ def admin_editTracks():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    user_roles = db.session.query(Role.id, Role.name) \
+        .select_from(Role) \
+        .outerjoin(UserRoles, UserRoles.role_id == Role.id) \
+        .filter(UserRoles.user_id == user_id) \
+        .all()
+
+    user_roles = dict(user_roles)
+    role_no = len(user_roles)
+
     tracks = db.session.query(Track).all()
 
     return render_template('admin/editTracks.html',
-                           user_name = user_name, filename=filename, tracks=tracks)
+                           user_name = user_name, filename=filename, tracks=tracks, role_no=role_no)
