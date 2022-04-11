@@ -9,6 +9,7 @@ from arnis_app import admin_views
 from arnis_app import student_views
 from arnis_app import teacher_views
 from arnis_app import async_request
+from arnis_app import camera_source
 
 
 

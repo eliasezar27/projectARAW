@@ -8,31 +8,52 @@
 
 {% block content %}
     <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2" style="height: 80px !important;">
-        <h1 class="text-dark mx-3" style="height: 127px;"><br>Practice<br><br></h1>
+        <h1 class="text-dark mx-3" style="height: 127px;"><br>PRACTICE<br><br></h1>
 
     </div>
 
-    <div class="container" style="display:block;">
-        <div id="container" class="position-absolute top-50 start-50 translate-middle pt-5">
-            <div class="row">
-                <div class="col">
-                    <video autoplay="true" id="videoElement">
+    <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-auto ">
+                    <img id="video-feed" src="{{ url_for('video_feed') }}" onload="$('#video-feed-loader').css('display', 'none !important');" alt = "Camera is Loading..." class="d-block">
 
-                    </video>
+                    <div style="width: 800px; height: 600px" id="video-feed-loader" class="d-flex justify-content-center text-center align-items-center">
+                        <div class="spinner-border me-3" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        Loading, please wait...
+                    </div>
+
+                    <div class="form-check form-switch d-block mt-2">
+                        <input class="form-check-input" type="checkbox" role="switch" id="showSkeletonSwitch">
+                        <label class="form-check-label" for="showSkeletonSwitch">Show Skeleton</label>
+                    </div>
+
+                    <div class="form-check form-switch d-block">
+                        <input class="form-check-input" type="checkbox" role="switch" id="showAngleSwitch">
+                        <label class="form-check-label" for="showAngleSwitch">Show Angles</label>
+                    </div>
+
+                    <div class="form-check form-switch d-block">
+                        <input class="form-check-input" type="checkbox" role="switch" id="showFPS">
+                        <label class="form-check-label" for="showFPS">Show FPS</label>
+                    </div>
+
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
+            <div class="row d-flex justify-content-evenly">
+                <div class="col-auto">
+
 
                 </div>
             </div>
 
-        </div>
     </div>
+
 {% endblock content %}
 
 {% block extra_js %}
-
+<script src="{{ url_for('static', filename='js/gradingSwitches.js') }}"></script>
 <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
@@ -41,18 +62,5 @@ $(document).ready(function() {
     $("#practice").addClass('active');
 });
 
-</script>
-<script>
-    var video = document.querySelector("#videoElement");
-
-if (navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia({ video: true })
-    .then(function (stream) {
-      video.srcObject = stream;
-    })
-    .catch(function (err0r) {
-      console.log("Something went wrong!");
-    });
-}
 </script>
 {% endblock extra_js %}

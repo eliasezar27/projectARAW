@@ -1,6 +1,6 @@
 from arnis_app import app
 from flask_user import roles_required
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, Response
 from flask_login import current_user
 from arnis_app.models import db, User, Role, UserRoles, UserProfilePic, Student, Section, Teacher, Track, Strand
 from flask_user.translation_utils import gettext as _
@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
 from arnis_app.configs import ConfigClass
+from arnis_app.camera_source import generate
 
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
 
@@ -61,13 +62,9 @@ def student_instruction():
 
     request_join = db.session.query(Student.request).select_from(Student).filter(Student.user_id == user_id).first()
 
-    print(request_join)
-
     requested = True
     if None in request_join:
         requested = False
-
-    print(requested)
 
     # print(sectionLists)
     if request.method == "POST":
@@ -228,3 +225,11 @@ def student_results():
 
     return render_template('student/results.html',
                            user_name=user_name, filename=filename)
+
+
+@app.route('/video_feed')
+@roles_required('student')
+def video_feed():
+    # return the response generated along with the specific media
+    # type (mime type)
+    return Response(generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
