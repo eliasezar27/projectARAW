@@ -41,8 +41,8 @@
 
     <div class="row">
         <!--            Track list-->
-        <div id="trackListMainContainer" class="col-lg-4 p-0">
-            <div id="trackListContainer" class="card h-100 border border-light overflow-auto">
+        <div id="trackListMainContainer" class="col-lg-4 p-0 px-2">
+            <div id="trackListContainer" class="card border border-light overflow-auto">
 <!--                <div class="card-header text-black">-->
 <!--                    <h4>Tracks</h4>-->
 <!--                </div>-->
@@ -89,13 +89,13 @@
 
 
         <!--        Strand List-->
-        <div class="col-lg-8 p-0">
+        <div class="col-lg-8 p-0 px-2">
             <div id="strandListContainer"  class="card h-100 border-light">
-                <!--                        <div class="card-header" id="studentListTable">-->
-                <!--                            <span class="text-black">-->
-                <!--                                SECTION NAME-->
-                <!--                            </span>-->
-                <!--                        </div>-->
+                <div class="card-header" id="strandListHeader">
+                    <span class="text-black fs-5 text-uppercase">
+                        SECTION NAME
+                    </span>
+                </div>
                 <div class="card-body" id="strandList" style=" overflow-y: scroll;">
                     <div id="strandListContainerDataTable" class="rounded-3 my-1 text-dark">
 
@@ -270,6 +270,8 @@ $(document).ready(function () {
             $("#trackNicknameChange").val(j);
 
             $('#trackOptions option[value=' + h + ']').prop('selected', true);
+            var strand = $(this).text().trim().replace('\n','').replace(/ /g,' ');
+            $('#strandListHeader span').text(strand);
         }
 
     }, '.viewTrackCard');

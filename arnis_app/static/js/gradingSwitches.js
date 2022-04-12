@@ -26,7 +26,7 @@ $(document).ready(function(){
     var fpsOption = 0;
     var poseKey = 1;
     var gradeContainer = 0;
-    var student_id = $('#saveGrade').attr('student_id');
+    var student_id = $('#viewResults').attr('student_id');
     console.log(student_id);
      req = $.ajax({
         url : '/grading/switches',

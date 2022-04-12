@@ -13,7 +13,7 @@
 
 <div class="row">
     <!--            Pose list-->
-    <div class="col-lg-4 p-0" style="height: 600px;">
+    <div class="col-lg-4 p-0 px-2" style="height: 600px;">
         <div id="teacherListContainer" class="card h-100 border border-light overflow-auto">
             <ul class="list-group list-group-flush" id="sectionList">
                 {% for i in range(25) %}
@@ -47,7 +47,7 @@
 
 
     <!--        Pose Content-->
-    <div class="col-lg-8 p-0">
+    <div class="col-lg-8 p-0 px-2 pe-5">
         <div id="poseDescriptionContainer"  class="card h-100 border-light">
             <div class="card-header" id="poseDescriptionHeader">
                     <span class="text-black text-uppercase">
@@ -55,12 +55,13 @@
                     </span>
             </div>
 
-            <div class="card-body" id="poseDescriptionBody">
+            <div class="card-body px-3" id="poseDescriptionBody">
                 <div class="row">
                     <div class="col-7" id="imageHolder">
                         <img height="500px" src="{{ url_for('static', filename='images/poses/000_pugay.png') }}">
                     </div>
-                    <div class="col-5 px-2 text-black" id="descHolder">
+
+                    <div class="col-5 px-5 text-black" id="descHolder">
                         <p class="m-3">
 
                         </p>

@@ -96,8 +96,15 @@ def student_instruction():
     request_join = db.session.query(Student.request).select_from(Student).filter(Student.user_id == user_id).first()
 
     requested = True
+    wait_section = None
     if None in request_join:
         requested = False
+    else:
+        wait_section = db.session.query(Section, Student, Strand)\
+            .select_from(Section)\
+            .outerjoin(Student, Student.request == Section.section_id)\
+            .outerjoin(Strand, Strand.strand_id == Section.strand_id)\
+            .filter(Student.user_id == user_id).first()
 
     # print(sectionLists)
     if request.method == "POST":
@@ -112,7 +119,8 @@ def student_instruction():
 
     return render_template('student/instruction.html',
                            user_name = user_name, filename=filename, sectionJoined=sectionExist, was_removed=was_removed, remove_msg=remove_msg,
-                           sectionLists=sectionLists, is_reassigned=is_reassigned, reassign_msg=reassign_msg, newSection=newSection, requested=requested)
+                           sectionLists=sectionLists, is_reassigned=is_reassigned, reassign_msg=reassign_msg, newSection=newSection, requested=requested,
+                           wait_section=wait_section)
 
 
 @app.route('/student/profile', methods=['GET', 'POST'])
@@ -212,6 +220,10 @@ def student_grading():
 
     student = db.session.query(Student).filter(Student.user_id==user_id).first()
 
+    if os.path.exists('arnis_app/static/poseResults/' + str(student.student_id)):
+        for f in os.listdir('arnis_app/static/poseResults/' + str(student.student_id)):
+            os.remove(os.path.join('arnis_app/static/poseResults/' + str(student.student_id), f))
+
     return render_template('student/grading.html',
                            user_name = user_name, filename=filename, student=student)
 
@@ -255,11 +267,9 @@ def student_results():
     if os.path.exists('arnis_app/static/poseResults/' + str(student.student_id)):
         user_images = os.listdir('arnis_app/static/poseResults/' + str(student.student_id))
 
-    if user_images:
+    if len(user_images) > 0:
         for i in range(len(user_images)):
             user_images[i] = 'poseResults/' + str(student.student_id) + '/' + user_images[i]
-
-    print(user_images)
 
     return render_template('student/results.html',
                            user_name=user_name, filename=filename, student=student, user_images=user_images)

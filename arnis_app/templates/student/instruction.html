@@ -40,7 +40,7 @@
                     <div class="row g-2 p-2 text-black">
                         <div class="col-xl">
                             {% if is_reassigned %}
-                                <div class="fs-6">
+                                <div class="fs-6 alert alert-info">
                                     New Section: <br><br>
                                     {{ "{:02d}".format(newSection[0].section_no) }} - {{ newSection[2].name }}
                                 </div>
@@ -72,8 +72,11 @@
                                         <label for="sectionListDrop">Existing Sections</label>
                                     </div>
                                 {% else %}
-                                    <div>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-solid fa-circle-info"></i>
                                         You are currently waiting for your teacher to accept your request.
+                                        <br><br>
+                                        {{ "{:02d}".format(wait_section[0].section_no)}} - {{ wait_section[2].name }}
                                     </div>
                                 {% endif %}
                             {% endif %}

@@ -82,7 +82,7 @@ def switch_options():
     global student_id
     if 'student_id' in request.form:
         student_id = int(request.form['student_id'])
-
+        # print(student_id)
 
     # Pose Key
     global pose_key
@@ -223,6 +223,7 @@ def camera():
             if grade >= 75:
                 # create result folder for every student
                 if not os.path.exists('arnis_app/static/poseResults/' + str(student_id)):
+                    # print('folder created')
                     os.mkdir('arnis_app/static/poseResults/'+ str(student_id))
 
                 # Save frame of pose done by user
@@ -264,7 +265,7 @@ def camera():
                 # Put text after completing all poses
                 txt1 = "YOU HAVE COMPLETED"
                 txt2 = "THE 24 BASIC TECHNIQUES OF ARNIS"
-                txt3 = "GRADE: " + str(round(mean(ave_grade), 2))
+                txt3 = "GRADE: " + str(round(mean(ave_grade.values()), 2))
                 text_sz1 = cv2.getTextSize(txt1, fnt, 1, 2)[0]
                 text_sz2 = cv2.getTextSize(txt2, fnt, 1, 2)[0]
                 text_sz3 = cv2.getTextSize(txt3, fnt, 2, 2)[0]

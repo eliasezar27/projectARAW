@@ -26,12 +26,24 @@ $(document).ready(function () {
 
             if (data1.result == 'success'){
 
+                $('#activityList').html("");
+                $('#averageGrade').html("");
+
                  $('#averageGrade').html('Average Grade: ' + data1.average_grade);
 
                 for (let i = 0; i < data1.activities.length; i++){
                     $('#activityList').append(
 
-                        "<li class='list-group-item'>" + data1.arnis_poses[i] + ": <span class='text-success'>" +  data1.activities[i]  + "</span></li>"
+                        "<li class='list-group-item'>" +
+                            "<div class='row'>" +
+                                "<div class='col-8'>" +
+                                    data1.arnis_poses[i] + ": " +
+                                 "</div>" +
+                                 "<div class='col-4'>" +
+                                    "<span class='fs-5 float-end'>"   + data1.activities[i] + " / " + "<small class='text-secondary fs-6 float-end'> 100 </small>" + " </span>" +
+                                 "</div>" +
+                            "</div>" +
+                        "</li>"
 
                     );
                 };

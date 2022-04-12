@@ -36,7 +36,7 @@
 
     <div class="row">
         <!--            Sections list-->
-        <div class="col-lg-4 p-0" style="height: 500px;">
+        <div class="col-lg-4 p-0 px-2" style="height: 500px;">
             <div id="teacherListContainer" class="card h-100 border border-light overflow-auto">
                 <ul class="list-group list-group-flush" id="sectionList">
                     {% for section in section_list %}
@@ -82,13 +82,13 @@
 
 
         <!--        Section List-->
-        <div class="col-lg-8 p-0">
+        <div class="col-lg-8 p-0 px-2">
             <div id="sectionStudentListContainer"  class="card h-100 border-light">
-                <!--                        <div class="card-header" id="studentListTable">-->
-                <!--                            <span class="text-black">-->
-                <!--                                SECTION NAME-->
-                <!--                            </span>-->
-                <!--                        </div>-->
+                <div class="card-header" id="sectionStudentListHeader">
+                    <span class="text-black fs-5">
+                        SECTION NAME
+                    </span>
+                </div>
                 <div class="card-body" id="studentList" style="height: 450px; overflow-y: scroll;">
                     <div id="sectionStudentListContainerDataTable" class="rounded-3 my-1 text-dark">
 
@@ -251,6 +251,8 @@ $(document).ready(function () {
             sec.addClass('text-danger');
             var i = $(this).attr('teacher_id')
             $("#teacherID option[value="+i+"]").prop('selected', true);
+            var section = $(this).text().trim().replace('\n','').replace(/ /g,' ');
+            $('#sectionStudentListHeader span').text(section);
         }
     }, '.viewSectionStudentListCard');
     $('.viewSectionStudentListCard')[0].click();
