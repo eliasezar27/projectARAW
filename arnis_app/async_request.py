@@ -460,6 +460,8 @@ def request_action():
 
     student_req = db.session.query(Student).filter(Student.student_id == student_id).first()
 
+    section_record = db.session.query(Section).filter(Section.section_id == section_id).first()
+
     if student_req is not None:
         student_req.request_decision = action
 
@@ -469,6 +471,9 @@ def request_action():
 
             result = 'success'
             message = 'Request Approved!'
+
+            section_record.population = int(section_record.population) + 1
+
             flash(_(message), 'success')
 
         # Request declined
