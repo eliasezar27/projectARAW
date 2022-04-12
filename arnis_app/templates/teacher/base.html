@@ -30,127 +30,100 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/araw_logo_y.png') }}">
 
     <!--    JQuery-->
-<!--    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>-->
+    <!--    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>-->
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 </head>
 
 <body id="page-top" class="sidebar-toggled">
-    <div id="wrapper">
-        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #79031d;">
-            <div class="container-fluid sticky-top d-flex flex-column p-0">
-                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="{{ url_for('teacher_dashboard') }}" style="width: 120px;height: 69px;">
-                    <div class="sidebar-brand-icon"><img src="{{ url_for('static', filename='images/araw_logo_y.png') }}" style="width: 52px;"></div>
-                    <div class="sidebar-brand-text mx-3" style="font-family: montserrat"><span class="d-block float-none" style="color: rgb(255,255,255);">Project</span><span class="d-block float-none" style="color: #EDB518;">ARAW</span></div>
-                </a>
-                <hr class="sidebar-divider my-4" style="color: rgb(0,0,0);">
-<!--                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>-->
-                {% if role_no >1 %}
-                    <div class="btn-group" role="group" aria-label="admin-teacher toggle">
-                        <a href="{{ url_for('admin_dashboard') }}" type="button" class="btn btn-outline-warning">Admin</a>
-                        <a type="button" class="btn btn-warning">Teacher</a>
-                    </div>
-                    <hr class="sidebar-divider my-4" style="color: rgb(0,0,0);">
-                {% endif %}
-                <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a id="dashboard" class="nav-link" href="{{ url_for('teacher_dashboard') }}"><i class="fas fa-solid fa-chart-column" style="width: 20px;"></i><span class="float-none">Dashboard</span></a></li>
-                    <li class="nav-item"><a id="sectionTab" class="nav-link" href="{{ url_for('teacher_viewSections') }}"><i class="fas fa-solid fa-users" style="width: 20px;"></i><span class="float-none">Sections</span></a></li>
-                </ul>
+<div id="wrapper">
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #79031d;">
+        <div class="container-fluid sticky-top d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="{{ url_for('teacher_dashboard') }}" style="width: 120px;height: 69px;">
+                <div class="sidebar-brand-icon"><img src="{{ url_for('static', filename='images/araw_logo_y.png') }}" style="width: 52px;"></div>
+                <div class="sidebar-brand-text mx-3" style="font-family: montserrat"><span class="d-block float-none" style="color: rgb(255,255,255);">Project</span><span class="d-block float-none" style="color: #EDB518;">ARAW</span></div>
+            </a>
+            <hr class="sidebar-divider my-4" style="color: rgb(0,0,0);">
+            <!--                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>-->
+            {% if role_no >1 %}
+            <div class="container" role="group" aria-label="admin-teacher toggle">
+                <a href="{{ url_for('admin_dashboard') }}" type="button" class="btn btn-outline-warning btn-sm">Admin</a>
+                <a type="button" class="btn btn-warning btn-sm">Teacher</a>
             </div>
-        </nav>
-        <div class="d-flex flex-column" id="content-wrapper">
-            <div id="content">
-                <nav class="navbar navbar-light navbar-expand bg-white shadow topbar static-top">
-                    <div class="container-fluid">
-                        <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
-<!--                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">-->
-<!--                            <div class="input-group">-->
-<!--                                <select id="selectSearch" class="form-select-sm" style="display: none;">-->
-<!--                                    <option value="2" selected>Section's list</option>-->
-<!--                                  </select>-->
-<!--                                <input id="searchBar1" class="bg-light form-control border-2" type="text" placeholder="Search for ...">-->
-<!--                                <button class="btn btn-primary py-0" type="button" style="background: #c46d38;border-color: #c46d38;"><i class="fas fa-search"></i></button>-->
-<!--                            </div>-->
-<!--                        </form>-->
-                        <ul class="navbar-nav flex-nowrap ms-auto">
-                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
-                                <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
-<!--                                    <form class="me-auto navbar-search w-100">-->
-<!--                                        <div class="input-group">-->
-<!--                                            <select id="selectSearch2" class="form-select-sm">-->
-<!--                                                <option value="0" selected>Search from...</option>-->
-<!--                                                <option value="1">Teacher's list</option>-->
-<!--                                                <option value="2">Section's list</option>-->
-<!--                                              </select>-->
-<!--                                            <input id="searchBar2" class="bg-light form-control border-2" type="text" placeholder="Search for ...">-->
-<!--                                            <div class="input-group-append">-->
-<!--                                                <button class="btn btn-primary py-0" type="button" style="background: #c46d38;border-color: #c46d38;">-->
-<!--                                                    <i class="fas fa-search"></i>-->
-<!--                                                </button>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </form>-->
-                                </div>
-                            </li>
-                            <div class="d-none d-sm-block topbar-divider"></div>
-                            <li class="nav-item dropdown no-arrow">
-                                <div class="nav-item dropdown no-arrow">
-                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
-                                        {% if call_or_get(current_user.is_authenticated) %}
-                                            <span class="d-none d-lg-inline me-2 text-gray-600 small">
+            <hr class="sidebar-divider my-4" style="color: rgb(0,0,0);">
+            {% endif %}
+            <ul class="navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item"><a id="dashboard" class="nav-link" href="{{ url_for('teacher_dashboard') }}"><i class="fas fa-solid fa-chart-column" style="width: 20px;"></i><span class="float-none">Dashboard</span></a></li>
+                <li class="nav-item"><a id="sectionTab" class="nav-link" href="{{ url_for('teacher_viewSections') }}"><i class="fas fa-solid fa-users" style="width: 20px;"></i><span class="float-none">Sections</span></a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <nav class="navbar navbar-light navbar-expand bg-white shadow topbar static-top">
+                <div class="container-fluid">
+                    <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+
+                    <ul class="navbar-nav flex-nowrap ms-auto">
+                        <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
+                            <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
+
+                            </div>
+                        </li>
+                        <div class="d-none d-sm-block topbar-divider"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <div class="nav-item dropdown no-arrow">
+                                <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                    {% if call_or_get(current_user.is_authenticated) %}
+                                    <span class="d-none d-lg-inline me-2 text-gray-600 small">
                                                 {{ user_name }}
                                             </span>
-                                            <img class="border rounded-circle img-profile" src="{{ url_for('static', filename=filename) }}">
-                                        {% endif %}
-                                    </a>
-                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
-                                            <a class="dropdown-item" href="{{ url_for('teacher_profile') }}"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-600 fs-6"></i>&nbsp;Profile</a>
-<!--                                        <a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a>-->
-<!--                                        <a class="dropdown-item" href="#"><i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Activity log</a>-->
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="{{ url_for('user.logout') }}"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-600 fs-6"></i>Logout</a>
-                                    </div>
+                                    <img class="border rounded-circle img-profile" src="{{ url_for('static', filename=filename) }}">
+                                    {% endif %}
+                                </a>
+                                <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+                                    <a class="dropdown-item" href="{{ url_for('teacher_profile') }}"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-600 fs-6"></i>&nbsp;Profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ url_for('user.logout') }}"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-600 fs-6"></i>Logout</a>
                                 </div>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-
-                {# One-time system messages called Flash messages #}
-                {% block flash_messages %}
-                    {%- with messages = get_flashed_messages(with_categories=true) -%}
-                        {% if messages %}
-                            {% for category, message in messages %}
-                                {% if category=='error' %}
-                                    {% set category='danger' %}
-                                {% endif %}
-                                <div class="alert alert-{{category}}">{{ message|safe }}</div>
-                            {% endfor %}
-                        {% endif %}
-                    {%- endwith %}
-                {% endblock %}
-
-
-                {% block content %}{% endblock %}
-
-
-            </div>
-            <footer class="bg-white sticky-footer">
-                <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © Project ARAW 2022</span></div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-            </footer>
-<!--        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>-->
-    </div>
+            </nav>
 
+            {# One-time system messages called Flash messages #}
+            {% block flash_messages %}
+            {%- with messages = get_flashed_messages(with_categories=true) -%}
+            {% if messages %}
+            {% for category, message in messages %}
+            {% if category=='error' %}
+            {% set category='danger' %}
+            {% endif %}
+            <div class="alert alert-{{category}}">{{ message|safe }}</div>
+            {% endfor %}
+            {% endif %}
+            {%- endwith %}
+            {% endblock %}
+
+
+            {% block content %}{% endblock %}
+
+
+        </div>
+        <footer class="bg-white sticky-footer">
+            <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span>Copyright © Project ARAW 2022</span></div>
+            </div>
+        </footer>
+        <!--        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>-->
+    </div>
+</div>
     {% block extra_js %}{% endblock %}
 
     <script src="{{ url_for('static', filename='js/bs-init.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
     <script src="{{ url_for('static', filename='js/flash_timer.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
-    <script>
-
-    </script>
 </body>
 
 

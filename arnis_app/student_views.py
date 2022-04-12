@@ -9,8 +9,41 @@ import uuid as uuid
 import os
 from arnis_app.configs import ConfigClass
 from arnis_app.camera_source import generate
+from arnis_app.camera_source import camera, vs
+import threading
+
+t = threading.Thread(target=camera)
+t.daemon = True
+
+thread_process = True
 
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
+
+poses = ['Preparation',
+        'Left Temple Strike',
+     'Right Temple Strike',
+     'Left Arm/Shoulder Strike',
+     'Right Arm/Shoulder Strike',
+     'Stomach Thrust',
+     'Left Chest Thrust',
+     'Right Chest Thrust',
+     'Right Knee/Leg Strike',
+     'Left Knee/Leg Strike',
+     'Left Eye Thrust',
+     'Right Eye Thrust',
+     'Crown Strike',
+     'Left Temple Block',
+     'Right Temple Block',
+     'Left Arm/Shoulder Block',
+     'Right Arm/Shoulder Block',
+     'Stomach Thrust Block',
+     'Left Chest Block',
+     'Right Chest Block',
+     'Right Knee/Leg Block',
+     'Left Knee/Leg Block',
+     'Left Eye Block',
+     'Right Eye Block',
+     'Rising Block']
 
 
 def allowed_file(filenames):
@@ -144,6 +177,14 @@ def student_profile():
 @app.route('/student/practice', methods=['GET', 'POST'])
 @roles_required('student')
 def student_practice():
+    global thread_process
+    if thread_process:
+        t.start()
+        thread_process = False
+
+    if vs is not None:
+        vs.stop()
+
     user_name = current_user.first_name + " " + current_user.last_name
     user_id = current_user.id
 
@@ -156,48 +197,33 @@ def student_practice():
 @app.route('/student/grading', methods=['GET', 'POST'])
 @roles_required('student')
 def student_grading():
+    global thread_process
+    if thread_process:
+        t.start()
+        thread_process = False
+
+    if vs is not None:
+        vs.stop()
+
     user_name = current_user.first_name + " " + current_user.last_name
     user_id = current_user.id
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    student = db.session.query(Student).filter(Student.user_id==user_id).first()
+
     return render_template('student/grading.html',
-                           user_name = user_name, filename=filename)
+                           user_name = user_name, filename=filename, student=student)
 
 
 @app.route('/student/pose-descriptions', methods=['GET', 'POST'])
 @roles_required('student')
 def student_description():
+
     user_name = current_user.first_name + " " + current_user.last_name
     user_id = current_user.id
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
-
-    poses = ['Preparation',
-        'Left Temple Strike',
-     'Right Temple Strike',
-     'Left Arm/Shoulder Strike',
-     'Right Arm/Shoulder Strike',
-     'Stomach Thrust',
-     'Left Chest Thrust',
-     'Right Chest Thrust',
-     'Right Knee/Leg Strike',
-     'Left Knee/Leg Strike',
-     'Left Eye Thrust',
-     'Right Eye Thrust',
-     'Crown Strike',
-     'Left Temple Block',
-     'Right Temple Block',
-     'Left Arm/Shoulder Block',
-     'Right Arm/Shoulder Block',
-     'Stomach Thrust Block',
-     'Left Chest Block',
-     'Right Chest Block',
-     'Right Knee/Leg Block',
-     'Left Knee/Leg Block',
-     'Left Eye Block',
-     'Right Eye Block',
-     'Rising Block']
 
     pose_imgs = os.listdir('arnis_app/static/images/poses')
 
@@ -212,7 +238,7 @@ def student_description():
             hash.append(ln.replace('\n', ''))
 
     return render_template('student/description.html',
-                           user_name = user_name, filename=filename, poses=poses, pose_imgs=pose_imgs, pose_descs=pose_descs, hash=hash)
+                           user_name=user_name, filename=filename, poses=poses, pose_imgs=pose_imgs, pose_descs=pose_descs, hash=hash)
 
 
 @app.route('/student/results', methods=['GET', 'POST'])
@@ -223,8 +249,20 @@ def student_results():
 
     filename = UserProfilePic.query.filter_by(user_id=user_id).first().filename
 
+    student = db.session.query(Student).filter(Student.user_id == user_id).first()
+
+    user_images = []
+    if os.path.exists('arnis_app/static/poseResults/' + str(student.student_id)):
+        user_images = os.listdir('arnis_app/static/poseResults/' + str(student.student_id))
+
+    if user_images:
+        for i in range(len(user_images)):
+            user_images[i] = 'poseResults/' + str(student.student_id) + '/' + user_images[i]
+
+    print(user_images)
+
     return render_template('student/results.html',
-                           user_name=user_name, filename=filename)
+                           user_name=user_name, filename=filename, student=student, user_images=user_images)
 
 
 @app.route('/video_feed')

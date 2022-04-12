@@ -40,14 +40,15 @@ lock = threading.Lock()
 # initialize a flask object
 # app = Flask(__name__)
 
-vs = VideoStream(src=0).start()
+vs = None
+
 # time.sleep(2.0)
 prev_frame_time = 0
 
 # Store grades
 prev_grade = 0
 grade = 0
-ave_grade = [0 for i in range(27)]
+ave_grade = {}
 
 # Choose task
 grading_ver, class_ver = False, False
@@ -63,19 +64,25 @@ shwAngl = False
 scCap = False
 instanceNum = "Instance number"
 
+student_id = 0
 
-# Pose Grading Results Page
-@app.route('/pose-grading-result', methods=['GET', 'POST'])
-def results():
-    global ave_grade
-    grade_res = ave_grade[:]
 
-    return render_template('results.html', resGrade=grade_res)
+# # Pose Grading Results Page
+# @app.route('/pose-grading-result', methods=['GET', 'POST'])
+# def results():
+#     global ave_grade
+#     grade_res = ave_grade
+#
+#     return render_template('results.html', resGrade=grade_res)
 
 
 # Pose Grading Results Page
 @app.route('/grading/switches', methods=['GET', 'POST'])
 def switch_options():
+    global student_id
+    if 'student_id' in request.form:
+        student_id = int(request.form['student_id'])
+
 
     # Pose Key
     global pose_key
@@ -109,18 +116,26 @@ def switch_options():
         shwFPS = int(request.form['fpsOption'])
         shwFPS = bool(shwFPS)
 
+    global ave_grade
+    if 'gradeContainer' in request.form:
+        gradeContainer = int(request.form['gradeContainer'])
+        if gradeContainer == 0 and pose_key == 0:
+            ave_grade = {}
+
     return jsonify({'result': 'switched', 'message': 'message'})
 
 
 # Read poses from camera input
 def camera():
-    global vs, outputFrame, lock, prev_frame_time, grade, prev_grade, ave_grade, grading_ver, scCap, instanceNum, shwFPS, shwAngl, skltn, pose_key, class_ver, grading_ver
+    global vs, outputFrame, lock, prev_frame_time, grade, prev_grade, ave_grade, grading_ver, scCap, instanceNum, shwFPS, shwAngl, skltn, pose_key, class_ver, grading_ver, student_id
+
     blur_end = False
     fnt = cv2.FONT_HERSHEY_DUPLEX
-    file_speed = 'speed.txt'
-    file_mem = ''
-    mem_usage = 0
-    end_time, start = 0, 0
+    vs = VideoStream(src=1).start()
+    # file_speed = 'speed.txt'
+    # file_mem = ''
+    # mem_usage = 0
+    # end_time, start = 0, 0
 
     # Change number per participant
     # instanceNum = 0
@@ -128,7 +143,7 @@ def camera():
 
     # grab global references to the video stream, output frame, and
     # lock variables
-    while True:
+    while True and vs is not None:
         if grading_ver:
             # print('Grade: ', grade, ' Prev grade: ', prev_grade)
             # Pause 2 sec if pose passed
@@ -180,7 +195,8 @@ def camera():
             clr_grd = (0, 0, 255)
 
             # Compute overall grade
-            ave_grade[pose_key] = grade
+            if pose_key > 2 and grade > 74:
+                ave_grade[pose_key] = grade
 
             # Threshold ADDED
             # next pose when threshold is greater than 74
@@ -205,19 +221,23 @@ def camera():
                 # print(str(pose_key) + " " + str(grade))
 
             if grade >= 75:
+                # create result folder for every student
+                if not os.path.exists('arnis_app/static/poseResults/' + str(student_id)):
+                    os.mkdir('arnis_app/static/poseResults/'+ str(student_id))
+
                 # Save frame of pose done by user
-                cv2.imwrite('static/' + str(pose_key - 1) + '.jpg', frame)
+                cv2.imwrite('arnis_app/static/poseResults/' + str(student_id) + '/' + str(pose_key - 1) + '.jpg', frame)
 
-        if grading_ver or class_ver:
-            if end_time - start > 0:
-                print('inference time: ', end_time - start, 'Memory usage: ', mem_usage)
-                # Save memory usage in text file
-                with open(file_mem, 'a') as f2:
-                    f2.write(str(mem_usage) + ", ")
-
-                # Save prediction/classification time in text file
-                with open(file_speed, 'a') as f:
-                    f.write(str(end_time - start) + ", ")
+        # if grading_ver or class_ver:
+        #     if end_time - start > 0:
+        #         print('inference time: ', end_time - start, 'Memory usage: ', mem_usage)
+        #         # Save memory usage in text file
+        #         with open(file_mem, 'a') as f2:
+        #             f2.write(str(mem_usage) + ", ")
+        #
+        #         # Save prediction/classification time in text file
+        #         with open(file_speed, 'a') as f:
+        #             f.write(str(end_time - start) + ", ")
 
         try:
             if shwFPS:
@@ -244,7 +264,7 @@ def camera():
                 # Put text after completing all poses
                 txt1 = "YOU HAVE COMPLETED"
                 txt2 = "THE 24 BASIC TECHNIQUES OF ARNIS"
-                txt3 = "GRADE: " + str(round(mean(ave_grade[3:]), 2))
+                txt3 = "GRADE: " + str(round(mean(ave_grade), 2))
                 text_sz1 = cv2.getTextSize(txt1, fnt, 1, 2)[0]
                 text_sz2 = cv2.getTextSize(txt2, fnt, 1, 2)[0]
                 text_sz3 = cv2.getTextSize(txt3, fnt, 2, 2)[0]
@@ -288,21 +308,3 @@ def generate():
                 continue
         # yield the output frame in the byte format
         yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
-
-
-# @app.route('/video_feed')
-# def video_feed():
-#     # return the response generated along with the specific media
-#     # type (mime type)
-#     return Response(generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
-
-
-# if __name__ == '__main__':
-#     # construct the argument parser and parse command line arguments
-#     t = threading.Thread(target=camera)
-#     t.daemon = True
-#     t.start()
-#     # start the flask app
-#     app.run(debug=True, threaded=True, use_reloader=False)
-# # release the video stream pointer
-# vs.stop()

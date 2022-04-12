@@ -25,6 +25,9 @@ $(document).ready(function(){
     var angleOption = 0;
     var fpsOption = 0;
     var poseKey = 1;
+    var gradeContainer = 0;
+    var student_id = $('#saveGrade').attr('student_id');
+    console.log(student_id);
      req = $.ajax({
         url : '/grading/switches',
         type : 'POST',
@@ -34,7 +37,9 @@ $(document).ready(function(){
                 poseKey : poseKey,
                 skeletonOption : skeletonOption,
                 angleOption : angleOption,
-                fpsOption : fpsOption
+                fpsOption : fpsOption,
+                gradeContainer : gradeContainer,
+                student_id : student_id
                 }
     });
 

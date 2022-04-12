@@ -102,61 +102,73 @@
 
 <div class="container">
     <div class="row pb-3">
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    This is some text within a card body.
+
+        <div class="col-4">
+            <div class="card h-100">
+
+                <div class="card-header fs-5">
+                    Device Placement
                 </div>
+
+                <div class="card-body">
+                    <img src="{{ url_for('static', filename='images/device-user_distance.png') }}" width="370vw" class="mb-3">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Make sure to stand your device or your camera two Arnis length from you and the source of light is less than 2 meters away from you.</li>
+                    </ul>
+                </div>
+
             </div>
         </div>
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    This is some text within a card body.
+
+
+        <div class="col-4">
+            <div class="card h-100">
+
+                <div class="card-header fs-5">
+                    User in-frame Setting
                 </div>
+
+                <div class="card-body">
+                    <center>
+                        <img src="{{ url_for('static', filename='images/in-frame-setting.png') }}" width="370vw" class="mb-3">
+                    </center>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                For optimal use of the embedded AI, include your upper-body from the knee to the arms stretched above the head within the web application's frame.
+                            </li>
+                        </ul>
+                    </div>
+
+
             </div>
         </div>
+
+
+        <div class="col-4">
+            <div class="card h-100">
+
+                <div class="card-header fs-5">
+                    Strike a Pose
+                </div>
+
+                <div class="card-body">
+                    <center>
+                        <img src="{{ url_for('static', filename='images/poses/01_left_temple_strk.png'  ) }}" width="200vw" class="mb-3">
+                    </center>
+
+                    <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                With that suggested setting, You may now practice and evaluate your basic Arnis striking and blocking techniques, independently.
+                            </li>
+                        </ul>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
-    <div class="row pb-3">
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    This is some text within a card body.
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    This is some text within a card body.
-                </div>
-            </div>
-        </div>
     </div>
-
-    <div class="row pb-3">
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    This is some text within a card body.
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    This is some text within a card body.
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-</div>
 
 {% endblock content %}
 

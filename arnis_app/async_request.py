@@ -1,8 +1,12 @@
-from arnis_app.models import db, User, Teacher, Section, Strand, Track, Student
+from arnis_app.models import db, User, Teacher, Section, Strand, Track, Student, Activity
 from flask import request, jsonify, flash
 from arnis_app import app
 from flask_login import current_user
 from flask_user.translation_utils import gettext as _
+from arnis_app.camera_source import ave_grade
+import json
+import datetime
+from statistics import mean
 
 
 @app.route('/add_section', methods=['POST'])
@@ -128,7 +132,6 @@ def view_studentList():
 
                 listStudents.append(dictStudents)
 
-        print(listStudents, ' \n', section)
         return jsonify({'result': result, 'listStudents': listStudents, 'sectionInfo': section})
         # print(section)
         # return jsonify({'result': result, 'sectionInfo': section})
@@ -505,3 +508,78 @@ def reassign_student():
         message = 'update failed'
 
     return jsonify({'result': result, 'message': message})
+
+
+@app.route('/save/grade', methods=['POST'])
+def save_grade():
+    result = 'success'
+    message = 'grade saved'
+
+    student_id = int(request.form['student_id'])
+    student_grade = json.dumps(ave_grade)
+
+    if not student_grade == '{}':
+        result = 'success'
+        message = 'grade saved'
+
+        activity = Activity(
+            date=datetime.datetime.now(),
+            student_id=student_id,
+            grade=student_grade
+        )
+
+        db.session.add(activity)
+        db.session.commit()
+    else:
+        result = 'success'
+        message = 'no grade saved'
+
+    return jsonify({'result': result, 'message': message})
+
+
+@app.route('/get/student/grade', methods=['GET'])
+def get_studentGrade():
+    arnis_poses = ["Left Temple Strike", "Right Temple Strike", "Left Shoulder Strike", "Right Shoulder Strike",
+                   "Stomach Thrust", "Left Chest Thrust", "Right Chest Thrust", "Right Leg Strike",
+                   "Left Leg Strike", "Left Eye Thrust", "Right Eye Thrust", "Crown Strike",
+                   "Left Temple Block", "Right Temple Block", "Left Shoulder Block", "Right Shoulder Block",
+                   "Stomach Thrust Block", "Left Chest Block", "Right Chest Block", "Right Leg Block",
+                   "Left Leg Block", "Left Eye Block", "Right Eye Block", "Rising Block"]
+
+    student_idq = request.args.get('student_id')
+
+    result = ''
+    student_name = ''
+    activities = []
+    average_grade = 0
+
+    student_activity = db.session.query(Activity, Student, User)\
+        .select_from(Activity)\
+        .outerjoin(Student, Student.student_id == Activity.student_id)\
+        .outerjoin(User, User.id == Student.user_id)\
+        .filter(Student.student_id == student_idq).order_by(db.desc(Activity.date)).first()
+
+    student = db.session.query(User, Student)\
+        .select_from(User)\
+        .outerjoin(Student, User.id == Student.user_id)\
+        .filter(Student.student_id == student_idq).first()
+
+    student_name = student[0].last_name + ', ' + student[0].first_name
+
+    if student_activity:
+        result = 'success'
+
+        activities = student_activity[0].grade
+
+        activities = json.loads(activities)
+
+        activities = list(activities.values())
+
+        average_grade = mean([int(x) for x in activities])
+
+        arnis_poses = arnis_poses[:len(activities)]
+
+        print(student_name, "\n", activities)
+
+    return jsonify({'result': result, 'student_name': student_name, 'activities': activities,
+                    'average_grade': average_grade, 'arnis_poses': arnis_poses})

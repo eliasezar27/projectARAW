@@ -123,7 +123,7 @@
 
 
 
-    <!--    Student List Modal-->
+    <!--    Transfer or remove Modal-->
 <form id="transferStudentForm">
     <div class="modal fade" id="transferStudentModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
@@ -185,6 +185,34 @@
     </div>
 </form>
 
+<!--    Student scores modal-->
+<div class="modal fade" id="scoreStudentModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="scoreStudentModalHeader">
+                    <i class='fas fa-solid fa-medal' data-bs-toggle='tooltip' data-bs-placement='top' title='Transfer student' style='color: #c46d38;'></i>
+                    &nbsp;STUDENT Name
+
+                </h5>
+            </div>
+            <div class="modal-body" id="scoreStudentModalBody">
+
+                <div class="fs-3 text-black mb-5" id="averageGrade"> No available data  </div>
+
+                <ul class="list-group list-group-flush" id="activityList">
+                    <li class="list-group-item">No Activities Done Yet!</li>
+                </ul>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 </div>
@@ -199,6 +227,7 @@
 <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-table.min.js') }}"></script>
 
 <script src="{{ url_for('static', filename='js/add_section.js') }}"></script>
+<script src="{{ url_for('static', filename='js/getStudentGrade.js') }}"></script>
 <script src="{{ url_for('static', filename='js/transfer_section.js') }}"></script>
 <script src="{{ url_for('static', filename='js/getStudentInfo.js') }}"></script>
 <script src="{{ url_for('static', filename='js/ModalViewStudentList.js') }}"></script>

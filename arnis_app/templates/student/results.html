@@ -7,14 +7,39 @@
 {% endblock style %}
 
 {% block content %}
-    <div class="d-sm-flex justify-content-between align-items-center my-0 mx-2" style="height: 80px !important;">
-        <h1 class="text-dark mx-3" style="height: 127px;"><br>Pose Descriptions<br><br></h1>
+<div class="d-sm-flex justify-content-between align-items-center my-0 mx-2" style="height: 80px !important;">
+    <h1 class="text-dark mx-3" style="height: 127px;"><br>Score Results<br><br></h1>
+</div>
 
-    </div>
+<div class="container">
+
+    {% if user_images %}
+
+        {% for image in user_images %}
+            <img src="{{ url_for('static', filename=image) }}" width="400px" class="p-3">
+        {% endfor %}
+
+        <a href="{{ url_for('student_results') }}" type="button" class="btn btn-danger text-white my-2 d-block" id="saveGrade" student_id="{{ student.student_id }}">
+            Save Results
+        </a>
+
+    {% else %}
+    <center>
+        <div class="fs-1 mb-4">
+            <i class="fas fa-solid fa-circle-exclamation"></i> No Performed Activity Yet!
+        </div>
+        <a href="{{ url_for('student_grading') }}" type="button" class="btn btn-danger text-white my-2">
+            Perform Activity now.
+        </a>
+    </center>
+    {% endif %}
+
+</div>
+
 {% endblock content %}
 
 {% block extra_js %}
-
+<script src="{{ url_for('static', filename='js/save_grade.js') }}"></script>
 <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 {% endblock extra_js %}
