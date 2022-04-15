@@ -29,7 +29,7 @@ $(document).ready(function () {
                 $('#activityList').html("");
                 $('#averageGrade').html("");
 
-                 $('#averageGrade').html('Average Grade: ' + data1.average_grade);
+                 $('#averageGrade').html('Average Grade: ' + data1.average_grade + "<small class='text-secondary fs-6'> / 100 </small>");
 
                 for (let i = 0; i < data1.activities.length; i++){
                     $('#activityList').append(
@@ -40,7 +40,7 @@ $(document).ready(function () {
                                     data1.arnis_poses[i] + ": " +
                                  "</div>" +
                                  "<div class='col-4'>" +
-                                    "<span class='fs-5 float-end'>"   + data1.activities[i] + " / " + "<small class='text-secondary fs-6 float-end'> 100 </small>" + " </span>" +
+                                    "<span class='fs-5 float-end'>"   + data1.activities[i] +  "<small class='text-secondary fs-6 float-end'>&nbsp / 100 </small>" + " </span>" +
                                  "</div>" +
                             "</div>" +
                         "</li>"

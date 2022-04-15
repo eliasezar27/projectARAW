@@ -1,4 +1,4 @@
-from arnis_app.models import db, User, Teacher, Section, Strand, Track, Student, Activity
+from arnis_app.models import db, User, Teacher, Section, Strand, Track, Student, Activity, UserRoles
 from flask import request, jsonify, flash
 from arnis_app import app
 from flask_login import current_user
@@ -199,6 +199,20 @@ def change_UserStatus():
     db.session.commit()
 
     return jsonify({'result': 'success', 'status': userStatus})
+
+
+# Status changer in admin module
+@app.route('/assign/admin', methods=['POST'])
+def assign_admin():
+    user_id = request.form['user_id']
+    adminStatus = int(request.form['adminStatus'])
+
+    user = db.session.query(UserRoles).filter(UserRoles.user_id == user_id).first()
+    user.active = int(adminStatus)
+
+    db.session.commit()
+
+    return jsonify({'result': 'success', 'status': adminStatus})
 
 
 @app.route('/view/section/list', methods=['GET'])
@@ -580,7 +594,7 @@ def get_studentGrade():
 
         activities = list(activities.values())
 
-        average_grade = mean([int(x) for x in activities])
+        average_grade = round(mean([int(x) for x in activities]), 2)
 
         arnis_poses = arnis_poses[:len(activities)]
 

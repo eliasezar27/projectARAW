@@ -85,32 +85,32 @@
 
 <!--    Teacher Info Modal-->
 <div class="modal fade" id="teacherMoreInfoModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <i class="fas fa-solid fa-circle-info fs-5 pe-1" style="color: #EDB518;"></i>
-          &nbsp;
-        <h5 class="modal-title text-black" id="teacherMoreInfoModalHeader">
-            Teacher Name (Last, First)
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="window.location.reload();"></button>
-      </div>
-      <div class="modal-body" id="teacherMoreInfoModalBody">
-        ...
-      </div>
-      <div class="modal-footer">
-<!--          Flash message-->
-          <div class="py-0 alert" style="display: none;" id="statChangeFlash"></div><br>
-          <div class="btn-group userStatus" role="group" aria-label="Basic radio toggle button group" id="userStatus">
-              <input type="radio" class="btn-check" name="userStatus" id="statusActive" autocomplete="off" value="1" user_id checked>
-              <label class="btn btn-outline-success" for="statusActive">Active</label>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-solid fa-circle-info fs-5 pe-1" style="color: #EDB518;"></i>
+                &nbsp;
+                <h5 class="modal-title text-black" id="teacherMoreInfoModalHeader">
+                    Teacher Name (Last, First)
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="window.location.reload();"></button>
+            </div>
+            <div class="modal-body" id="teacherMoreInfoModalBody">
+                ...
+            </div>
+            <div class="modal-footer">
+                <!--          Flash message-->
+                <div class="py-0 alert" style="display: none;" id="statChangeFlash"></div><br>
+                <div class="btn-group userStatus" role="group" aria-label="Basic radio toggle button group" id="userStatus">
+                    <input type="radio" class="btn-check" name="userStatus" id="statusActive" autocomplete="off" value="1" user_id checked>
+                    <label class="btn btn-outline-success" for="statusActive">Active</label>
 
-              <input type="radio" class="btn-check" name="userStatus" id="statusInactive" autocomplete="off" value="0" user_id>
-              <label class="btn btn-outline-danger" for="statusInactive">Inactive</label>
-          </div>
-      </div>
+                    <input type="radio" class="btn-check" name="userStatus" id="statusInactive" autocomplete="off" value="0" user_id>
+                    <label class="btn btn-outline-danger" for="statusInactive">Inactive</label>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 

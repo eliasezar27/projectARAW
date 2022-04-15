@@ -35,16 +35,22 @@ $(document).ready(function() {
 
                     var teacherModalInfo = function(x,y) {
                       x.html(
-                            "<div id='gender'> Sex: " + y['gender'] + "</div>"+
-                            "<div id='email'>Email: " + y['email'] + "</div>"+
-                            "<div id='mobile'>Contact Number: " + y['mobile'] + " </div>"+
-                            "<div id='date_joined'>Date joined: " + my_date_format(y['date_joined']) + "</div>" );
+                            "<div class='form-check form-switch'>" +
+                              "<input class='form-check-input' type='checkbox' role='switch' id='setAdminSwitch' user_id>" +
+                              "<label class='form-check-label text-black' for='setAdminSwitch'>Admin Privileges</label>" +
+                            "</div>" +
+                            "<br>" +
+                            "<div id='gender' class='text-black'> Sex: " + y['gender'] + "</div>"+
+                            "<div id='email' class='text-black'>Email: " + y['email'] + "</div>"+
+                            "<div id='mobile' class='text-black'>Contact Number: " + y['mobile'] + " </div>"+
+                            "<div id='date_joined' class='text-black'>Date joined: " + my_date_format(y['date_joined']) + "</div>" );
                     };
 
                     if (data.result == 'success'){
                         teacherModalHeader($('#teacherMoreInfoModalHeader'), data.teacherInfo);
                         teacherModalInfo($("#teacherMoreInfoModalBody"), data.teacherInfo);
                         $('input:radio[name=userStatus]').attr('user_id', data.teacherInfo['user_id']);
+                        $('input:checkbox[id=setAdminSwitch]').attr('user_id', data.teacherInfo['user_id']);
 
                         // Setting which active status button is selected
                         if(data.teacherInfo['active'] == true){
