@@ -173,7 +173,8 @@ def get_sectionCountPerTrack():
         .outerjoin(Track, Track.track_id == Strand.track_id) \
         .outerjoin(Teacher, Teacher.teacher_id == Section.teacher_id) \
         .filter(Teacher.user_id == user_id)\
-        .group_by(Track.nickname)\
+        .group_by(Track.nickname) \
+        .order_by(db.desc('counts'))\
         .all()
 
     sectionCounts = dict(sectionCounts)

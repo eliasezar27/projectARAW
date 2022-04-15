@@ -28,34 +28,39 @@
                     </h5>
                 </div>
                 <div class="modal-body">
-                    {% if not is_reassigned and not requested %}
-                        <div class="mb-4 alert alert-success">
-                            <small>
-                                <i class="fas fa-solid fa-circle-info pe-1"></i>
-                                Join a section in order to start navigating the web-application. Wait for your teacher's confirmation to start your online Arnis experience.
-                            </small>
-                        </div>
-                    {% endif %}
+
 
                     <div class="row g-2 p-2 text-black">
                         <div class="col-xl">
+
+                            {% if not is_reassigned and not requested %}
+                                <div class="mb-4 alert alert-info student">
+                                    <small>
+                                        <i class="fas fa-solid fa-circle-info pe-1"></i>
+                                        Join a section in order to start navigating the web-application. Wait for your teacher's confirmation to start your online Arnis experience.
+                                    </small>
+                                </div>
+                            {% endif %}
+
                             {% if is_reassigned %}
-                                <div class="fs-6 alert alert-info">
-                                    New Section: <br><br>
+                                <div class="fs-6 alert alert-info student">
+                                    You were reassigned to a new section: <br><br>
                                     {{ "{:02d}".format(newSection[0].section_no) }} - {{ newSection[2].name }}
                                 </div>
                                 <div class="fs-6 mt-3">
-                                    <strong> Note: </strong> {{ reassign_msg }}
+                                    <strong> Teacher's Note: </strong> {{ reassign_msg }}
                                 </div>
                             {% else %}
 
                                 {% if was_removed %}
+                                <div class="alert alert-warning student">
                                     <div class="fs-6">
                                         You were removed from your previous section, please join another section again.
                                     </div>
-                                    <div class="fs-6 my-3">
-                                        <strong> Note: </strong> {{ remove_msg }}
+                                    <div class="fs-6">
+                                        <strong> Teacher's Note: </strong> {{ remove_msg }}
                                     </div>
+                                </div>
                                 {% endif %}
 
                                 {% if not requested %}
@@ -72,11 +77,11 @@
                                         <label for="sectionListDrop">Existing Sections</label>
                                     </div>
                                 {% else %}
-                                    <div class="alert alert-info">
+                                    <div class="alert alert-info student">
                                         <i class="fas fa-solid fa-circle-info"></i>
                                         You are currently waiting for your teacher to accept your request.
                                         <br><br>
-                                        {{ "{:02d}".format(wait_section[0].section_no)}} - {{ wait_section[2].name }}
+                                        <strong>Section Requested:</strong> {{ "{:02d}".format(wait_section[0].section_no)}} - {{ wait_section[2].name }}
                                     </div>
                                 {% endif %}
                             {% endif %}

@@ -132,7 +132,7 @@
                     <h5 class="modal-title text-black" id="transferStudentModalHeader">
                         <i class='fas fa-solid fa-arrow-right-from-bracket' data-bs-toggle='tooltip' data-bs-placement='top' title='Transfer student' style='color: #c46d38;'></i>
                         &nbsp;
-                        TRANSFER TO DIFFERENT SECTION
+                        TRANSFER/REMOVE STUDENT
                     </h5>
                 </div>
                 <div class="modal-body" id="transferStudentModalBody">
@@ -155,6 +155,7 @@
                                 <select class="form-select text-dark" name="trackOptions" id="sectionOptions" aria-label="Floating label select example" required>
                                     <option value disabled selected>Choose...</option>
                                     <option value=-1 class="text-danger">Remove</option>
+                                    <option disabled>Or transfer to...</option>
                                     {% for section in section_list %}
                                     <option value="{{section[0].section_id}}" class="text-dark">{{ "{:02d}".format(section[0].section_no) }} - {{ section[1] }}</option>
                                     {% endfor %}
