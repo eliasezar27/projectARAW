@@ -471,6 +471,13 @@ def transfer_section():
     reason = request.form['reasonAction']
     transfer = db.session.query(Student).filter(Student.student_id == student_id).first()
 
+    # new section
+    section_transfer = db.session.query(Section).filter(Section.section_id == section_id).first()
+
+    # old section
+    section_id_remove = transfer.section_id
+    section_remove = db.session.query(Section).filter(Section.section_id == section_id_remove).first()
+
     if transfer is None:
         result = 'danger'
         message = 'Student not recognized!'
@@ -480,6 +487,11 @@ def transfer_section():
             transfer.removed = 1
             transfer.reason = reason
             transfer.request_decision = None
+
+            # Update section population
+            sections_population = int(section_remove.population)
+            section_remove.population = int(sections_population - 1)
+
             db.session.commit()
 
             result = 'warning'
@@ -489,6 +501,14 @@ def transfer_section():
             transfer.section_id = section_id
             transfer.reassign = 1
             transfer.reason = reason
+
+            # Update section population
+            sections_population = int(section_transfer.population)
+            section_transfer.population = int(sections_population + 1)
+
+            sections_population = int(section_remove.population)
+            section_remove.population = int(sections_population - 1)
+
             db.session.commit()
 
             result = 'success'
