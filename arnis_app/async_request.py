@@ -55,6 +55,20 @@ def view_teacher():
                 .filter(User.id == Teacher.user_id)\
                 .filter(Teacher.teacher_id==teacher_idq).first()
 
+    userRole = db.session.query(UserRoles) \
+        .select_from(UserRoles)\
+        .outerjoin(Teacher, Teacher.user_id == UserRoles.user_id) \
+        .filter(UserRoles.user_id == Teacher.user_id)\
+        .filter(Teacher.teacher_id == teacher_idq).all()
+
+    is_admin = 0
+    if userRole:
+        for i in range(len(userRole)):
+            userRole[i] = userRole[i].role_id
+
+        if 1 in userRole:
+            is_admin = 1
+
     if teacherInfo:
         result = 'success'
 
@@ -67,7 +81,7 @@ def view_teacher():
         del teacherInfo['email_confirmed_at']
         teacherInfo['date_joined'] = str(teacherInfo['date_joined'])
 
-        return jsonify({'result': result, 'teacherInfo': teacherInfo})
+        return jsonify({'result': result, 'teacherInfo': teacherInfo, 'is_admin': is_admin})
     else:
         result = 'danger'
         return jsonify({'result': result})
@@ -205,11 +219,29 @@ def change_UserStatus():
 # Status changer in admin module
 @app.route('/assign/admin', methods=['POST'])
 def assign_admin():
-    user_id = request.form['user_id']
+    user_id = int(request.form['user_id'])
     adminStatus = int(request.form['adminStatus'])
 
-    user = db.session.query(UserRoles).filter(UserRoles.user_id == user_id).first()
-    user.active = int(adminStatus)
+    userRoles = db.session.query(UserRoles).filter(UserRoles.user_id == user_id).order_by(UserRoles.role_id).all()
+
+    for i in range(len(userRoles)):
+        userRoles[i] = userRoles[i].role_id
+
+    if adminStatus == 1:  # assign teacher as admin
+
+        if not(1 in userRoles or None in userRoles):
+            add_admin = UserRoles(
+                user_id=user_id,
+                role_id=adminStatus
+            )
+            db.session.add(add_admin)
+        else:
+            set_admin = db.session.query(UserRoles).filter(UserRoles.user_id == user_id).filter(UserRoles.role_id == None).first()
+            set_admin.role_id = adminStatus
+
+    else:  # unassigned teacher as admin
+        unset_admin = db.session.query(UserRoles).filter(UserRoles.user_id == user_id).filter(UserRoles.role_id == 1).first()
+        unset_admin.role_id = None
 
     db.session.commit()
 

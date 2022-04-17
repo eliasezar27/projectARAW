@@ -35,11 +35,10 @@ $(document).ready(function() {
 
                     var teacherModalInfo = function(x,y) {
                       x.html(
-                            "<div class='form-check form-switch'>" +
+                            "<div class='form-check form-switch mb-3' id='adminStatusSwitch'>" +
                               "<input class='form-check-input' type='checkbox' role='switch' id='setAdminSwitch' user_id>" +
                               "<label class='form-check-label text-black' for='setAdminSwitch'>Admin Privileges</label>" +
                             "</div>" +
-                            "<br>" +
                             "<div id='gender' class='text-black'> Sex: " + y['gender'] + "</div>"+
                             "<div id='email' class='text-black'>Email: " + y['email'] + "</div>"+
                             "<div id='mobile' class='text-black'>Contact Number: " + y['mobile'] + " </div>"+
@@ -57,6 +56,14 @@ $(document).ready(function() {
                             $("#statusActive").prop("checked", true);
                         }else{
                             $("#statusInactive").prop("checked", true);
+                            $("#adminStatusSwitch").remove()
+                        }
+
+                        // Setting admin switch to on/off depending if teacher is already or not an admin
+                        if(data.is_admin == 0){
+                            $("#setAdminSwitch").prop("checked", false);
+                        }else{
+                            $("#setAdminSwitch").prop("checked", true);
                         }
 
                     }else{
