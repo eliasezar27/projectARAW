@@ -524,6 +524,7 @@ def request_action():
     section_id = int(request.form['section_id'])
     student_id = int(request.form['student_id'])
     action = int(request.form['action'])
+    reason = str(request.form['reason'])
 
     student_req = db.session.query(Student).filter(Student.student_id == student_id).first()
 
@@ -541,26 +542,24 @@ def request_action():
 
             section_record.population = int(section_record.population) + 1
 
-            flash(_(message), 'success')
+            student_req.reason = None
 
         # Request declined
         else:
             result = 'success'
-            message = 'Request Declined!'
-            flash(_(message), 'warning')
+            message = 'Request Declined! Reason: ' + reason
+            student_req.reason = reason
 
         student_req.request = None
         student_req.removed = 0
         student_req.reassign = None
-        student_req.reason = None
 
         db.session.commit()
     else:
         result = 'danger'
         message = 'update failed'
-        flash(_(message), 'danger')
 
-    return jsonify({'result': result, 'message': message})
+    return jsonify({'result': result, 'message': message, 'action': action})
 
 
 @app.route('/reassign/student', methods=['POST'])

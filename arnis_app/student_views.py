@@ -86,11 +86,20 @@ def student_instruction():
 
     # check if student was removed from a section
     removed_student = db.session.query(Student).select_from(Student).filter(Student.user_id == user_id).filter(Student.removed == 1).first()
+    decline_student = db.session.query(Student).select_from(Student).filter(Student.user_id == user_id).filter(Student.request_decision == 0).first()
 
     remove_msg = ''
+    remor_dec = ''
     was_removed = False
-    if removed_student:
-        remove_msg = removed_student.reason
+    if removed_student or decline_student:
+        if removed_student:
+            remove_msg = removed_student.reason
+            remor_dec = 'You were removed from your previous section, please join another section again.'
+
+        if decline_student:
+            remove_msg = decline_student.reason
+            remor_dec = 'Your request has been declined by the teacher.'
+
         was_removed = True
 
     request_join = db.session.query(Student.request).select_from(Student).filter(Student.user_id == user_id).first()
@@ -120,7 +129,7 @@ def student_instruction():
     return render_template('student/instruction.html',
                            user_name = user_name, filename=filename, sectionJoined=sectionExist, was_removed=was_removed, remove_msg=remove_msg,
                            sectionLists=sectionLists, is_reassigned=is_reassigned, reassign_msg=reassign_msg, newSection=newSection, requested=requested,
-                           wait_section=wait_section)
+                           wait_section=wait_section, remor_dec=remor_dec)
 
 
 @app.route('/student/profile', methods=['GET', 'POST'])

@@ -14,7 +14,7 @@ from flask_user.translation_utils import gettext as _
 def index():
     if current_user.is_authenticated:
         user_id = current_user.id
-        role_num = UserRoles.query.filter_by(user_id=user_id).order_by(UserRoles.role_id).first().role_id
+        role_num = UserRoles.query.filter_by(user_id=user_id).filter(UserRoles.role_id != None).order_by(UserRoles.role_id).first().role_id
         role_name = Role.query.filter_by(id=role_num).first().name
 
         if role_name == 'admin':

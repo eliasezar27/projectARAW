@@ -36,7 +36,13 @@
                     <div class="card-header">
                         JOIN REQUESTS
                     </div>
-                    <ul id="incomingStudentList" class="list-group list-group-flush p-1" style="height: 480px; overflow-y: scroll;">
+
+                    <div class="alert" role="alert" id="requestStatusAlert">
+                        ....
+                    </div>
+
+                    <div id="incomingStudentListContainer">
+                        <ul id="incomingStudentList" class="list-group list-group-flush p-1" style="height: 480px; overflow-y: scroll;">
                         {% if student_requests %}
                             {% for request in student_requests %}
                                 <li  class="list-group-item my-1 text-dark">
@@ -51,10 +57,12 @@
                                         </div>
                                         <div class="col-4">
                                             <span class="float-end">
-                                                <a type="button" class="btn btn-outline-success acceptRequestButton align-middle" section_id="{{ request['section_id'] }}" action="1" student_id="{{ request['student_id'] }}">
+                                                <a type="button" class="btn btn-success acceptRequestButton align-middle" section_id="{{ request['section_id'] }}" action="1" student_id="{{ request['student_id'] }}">
                                                     <i class="fas fa-solid fa-check fs-5"></i>
                                                 </a>
-                                                <a type="button" class="btn btn-outline-danger align-middle rejectRequestButton" section_id="{{ request['section_id'] }}" action="0" student_id="{{ request['student_id'] }}">
+                                                <a type="button" class="btn btn-outline-danger align-middle declineStudent"
+                                                   data-bs-toggle="modal" data-bs-target="#declineStudentModal" section_id="{{ request['section_id'] }}"
+                                                   action="0" student_id="{{ request['student_id'] }}" student_name="{{ request['last_name'] }}, {{ request['first_name'] }}">
                                                     <i class="fas fa-solid fa-xmark fs-5"></i>
                                                 </a>
                                             </span>
@@ -70,6 +78,8 @@
                             <li class="hr"></li>
 
                     </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -77,6 +87,29 @@
 
 
     </div>
+
+<!-- Decline Modal -->
+<div class="modal fade" id="declineStudentModal" tabindex="-1" aria-labelledby="declineStudentModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header" id="declineStudentModalHeader">
+                <h5 class="modal-title text-black" id="declineStudentModalLabel">Modal title</h5>
+            </div>
+            <div class="modal-body" id="declineStudentModalBody">
+                <div>
+                    <label for="declineDescription" class="text-black mb-2">Reason</label>
+                    <textarea class="form-control" placeholder="Leave a reason why..." id="declineDescription"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="proceedDecline" type="button" class="btn rejectRequestButton"
+                   style="background: #c46d38;border-color: #c46d38 !important; color: white !important;"
+                    section_id="" action="" student_id="">Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
 
@@ -87,6 +120,30 @@
 
 <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    var inpLength = $('#declineDescription').val().length;
+
+    if (inpLength <= 0){
+        $("#proceedDecline").prop("disabled", true);
+    }
+
+    $('#declineDescription').on('keyup', function() {
+        inpLength = $('#declineDescription').val().length;
+        if (inpLength > 0){
+            $("#proceedDecline").prop("disabled", false);
+        }else{
+            $("#proceedDecline").prop("disabled", true);
+        }
+    });
+
+
+});
+
+
+</script>
+
 
 <script>
 
@@ -101,9 +158,37 @@ function detailFormatter(index, row) {
     return html.join('');
 }
 </script>
+
+<script>
+$(document).ready(function () {
+    $(document).on(
+        {'click': function() {
+
+            $('#proceedDecline').attr('section_id', '');
+            $('#proceedDecline').attr('student_id', '');
+            $('#proceedDecline').attr('action', '');
+            $('#declineStudentModalHeader h5').html('');
+
+            var section_id = $(this).attr('section_id');
+            var student_id = $(this).attr('student_id');
+            var action = $(this).attr('action');
+            var student_name = $(this).attr('student_name');
+
+            $('#proceedDecline').attr('section_id', section_id);
+            $('#proceedDecline').attr('student_id', student_id);
+            $('#proceedDecline').attr('action', action);
+            $('#declineStudentModalHeader h5').html('Decline ' + student_name + '?');
+
+            }
+        }, '.declineStudent');
+});
+</script>
+
 <script>
 $(document).ready(function () {
     $("#dashboard").addClass('active');
+    $('#requestStatusAlert').css('display', 'none');
 });
 </script>
+
 {% endblock extra_js %}
