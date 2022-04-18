@@ -84,10 +84,9 @@
             <table class="table table-light table-sm"
             id="teacherListTable"
             data-toggle="table"
-            data-pagination="true"
+            data-pagination="false"
             data-sort-name="last_name"
-            data-sort-order="asc"
-            data-search-on-enter-key="false">
+            data-sort-order="asc">
 
                 <thead>
                     <tr>
@@ -157,51 +156,6 @@
 </div>
 
 
-<!--    Section List Modal-->
-<div class="modal fade" id="teacherSectionListModal" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <i class="fas fa-solid fa-users" style="color: #c46d38;"></i>
-          &nbsp;
-        <h5 class="modal-title text-black" id="teacherSectionListModalHeader">
-            SECTIONS - Teacher Name (Last, First)
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="teacherSectionListModalBody">
-
-        <table class="table table-light table-sm"
-            id="sectionListTable"
-            data-toggle="table"
-            data-search="true"
-            data-search-accent-neutralise="true"
-            data-search-align="right"
-            data-pagination="true"
-            data-sort-name="section_no"
-            data-sort-order="asc"
-            data-show-toggle="false"
-            data-show-search-button="false"
-            data-detail-formatter="detailFormatter"
-            data-search-on-enter-key="false">
-
-                <thead>
-                    <tr>
-                        <th data-field="section_no" data-sortable="true" data-width="100">Section Number</th>
-                        <th data-field="strand_name" data-sortable="true">Strand</th>
-                        <th data-field="track_name" data-sortable="true">Track</th>
-                        <th data-field="population" data-sortable="true" data-width="100">Population</th>
-                    </tr>
-                </thead>
-            </table>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
 {% endblock content %}
 
 {% block extra_js %}
@@ -232,8 +186,9 @@ $(document).ready(function () {
     $(document).ready(function(){
       $("#searchTable").on("keyup", function() {
         var value = $(this).val().toLowerCase();
+        var value2 = $(selectTable).val().toLowerCase();
         $("#teacherListTableBody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1 && $(this).text().toLowerCase().indexOf(value2) > -1);
         });
       });
     });
@@ -244,11 +199,12 @@ $(document).ready(function () {
     $(document).ready(function(){
       $("#selectTable").on("change", function() {
         var value = $(this).val().toLowerCase();
+        var value2 = $("#searchTable").val().toLowerCase();
         $("#teacherListTableBody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1 && $(this).text().toLowerCase().indexOf(value2) > -1);
         });
       });
-    });
+   });
 </script>
 
 {% endblock extra_js %}

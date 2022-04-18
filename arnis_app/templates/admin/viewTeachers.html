@@ -35,7 +35,7 @@
             <table class="table table-light table-sm"
             id="teacherListTable"
             data-toggle="table"
-            data-pagination="true"
+            data-pagination="false"
             data-sort-name="last_name"
             data-sort-order="asc"
             data-show-toggle="false">
@@ -181,8 +181,9 @@ $(document).ready(function () {
     $(document).ready(function(){
       $("#searchTable").on("keyup", function() {
         var value = $(this).val().toLowerCase();
+        var value2 = $(selectTable).val().toLowerCase();
         $("#teacherListTableBody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1 && $(this).text().toLowerCase().indexOf(value2) > -1);
         });
       });
     });
@@ -193,11 +194,12 @@ $(document).ready(function () {
     $(document).ready(function(){
       $("#selectTable").on("change", function() {
         var value = $(this).val().toLowerCase();
+        var value2 = $("#searchTable").val().toLowerCase();
         $("#teacherListTableBody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1 && $(this).text().toLowerCase().indexOf(value2) > -1);
         });
       });
-    });
+   });
 </script>
 
 {% endblock extra_js %}
