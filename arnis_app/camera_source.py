@@ -131,7 +131,7 @@ def camera():
 
     blur_end = False
     fnt = cv2.FONT_HERSHEY_DUPLEX
-    vs = VideoStream(src=1).start()
+    vs = VideoStream(src=0).start()
     # file_speed = 'speed.txt'
     # file_mem = ''
     # mem_usage = 0
